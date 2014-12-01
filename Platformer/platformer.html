@@ -1,0 +1,33 @@
+<!DOCTYPE HTML/>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>Platformer</title>
+	<link href='http://fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css'>
+    <link type="text/css" rel="stylesheet" href="platformer.css" />
+  </head>
+  <body>
+  
+    <h1>Platformer</h2>
+		<div id="game-container">
+			<canvas id="game" width="800" height="480">
+			</canvas>
+			<div id="gui-center">
+				Loading... 
+			</div>
+			<div id="gui-top-left"></div>
+			<div id="gui-top-center"></div>
+			<div id="gui-top-right"></div>
+			<div id="gui-bottom-left"></div>
+			<div id="gui-bottom-center"></div>
+			<div id="gui-bottom-right"></div>
+    </div>
+		<script src="tilemaps/lvl1Map.js" type="text/javascript"></script>
+		<script type="text/javascript" src="Engine.js"></script>
+		<script type="text/javascript" src="Level1.js"></script>
+		<script type="text/javascript" src="requestNextAnimationFrame.js"></script>
+		<script type="text/javascript" src="gui.js"></script>
+		<script type="text/javascript" src="platformer.js"></script>
+    
+  </body>
+</html>
