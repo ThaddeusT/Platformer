@@ -25,12 +25,6 @@ var Game = function (canvasId) {
   
   // Parallax variables
   this.cameraOffset = 200;
-  this.parallaxLayers = [
-	{
-	  image: Resource.Image.background,
-	  scrollSpeed: 0.25
-	}
-  ];
 	
   // Input variables	
 	this.inputState = {
@@ -69,7 +63,7 @@ Game.prototype = {
 	// http://gameprogrammingpatterns.com/update-method.html
 	update: function(elapsedTime) {
 		var self = this;
-
+		game.levels[game.level-1].update();
 	},
 	
 	render: function(elapsedTime) {
@@ -77,7 +71,15 @@ Game.prototype = {
 		
 		// Clear the screen
 		this.backBufferContext.clearRect(0, 0, WIDTH, HEIGHT);
-		this.backBufferContext.drawImage(this.levels[this.level-1].background.image, this.levels[this.level-1].background.offset.x, 0);
+		this.backBufferContext.drawImage(game.levels[game.level-1].background.image, game.levels[game.level-1].background.offset.x, 0);
+		game.levels[game.level-1].render(game.backBufferContext);
+		
+		// Render GUI
+		this.gui.render(this.backBufferContext);
+		
+		// Flip buffers
+		this.screenContext.clearRect(0,0,WIDTH,HEIGHT);
+		this.screenContext.drawImage(this.backBuffer, 0, 0);
 		
 	},
 	
@@ -159,7 +161,11 @@ Game.prototype = {
 				
 		this.startTime = Date.now();
 		
-		this.levels[this.level-1].load();
+		this.gui.message(
+		"Welcome to Level "+game.level+" Begin!");
+		setTimeout(function() {
+            self.gui.message("")
+        }, 3000);
 		
 		window.requestNextAnimationFrame(
 			function(time) {
@@ -211,7 +217,9 @@ Game.prototype = {
 var game = new Game('game');
 console.log(game);
 function waitForLoad() {
-    if(Resource.loading === 0) {
+	console.log(game.levels[game.level-1].Resource.loading);
+    if(game.levels[game.level-1].Resource.loading === 0) {
+		game.levels[game.level-1].load(game.backBufferContext);
         game.start();
     }
     else {

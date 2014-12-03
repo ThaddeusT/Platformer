@@ -98,7 +98,7 @@ var Tilemap = (function (){
       }
     });
   }
-
+  
   var render = function(screenCtx) {
     // Render tilemap layers - note this assumes
     // layers are sorted back-to-front so foreground

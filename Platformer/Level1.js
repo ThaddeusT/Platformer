@@ -1,19 +1,36 @@
 var Level1 = (function (game){
 	this.game = game;
-	var background = {
-	image: new Image(),
-	offset: {x: 0, y: 0}
+	var Resource = {
+		loading: 1,
+		Image: {
+		   background: new Image(),
+		},
+		Music: {
+			
+		},
+		Sfx: {
+			
+		}
 	}
-	background.image.src = "tilesets\/portal.gif";
-	
-  function onload(){
-    console.log("Loaded", this);
-    Resource.loading -= 1;
-}
+	Resource.Image.background.onload = onload;
+	Resource.Image.background.src = "background.png";
+	function onload(){
+		Resource.loading -= 1;
+	}
+  var background = {
+	image: Resource.Image.background,
+    offset: {x: 0, y: 0}
+  }
+  
   var load = function(screenCtx)
   {
 		var self = this;
-	    Tilemap.load(tilemapDataLvl1V2);
+	    Tilemap.load(tilemapDataLvl1V2, {
+			onload: function() {
+			  // Tilemap.render(screenCtx);
+			  console.log('Tilemap Loaded');
+			}
+		  });
   }
 
   var update = function(elapsedTime){
@@ -30,7 +47,8 @@ var Level1 = (function (game){
 	load : load,
     update: update,
     render: render,
-	background : background
+	background : background,
+	Resource : Resource
   }
 })();
 
