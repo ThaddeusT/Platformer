@@ -55,6 +55,10 @@ var Game = function (canvasId) {
   this.levels = [];
   this.levels.push(Level1);
   this.level =1;
+  this.backgroundx = 0;
+  this.backgroundy = 0;
+  this.backgroundLoaded =false;
+  this.character;
 }
 	
 Game.prototype = {
@@ -64,6 +68,7 @@ Game.prototype = {
 	update: function(elapsedTime) {
 		var self = this;
 		game.levels[game.level-1].update();
+		game.character.update(elapsedTime, this.inputState);
 	},
 	
 	render: function(elapsedTime) {
@@ -71,9 +76,10 @@ Game.prototype = {
 		
 		// Clear the screen
 		this.backBufferContext.clearRect(0, 0, WIDTH, HEIGHT);
-		this.backBufferContext.drawImage(game.levels[game.level-1].background.image, game.levels[game.level-1].background.offset.x, 0);
+		this.backBufferContext.drawImage(game.levels[game.level-1].background.image,game.backgroundx,game.backgroundy,800,480,0,0,800,500);
+		Tilemap.render(this.backBufferContext);
 		game.levels[game.level-1].render(game.backBufferContext);
-		
+		game.character.render(this.backBufferContext);
 		// Render GUI
 		this.gui.render(this.backBufferContext);
 		
@@ -151,7 +157,9 @@ Game.prototype = {
 	
 	start: function() {
 		var self = this;
-    
+		game.levels[game.level-1].setGame(game);
+		console.log(Tilemap.portals);
+		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y,game.levels[game.level-1].character.image);
 		window.onkeydown = function (e) { self.keyDown(e); };
 		window.onkeyup = function (e) { self.keyUp(e); };
 		this.screen.onmousemove = function(e) {self.keyDown(e); };

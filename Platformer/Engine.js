@@ -1,11 +1,13 @@
 // Tilemap engine defined using the Module pattern
 // See http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
 var Tilemap = (function (){
-  var portal = {
-	image: new Image(),
-	offset: {x: 0, y: 0}
+  var Portal = function(x,y){
+	this.offset= {x: 0, y: 0};
+	this.postion= {x:x,y:y};
 	}
-	portal.image.src = "tilesets\/portal.gif";
+	Portal.image = new Image();
+	Portal.image.src = "tilesets\/portal.gif";
+	
   var portals = [];
   var tiles = [],
       tilesets = [],
@@ -65,7 +67,16 @@ var Tilemap = (function (){
         tiles.push(tile);
 		if(tile.portal)
 		{
-			portals.push(tile);
+			for(y =0; y<mapHeight; y++)
+			{
+				for(x=0; x<mapWidth; x++)
+				{
+					if(mapData.layers[0].data[x+y*mapWidth]==tiles.length)
+					{
+						portals.push(new Portal(x*tileWidth,y*tileHeight));
+					}
+				}
+			}
 		}
       }
     });
@@ -108,8 +119,8 @@ var Tilemap = (function (){
       
       // Only draw layers that are currently visible
       if(layer.visible) { 
-        for(x = 0; x < layer.width; x++) {
-          for(y = 0; y < layer.height; y++) {
+        for(x = 0; x < 200; x++) {
+          for(y = 0; y < 10; y++) {
             var tileId = layer.data[x + layer.width * y];
             
             // tiles with an id of 0 don't exist
@@ -118,7 +129,7 @@ var Tilemap = (function (){
               if(tile.image) { // Make sure the image has loaded
 				if(tile.portal)
 				{
-					screenCtx.drawImage(portal.image,0,0,102,126,x*tileWidth,y*tileHeight,tileWidth, tileHeight);
+					screenCtx.drawImage(Portal.image,0,0,102,126,x*tileWidth,y*tileHeight,tileWidth, tileHeight);
 				}
 				else{
 					screenCtx.drawImage(
@@ -138,6 +149,9 @@ var Tilemap = (function (){
   }
   
   var tileAt = function(x, y, layer) {
+  
+	x = Math.round(x/tileWidth);
+	y = Math.round(y/tileHeight);
     // sanity check
     if(layer < 0 || x < 0 || y < 0 || layer >= layers.length || x > mapWidth || y > mapHeight) 
       return undefined;  
@@ -172,3 +186,9 @@ function drawGrid(ctx, width, height, GridSize) {
             ctx.stroke();
         }
     }
+	
+function convertCanvasToImage(canvas) {
+	var image = new Image();
+	image.src = canvas.toDataURL("image/png");
+	return image;
+}

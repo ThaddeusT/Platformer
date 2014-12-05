@@ -1,9 +1,10 @@
-var Level1 = (function (game){
-	this.game = game;
+var Level1 = (function (){
+	this.game;
 	var Resource = {
-		loading: 1,
+		loading: 2,
 		Image: {
 		   background: new Image(),
+		   character: new Image(),
 		},
 		Music: {
 			
@@ -13,13 +14,27 @@ var Level1 = (function (game){
 		}
 	}
 	Resource.Image.background.onload = onload;
+	Resource.Image.character.onload = onload;
 	Resource.Image.background.src = "background.png";
+	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
+	
 	function onload(){
 		Resource.loading -= 1;
 	}
+	
+  var setGame = function(game)
+	{
+		this.game = game;
+	}	  
   var background = {
 	image: Resource.Image.background,
     offset: {x: 0, y: 0}
+  }
+  var character = {
+	image: Resource.Image.character
+  }
+  var setBackground = function(image){
+	Resource.Image.background = image;
   }
   
   var load = function(screenCtx)
@@ -38,17 +53,19 @@ var Level1 = (function (game){
   }
 
   var render = function(screenCtx) {
-		Tilemap.render(screenCtx);
-		drawGrid(screenCtx, WIDTH, HEIGHT,50);
+
   }
   
   // Expose the module's public API
   return {
+	setBackground : setBackground,
+	setGame : setGame,
 	load : load,
     update: update,
     render: render,
 	background : background,
-	Resource : Resource
+	Resource : Resource,
+	character : character
   }
 })();
 
