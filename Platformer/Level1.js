@@ -5,6 +5,7 @@ var Level1 = (function (){
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
+		   characterLeft: new Image()
 		},
 		Music: {
 			
@@ -17,6 +18,7 @@ var Level1 = (function (){
 	Resource.Image.character.onload = onload;
 	Resource.Image.background.src = "background.png";
 	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
+	Resource.Image.characterLeft.src = "mainCharacterSpriteSheet100Left.png";
 	
 	function onload(){
 		Resource.loading -= 1;
@@ -32,6 +34,9 @@ var Level1 = (function (){
   }
   var character = {
 	image: Resource.Image.character
+  }
+  var characterLeft ={
+	image: Resource.Image.characterLeft
   }
   var setBackground = function(image){
 	Resource.Image.background = image;
@@ -65,7 +70,8 @@ var Level1 = (function (){
     render: render,
 	background : background,
 	Resource : Resource,
-	character : character
+	character : character,
+	characterLeft : characterLeft
   }
 })();
 

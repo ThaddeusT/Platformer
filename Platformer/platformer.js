@@ -2,6 +2,13 @@
 var WIDTH = 800;
 var HEIGHT = 500;
 var LEVEL_LENGTH = 140000;
+var keys = {
+    up: false,
+    down: false,
+	left: false,
+	right: false,
+	q: false
+};
 
 // Fixed time step of 1/60th a second
 var TIME_STEP = 1000/60;
@@ -59,6 +66,7 @@ var Game = function (canvasId) {
   this.backgroundy = 0;
   this.backgroundLoaded =false;
   this.character;
+  this.characterInitialx=0;
 }
 	
 Game.prototype = {
@@ -76,7 +84,8 @@ Game.prototype = {
 		
 		// Clear the screen
 		this.backBufferContext.clearRect(0, 0, WIDTH, HEIGHT);
-		this.backBufferContext.drawImage(game.levels[game.level-1].background.image,game.backgroundx,game.backgroundy,800,480,0,0,800,500);
+		//this.backBufferContext.drawImage(game.levels[game.level-1].background.image,game.backgroundx,game.backgroundy,800,500,0,0,800,500);
+		this.backBufferContext.drawImage(game.levels[game.level-1].background.image, game.backgroundx, 0);
 		Tilemap.render(this.backBufferContext);
 		game.levels[game.level-1].render(game.backBufferContext);
 		game.character.render(this.backBufferContext);
@@ -91,39 +100,100 @@ Game.prototype = {
 	
 	keyDown: function(e)
 	{
-		// Cycle state is set directly 
-		switch(e.keyCode){
-			case 37: // LEFT
-				this.inputState.left = true;
-				break;
-			case 38: // UP
-				this.inputState.up = true;
-				break;
-			case 39: // RIGHT
-				this.inputState.right = true;
-				break;
-			case 40: // DOWN
-				this.inputState.down = true;
-				break;
+		if(e.keyCode == 81)
+		{
+			keys["q"] = true;
 		}
+		if(e.keyCode == 37)
+		{
+			keys["left"] = true;
+		}
+		else if(e.keyCode == 38)
+		{
+			keys["up"] = true;
+		}
+		else if(e.keyCode == 39)
+		{
+			keys["right"] = true;
+		}
+		else if(e.keyCode == 40)
+		{
+			keys["down"] = true;
+		}
+		if(keys["q"])
+		{
+			game.character.
+			game.character.chargeBullet();
+		}
+		if(keys["left"] && !keys["up"] && !keys["right"] && !keys["down"])
+		{
+			this.inputState.left = true;
+		}
+		else if(!keys["left"] && !keys["up"] && keys["right"] && !keys["down"])
+		{
+			this.inputState.right = true;
+		}
+		else if(!keys["left"] && keys["up"] && !keys["right"] && !keys["down"])
+		{
+			this.inputState.up = true;
+		}
+		else if(!keys["left"] && !keys["up"] && !keys["right"] && keys["down"])
+		{
+			this.inputState.down = true;
+		}
+		else if(!keys["left"] && keys["up"] && keys["right"] && !keys["down"])
+		{
+			this.inputState.up = true;
+			this.inputState.right = true;
+		}
+		else if(keys["left"] && keys["up"] && !keys["right"] && !keys["down"])
+		{
+			this.inputState.up = true;
+			this.inputState.left = true;
+		}
+		console.log(keys);
 	},
 	keyUp: function(e)
 	{
-		// Cycle state is set directly 
-		switch(e.keyCode){
-			case 37: // LEFT
-				this.inputState.left = false;
-				break;
-			case 38: // UP
-				this.inputState.up = false;
-				break;
-			case 39: // RIGHT
-				this.inputState.right = false;
-				break;
-			case 40: // DOWN
-				this.inputState.down = false;
-				break;
+		if(e.keyCode == 37)
+		{
+			keys["left"] = false;
 		}
+		else if(e.keyCode == 38)
+		{
+			keys["up"] = false;
+		}
+		else if(e.keyCode == 39)
+		{
+			keys["right"] = false;
+		}
+		else if(e.keyCode == 40)
+		{
+			keys["down"] = false;
+		}
+		else if(e.keyCode == 81)
+		{
+			keys["q"] = false;
+			game.character.fireBullet();
+		}
+		
+		if(!keys["left"])
+		{
+			this.inputState.left = false;
+		}
+		if(!keys["right"])
+		{
+			this.inputState.right = false;
+		}
+		if(!keys["up"])
+		{
+			this.inputState.up = false;
+		}
+		if(!keys["down"])
+		{
+			this.inputState.down = false;
+		}
+		console.log(keys);
 	},
 	
 	mouseMove: function(e)
@@ -158,8 +228,8 @@ Game.prototype = {
 	start: function() {
 		var self = this;
 		game.levels[game.level-1].setGame(game);
-		console.log(Tilemap.portals);
-		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y,game.levels[game.level-1].character.image);
+		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image);
+		game.characterInitialx = game.character.x;
 		window.onkeydown = function (e) { self.keyDown(e); };
 		window.onkeyup = function (e) { self.keyUp(e); };
 		this.screen.onmousemove = function(e) {self.keyDown(e); };
