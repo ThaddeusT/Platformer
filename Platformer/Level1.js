@@ -76,13 +76,22 @@ var Level1 = (function (){
 			{
 				case "1":
 					console.log("Enemy would be created at: "+enemy.position.x+","+enemy.position.y);
+					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,character, characterLeft,700,200,5,50,"walking");
+					console.log(newEnemy);
+					enemies.push(newEnemy);
 				break;
 			}
 		});
   }
 
   var update = function(elapsedTime){
-  
+		enemies.forEach( function(enemy) {
+			enemy.update();
+			if(enemy.state=="dead")
+			{
+				enemies.splice($.inArray(enemy, enemies),1);
+			}
+		});
   }
 
   var render = function(screenCtx) {
@@ -123,6 +132,10 @@ var Level1 = (function (){
   }
   
   var renderEnemies = function(screenCtx){
+			console.log("Rendering Enemies");
+		    enemies.forEach( function(enemy) {
+				enemy.render(screenCtx);
+			});
   }
   
   

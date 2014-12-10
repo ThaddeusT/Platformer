@@ -1,4 +1,4 @@
-var Type1Enemy = function(game, x, y, image,imageLeft, xmax, xcount,radius, startingState) {
+var Type1Enemy = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, xcount, radius, startingState) {
 	this.game = game;
 	this.x = x;
 	this.y = y;
@@ -9,16 +9,14 @@ var Type1Enemy = function(game, x, y, image,imageLeft, xmax, xcount,radius, star
 	this.sprite_sheet_left = imageLeft;
 	this.sprite_sheet_explosion = new Image();
 	this.sprite_sheet_explosion.src = "explosion.png";
-	this.sx = sx;
-	this.sy = sy;
-	this.iw = iw;
-	this.ih = ih;
 	this.walkingx = 0;
+	this.walkingy = 0;
 	this.walkingcount = 0;
 	this.walkingLeftX = 700;
 	this.walkingLeftY=0;
-	this.xmax = xmax;
-	this.xincrease = xincrease;
+	this.xImageMax = xImageMax;
+	this.xWalkingmax = xWalkingmax+this.x;
+	this.startingX = this.x;
 	this.xcount = xcount;
 	this.radius = radius;
 	this.facing = "right";
@@ -33,26 +31,27 @@ Type1Enemy.prototype = {
 		// Render enemy
 		switch(this.state)
 		{
-		 case 'normal':
-			if(this.facing == right)
+		 case 'walking':
+			console.log("Rendering Enemy At: "+ this.x+","+this.y);
+			if(this.facing == 'right')
 			{
-				if(this.walkingx == this.xmax)
+				if(this.walkingx == this.xImageMax)
 				{
 					this.walkingx = 0;
 				}
-				if(this.walkingcount==xcount){
+				if(this.walkingcount==this.xcount){
 					this.walkingx+=100;
 					this.walkingcount=0;
 				}
 				else{
 					this.walkingcount++;
 				}
-				context.drawImage(this.sprite_sheet, this.walkingx, this.walkingy, 100, 100,this.x, this.y, 100,100);
+				context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
 			}
 			else{
 				if(this.walkingLeftX == 0)
 				{
-					this.walkingLeftX = 700;
+					this.walkingLeftX = xImageMax;
 				}
 				if(this.walkingcount==5){
 					this.walkingLeftX-=100;
@@ -61,11 +60,11 @@ Type1Enemy.prototype = {
 				else{
 					this.walkingcount++;
 				}
-				context.drawImage(this.sprite_sheet_left, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x, this.y, 100,100);
+				context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
 			}
 			break;
 		case 'explode':
-			context.drawImage(this.sprite_sheet_explosion, this.explodex, this.explodey, 64, 64, this.x-this.radius, this.y-this.radius, this.radius*2, this.radius*2);
+			context.drawImage(this.sprite_sheet_explosion, this.explodex, this.explodey, 64, 64, this.x-this.radius+this.game.backgroundx*2, this.y-this.radius, this.radius*2, this.radius*2);
 			if(this.explodey <320)
 			{
 				this.explodex += 64;
@@ -77,24 +76,18 @@ Type1Enemy.prototype = {
 			}
 			else
 			{
-				this.state = 'normal';
+				this.state = 'dead';
 			}
 			break;
-	},
-	update: function(elapsedTime, inputState) {
-		switch(this.state)
-		{
 		}
 	},
-	
-	getAngle: function(inputState) {
-		if(inputState.x >this.x)
+	update: function() {
+		if(this.health<=0)
 		{
-			var angle = Math.atan((inputState.y - this.y) / (inputState.x - this.x));
-			if(angle >= -0.19)
-			{
-				this.turret_angle = angle;
-			}
+			this.state='explode';
+		}
+		if(this.state !='explode' && this.state != 'dead'){
+			this.move();
 		}
 	},
 	
@@ -107,21 +100,45 @@ Type1Enemy.prototype = {
 		var tileRight = Tilemap.tileAt(x+65, this.y+50,0);
 		switch(this.state)
 		{
-			case: "walking":
-				if(facing=='right'){
+			case "walking":
+				if(this.facing=='right'){
 					if(tileRight === undefined || !tileRight.solid){
-						this.x += this.velocity;
+						if(this.x < this.xWalkingmax)
+						{
+							this.x += this.velocity;
+						}
+						else{
+							facing = 'left';
+							this.walkingcount = 0;
+							this.walkingLeftX = 700;
+							this.walkingLeftY=0;
+						}
 					}
 					else{
 						facing = 'left';
+						this.walkingcount = 0;
+						this.walkingLeftX = 700;
+						this.walkingLeftY=0;
 					}
 				}
-				if(facing=='left'){
+				if(this.facing=='left'){
 					if(tileLeft === undefined || !tileLeft.solid){
-						this.x -= this.velocity;
+						if(this.x >= this.startingX)
+						{
+							this.x -= this.velocity;
+						}
+						else{
+							facing ='right';
+							this.walkingx = 0;
+							this.walkingy = 0;
+							this.walkingcount = 0;
+						}
 					}
 					else{
 						facing ='right';
+						this.walkingx = 0;
+						this.walkingy = 0;
+						this.walkingcount = 0;
 					}
 				}
 			break;
