@@ -37,6 +37,19 @@ var GUI = function(game) {
 			this.oldHealth = this.game.health;
 		}
 		
+		// TODO: Render Lives
+		if(this.oldLives !== this.game.lives) {
+			this.topLeft.innerHTML = "";
+			for(i = 0; i < this.game.lives; i++) {
+				var img = $('<img />',
+					 { class: 'life',
+					   src: 'life.png',
+					   alt:'life'})
+					  .appendTo(this.topLeft);
+			}
+			this.oldLives = this.game.lives;
+		}
+		
 		// TODO: Render Score
 		this.topRight.innerHTML = this.game.score;
 		

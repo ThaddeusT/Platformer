@@ -1,10 +1,13 @@
 
 // Character class
 //----------------------------------
-var Character = function(game, x, y, image, imageLeft) {
+var Character = function(game, x, y, image, imageLeft, respawnx, respawny, respawnScroll) {
 	this.game = game;
 	this.x = x;
 	this.y = y;
+	this.respawnx = respawnx;
+	this.respawny = respawny;
+	this.respawnScroll = respawnScroll;
 	this.velocity = 1;
 	this.health = 100;
 	this.state = "normal";
@@ -126,12 +129,48 @@ Character.prototype = {
 			}
 			break;
 		}
+		// context.beginPath();
+		// context.rect(this.x,this.y,100,100);
+		// context.stroke();
+		// context.beginPath();
+		// context.fillStyle = 'green';
+		// context.arc(this.x+50, this.y+101,3,0,2*Math.PI);
+		// context.fill();
+		// context.stroke();
+		// context.beginPath();
+		// context.fillStyle = 'red';
+		// context.arc(this.x-1, this.y+50,3,0,2*Math.PI);
+		// context.fill();
+		// context.stroke();
+		// context.beginPath();
+		// context.fillStyle = 'blue';
+		// context.arc(this.x+80, this.y+50,3,0,2*Math.PI);
+		// context.fill();
+		// context.stroke();
+		
 	},
 	
 	update: function(elapsedTime, inputState) {
 	
-		// // Move the helicopter
-		this.move(inputState);	
+		// // Move the character
+		if(game.renderCharacter)
+		{
+			this.move(inputState);
+			if(this.y>500)
+			{
+				this.game.lives--;
+				this.game.backgroundx = 0;
+				this.x = this.respawnx;
+				this.y = this.respawny;
+			}
+			if(game.health <=0)
+			{
+				this.game.lives--;
+				this.game.backgroundx = this.respawnScroll;
+				this.x = this.respawnx;
+				this.y = this.respawny;
+			}
+		}
 		
 		// // Aim the turrent
 		// this.aim(inputState);
@@ -144,8 +183,15 @@ Character.prototype = {
 	fireBullet: function() {
 		this.chargingx=300;
 		this.chargingcount=0;
-		this.chargingRadius=5;
 		this.weaponState = "rest";
+		if(this.facing =="right")
+			{
+				this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+			}
+		else{
+			this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+		}
+		this.chargingRadius =5;
 		// var bullet = new Bullet(
 			// this.game,
 			// this.x + 42*Math.cos(1.0+this.pitch_angle) + 20*Math.cos(this.turret_angle),
@@ -172,10 +218,13 @@ Character.prototype = {
 	},
 	
 	move: function(inputState) {
-		var tileUp = Tilemap.tileAt(this.x+50, this.y-100,0);
-		var tileDown = Tilemap.tileAt(this.x+50, this.y+75,0);
-		var tileLeft =  Tilemap.tileAt(this.x-75, this.y+50,0);
-		var tileRight = Tilemap.tileAt(this.x+75, this.y+50,0);
+		var x = (this.x-(this.game.backgroundx*2));
+		//console.log("Character X: "+x); 
+		var tileUp = Tilemap.tileAt(x+50, this.y-100,0);
+		var tileDown = Tilemap.tileAt(x+25, this.y+75,0);
+		var tileDownRight = Tilemap.tileAt(x+50, this.y+75,0);
+		var tileLeft =  Tilemap.tileAt(x-15, this.y+50,0);
+		var tileRight = Tilemap.tileAt(x+65, this.y+50,0);
 		if(this.state!="jumping")
 			{
 		if(inputState.up) {
@@ -183,7 +232,7 @@ Character.prototype = {
 				this.jumpcount = 0;
 			}
 			this.state="jumping";
-			console.log(this.state);
+			//console.log(this.state);
 		} 
 		else if(inputState.down) {
 			this.state = "crouching";
@@ -192,13 +241,13 @@ Character.prototype = {
 			this.facing = "left";
 			this.state="walkingLeft";
 			if(tileLeft === undefined || !tileLeft.solid){
-				if((this.x -this.velocity)>0)
+				if((this.x -this.velocity)>100)
 				{
 					this.x -= this.velocity;
-					if(this.game.backgroundx+this.velocity<0)
-					{
-						this.game.backgroundx +=this.velocity;
-					}
+				}
+				if(this.game.backgroundx+this.velocity<0)
+				{
+					this.game.backgroundx +=this.velocity*2;
 				}
 			}
 			if(tileDown === undefined)
@@ -210,26 +259,33 @@ Character.prototype = {
 			this.facing = "right";
 			this.state="walkingRight";
 			if(tileRight === undefined){
-				this.x += this.velocity;
-				this.game.backgroundx -=this.velocity;
+				//console.log("Character True X: "+this.x);
+				if(this.x +this.velocity <400)
+				{
+					this.x += this.velocity;
+				}
+				this.game.backgroundx -=this.velocity*2;
 			}
 			else{
 				if(!tileRight.solid)
 				{
-					this.x += this.velocity;
+					if((this.x +this.velocity) <300)
+					{
+						this.x += this.velocity;
+					}
 					this.game.backgroundx -=this.velocity;
 				}
 			}
 			if(tileDown === undefined)
 			{
-				this.y += this.velocity * 3;
+				this.y += this.velocity * 9;
 			}
 		} 
 		else {
 			this.state ="normal";
 			if(tileDown === undefined)
 			{
-				this.y += this.velocity * 3;
+				this.y += this.velocity * 9;
 			}
 		}
 		}
@@ -239,7 +295,10 @@ Character.prototype = {
 			if(inputState.right) {
 				this.facing = "right";
 				if(tileRight === undefined || !tileRight.solid){
-					this.x += this.velocity * 2;
+					if((this.x +this.velocity * 2) <300)
+					{
+						this.x += this.velocity * 2;
+					}
 					this.game.backgroundx -=this.velocity;
 				}
 			}
@@ -247,7 +306,11 @@ Character.prototype = {
 			{
 				this.facing = "left";
 				if(tileLeft === undefined || !tileLeft.solid && (this.x-this.velocity * 2)>0){
-					this.x -= this.velocity * 2;
+					if((this.x -this.velocity * 2)>100)
+					{
+						this.x -= this.velocity * 2;
+					}
+					
 					if(this.game.backgroundx+this.velocity<0)
 					{
 						this.game.backgroundx +=this.velocity;
@@ -256,25 +319,28 @@ Character.prototype = {
 			}
 			if(this.jumpcount<30)
 			{
-				this.y -= this.velocity * 2;
+				this.y -= this.velocity * 3;
 			}
 			if(this.jumpcount >30 && this.jumpcount <61)
 			{
 				if(tileDown === undefined || !tileDown.solid)
 				{
-					this.y += this.velocity*5;
+					if(tileDownRight === undefined || !tileDownRight.solid)
+					{
+						this.y += this.velocity*6;
+					}
 				}
 				else{
 					this.jumpcount = 62;
-					console.log(this.y);
-					console.log("Calculation 100: "+Math.floor(this.y/100)+" Calculation 50: "+Math.floor(this.y/50));
+					//console.log(this.y);
+					//console.log("Calculation 100: "+Math.floor(this.y/100)+" Calculation 50: "+Math.floor(this.y/50));
 					this.y = Math.floor(this.y/50)*50;
 				}
 			}
 			if(this.jumpcount >61)
 			{
 				this.state ="normal";
-				console.log(this.state);
+				//console.log(this.state);
 			}
 		}
 	},

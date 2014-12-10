@@ -129,7 +129,7 @@ var Tilemap = (function (){
               if(tile.image) { // Make sure the image has loaded
 				if(tile.portal)
 				{
-					screenCtx.drawImage(Portal.image,0,0,102,126,x*tileWidth,y*tileHeight,tileWidth, tileHeight);
+					//screenCtx.drawImage(Portal.image,0,0,102,126,x*tileWidth,y*tileHeight-50,tileWidth*2, tileHeight*2);
 				}
 				else{
 					screenCtx.drawImage(

@@ -1,11 +1,12 @@
 var Level1 = (function (){
 	this.game;
 	var Resource = {
-		loading: 2,
+		loading: 4,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
-		   characterLeft: new Image()
+		   characterLeft: new Image(),
+		   portal: new Image()
 		},
 		Music: {
 			
@@ -16,9 +17,12 @@ var Level1 = (function (){
 	}
 	Resource.Image.background.onload = onload;
 	Resource.Image.character.onload = onload;
+	Resource.Image.characterLeft.onload = onload;
+	Resource.Image.portal.onload = onload;
 	Resource.Image.background.src = "background.png";
 	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
 	Resource.Image.characterLeft.src = "mainCharacterSpriteSheet100Left.png";
+	Resource.Image.portal.src = "portalSpriteSheet.png";
 	
 	function onload(){
 		Resource.loading -= 1;
@@ -37,6 +41,12 @@ var Level1 = (function (){
   }
   var characterLeft ={
 	image: Resource.Image.characterLeft
+  }
+  var portal ={
+	image: Resource.Image.portal,
+	portalx: 0,
+	portalCount:0,
+	portalRadius: 0
   }
   var setBackground = function(image){
 	Resource.Image.background = image;
@@ -71,7 +81,8 @@ var Level1 = (function (){
 	background : background,
 	Resource : Resource,
 	character : character,
-	characterLeft : characterLeft
+	characterLeft : characterLeft,
+	portal:portal
   }
 })();
 

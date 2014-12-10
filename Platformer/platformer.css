@@ -62,13 +62,18 @@
 	right: 0px;
 }
 
+.life{
+	width:50px;
+	height:50px;
+}
+
 span.life {
 	display: block;
 	float: left;
 	width: 50px;
 	height: 20px;
-	background-image: url("helicopter.png");
-	background-size: 50px 50px;
+	background-image: url("live.png");
+	background-size: 100px 100px;
 }
 
 span.health-background {
