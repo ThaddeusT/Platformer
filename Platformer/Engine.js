@@ -7,8 +7,14 @@ var Tilemap = (function (){
 	}
 	Portal.image = new Image();
 	Portal.image.src = "tilesets\/portal.gif";
-	
+  var Enemy = function(x,y,type){
+	this.position = {
+		x:x,
+		y:y};
+	this.enemyType = type;
+  }
   var portals = [];
+  var enemies = [];
   var tiles = [],
       tilesets = [],
       layers = [],
@@ -62,7 +68,9 @@ var Tilemap = (function (){
           // can be left blank, we need to make sure the property exists. 
           // We'll assume any tiles missing the solid property are *not* solid
           solid: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].solid == "true") ? true : false,
-		  portal:(tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].portal == "true") ? true : false
+		  portal:(tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].portal == "true") ? true : false,
+		  Enemy: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].Enemy == "true") ? true : false,
+		  EnemyType: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].EnemyType != "0") ? tilesetmapData.tileproperties[i].EnemyType : 0,
         }
         tiles.push(tile);
 		if(tile.portal)
@@ -74,6 +82,20 @@ var Tilemap = (function (){
 					if(mapData.layers[0].data[x+y*mapWidth]==tiles.length)
 					{
 						portals.push(new Portal(x*tileWidth,y*tileHeight));
+					}
+				}
+			}
+		}
+		console.log("Enemy: "+tile.Enemy);
+		if(tile.Enemy)
+		{
+			for(y =0; y<mapHeight; y++)
+			{
+				for(x=0; x<mapWidth; x++)
+				{
+					if(mapData.layers[0].data[x+y*mapWidth]==tiles.length)
+					{
+						enemies.push(new Enemy(x*tileWidth,y*tileHeight, tile.EnemyType));
 					}
 				}
 			}
@@ -132,11 +154,14 @@ var Tilemap = (function (){
 					//screenCtx.drawImage(Portal.image,0,0,102,126,x*tileWidth,y*tileHeight-50,tileWidth*2, tileHeight*2);
 				}
 				else{
-					screenCtx.drawImage(
-					  tile.image,     // The image to draw 
-					  tile.sx, tile.sy, tileWidth, tileHeight, // The portion of image to draw
-					  x*tileWidth, y*tileHeight, tileWidth, tileHeight // Where to draw the image on-screen
-					);
+					if(!tile.Enemy)
+					{
+						screenCtx.drawImage(
+						  tile.image,     // The image to draw 
+						  tile.sx, tile.sy, tileWidth, tileHeight, // The portion of image to draw
+						  x*tileWidth, y*tileHeight, tileWidth, tileHeight // Where to draw the image on-screen
+						);
+					}
 				}
               }
             }
@@ -167,7 +192,8 @@ var Tilemap = (function (){
     load: load,
     render: render,
     tileAt: tileAt,
-	portals : portals
+	portals : portals,
+	enemies : enemies
   }
   
   

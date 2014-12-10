@@ -110,41 +110,12 @@ Game.prototype = {
 		this.backBufferContext.clearRect(0, 0, WIDTH, HEIGHT);
 		//this.backBufferContext.drawImage(game.levels[game.level-1].background.image,game.backgroundx,game.backgroundy,800,500,0,0,800,500);
 		this.backBufferContext.drawImage(game.levels[game.level-1].background.image, game.backgroundx/2, 0);
-				
-		//Render Portals
-			if(game.levels[game.level-1].portal.portalx == 3162)
-			{
-				game.levels[game.level-1].portal.portalx = 0;
-			}
-			if(game.levels[game.level-1].portal.portalCount==5)
-			{
-				game.levels[game.level-1].portal.portalx +=102;
-				game.levels[game.level-1].portal.portalCount=0;
-			}
-			game.levels[game.level-1].portal.portalCount++;
-			if(!game.renderCharacter && game.levels[game.level-1].portal.portalRadius <=100)
-			{
-				this.backBufferContext.drawImage(game.levels[game.level-1].portal.image,game.levels[game.level-1].portal.portalx,0,102,126,Tilemap.portals[1].postion.x+game.backgroundx,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].portal.portalRadius,game.levels[game.level-1].portal.portalRadius);
-				if(!game.renderCharacter){
-				game.levels[game.level-1].portal.portalRadius+=2;
-				}
-			}
-			else{
-				game.renderCharacter = true;
-				this.backBufferContext.drawImage(game.levels[game.level-1].portal.image,game.levels[game.level-1].portal.portalx,0,102,126,Tilemap.portals[1].postion.x+game.backgroundx,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].portal.portalRadius,game.levels[game.level-1].portal.portalRadius);
-				if(game.levels[game.level-1].portal.portalRadius >0)
-				{
-					game.levels[game.level-1].portal.portalRadius-=2;
-				}
-			}
-			//console.log(Tilemap.portals[0].postion.x);
-			//console.log(Tilemap.portals[0].postion.x+game.backgroundx*2);
-			this.backBufferContext.drawImage(game.levels[game.level-1].portal.image,game.levels[game.level-1].portal.portalx,0,102,126,Tilemap.portals[0].postion.x+game.backgroundx*2,Tilemap.portals[0].postion.y-50,100,100);
 		
 		this.backBufferContext.save();
 		this.backBufferContext.translate(game.backgroundx*2,0);
 		Tilemap.render(this.backBufferContext);
 		this.backBufferContext.restore();
+		
 		game.levels[game.level-1].render(game.backBufferContext);
 		
 		
@@ -311,6 +282,8 @@ Game.prototype = {
 		game.levels[game.level-1].setGame(game);
 		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.backgroundx);
 		game.characterInitialx = game.character.x;
+		game.levels[game.level-1].createEnemies(Tilemap.enemies);
+		console.log(game.levels[game.level-1].enemies);
 		
 		this.gui.message(
 		"Welcome to Level "+game.level+" Begin!");
