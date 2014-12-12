@@ -11,6 +11,8 @@ var Character = function(game, x, y, image, imageLeft, respawnx, respawny, respa
 	this.velocity = 1;
 	this.health = 100;
 	this.state = "normal";
+	this.takingDamage = false;
+	this.damageCount = 0;
 	this.weaponState = "rest";
 	this.sprite_sheet = image;
 	this.sprite_sheet_left = imageLeft;
@@ -116,16 +118,30 @@ Character.prototype = {
 				this.chargingcount=0;
 				if(this.chargingRadius < 25)
 				{
-					this.chargingRadius+=.5;
+					this.chargingRadius+=1;
 				}
 			}
 			this.chargingcount++;
 			if(this.facing =="right")
 			{
-				context.drawImage(this.sprite_sheet, this.chargingx, 125, 25, 25,this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), (this.chargingRadius*2),(this.chargingRadius*2));
+				if(this.state=='crouching')
+				{
+					context.drawImage(this.sprite_sheet, this.chargingx, 125, 25, 25,this.x+77-(this.chargingRadius/5), this.y+68-(this.chargingRadius-5), (this.chargingRadius*2),(this.chargingRadius*2));
+				}
+				else
+				{
+					context.drawImage(this.sprite_sheet, this.chargingx, 125, 25, 25,this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), (this.chargingRadius*2),(this.chargingRadius*2));
+				}
 			}
 			else{
-				context.drawImage(this.sprite_sheet, this.chargingx, 125, 25, 25,this.x+17-(this.chargingRadius*1.5), this.y+50-(this.chargingRadius-5), (this.chargingRadius*2),(this.chargingRadius*2));
+				if(this.state == 'crouching')
+				{
+					context.drawImage(this.sprite_sheet, this.chargingx, 125, 25, 25,this.x+17-(this.chargingRadius*1.5), this.y+68-(this.chargingRadius-5), (this.chargingRadius*2),(this.chargingRadius*2));
+				}
+				else
+				{
+					context.drawImage(this.sprite_sheet, this.chargingx, 125, 25, 25,this.x+17-(this.chargingRadius*1.5), this.y+50-(this.chargingRadius-5), (this.chargingRadius*2),(this.chargingRadius*2));
+				}
 			}
 			break;
 		}
@@ -159,13 +175,15 @@ Character.prototype = {
 			if(this.y>500)
 			{
 				this.game.lives--;
-				this.game.backgroundx = 0;
+				this.game.backgroundx = this.respawnScroll;
 				this.x = this.respawnx;
 				this.y = this.respawny;
 			}
 			if(game.health <=0)
 			{
 				this.game.lives--;
+				this.game.health = 100;
+				this.health = 100;
 				this.game.backgroundx = this.respawnScroll;
 				this.x = this.respawnx;
 				this.y = this.respawny;
@@ -186,10 +204,23 @@ Character.prototype = {
 		this.weaponState = "rest";
 		if(this.facing =="right")
 			{
-				this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+				if(this.state == 'crouching')
+				{
+					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+				}
+				else{
+					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+				}
 			}
 		else{
-			this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+			if(this.state == 'crouching')
+			{
+				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+			}
+			else
+			{
+				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+			}
 		}
 		this.chargingRadius =5;
 		// var bullet = new Bullet(
@@ -342,6 +373,39 @@ Character.prototype = {
 				this.state ="normal";
 				//console.log(this.state);
 			}
+		}
+		if(this.takingDamage)
+		{
+			if(this.damageCount == 10)
+			{
+				this.takingDamage = false;
+				this.damageCount = 0;
+			}
+			else{
+				this.damageCount++;
+				if(this.facing == 'right')
+				{
+					if(tileLeft === undefined || !tileLeft.solid)
+					{
+						this.x -= this.velocity*6;
+					}
+				}
+				else
+				{
+					if(tileRight === undefined || !tileRight.solid){
+						this.x += this.velocity*6;
+					}
+				}
+			}
+				
+		}
+	},
+	
+	updateHealth: function(amount){
+		if((this.health + amount) >-1 && (this.health + amount) <100)
+		{
+			this.health += amount;
+			this.game.health += amount;
 		}
 	},
 	

@@ -1,13 +1,14 @@
 var Level1 = (function (){
 	this.game;
 	var Resource = {
-		loading: 4,
+		loading: 6,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
 		   characterLeft: new Image(),
 		   portal: new Image(),
-		   enemyType1: new Image()
+		   enemyType1: new Image(),
+		   enemyType1Left: new Image()
 		},
 		Music: {
 			
@@ -20,11 +21,14 @@ var Level1 = (function (){
 	Resource.Image.character.onload = onload;
 	Resource.Image.characterLeft.onload = onload;
 	Resource.Image.portal.onload = onload;
+	Resource.Image.enemyType1.onload = onload;
+	Resource.Image.enemyType1Left.onload = onload;
 	Resource.Image.background.src = "background.png";
 	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
 	Resource.Image.characterLeft.src = "mainCharacterSpriteSheet100Left.png";
 	Resource.Image.portal.src = "portalSpriteSheet.png";
-	Resource.Image.enemyType1.src ="Robot_Blue1.png";
+	Resource.Image.enemyType1.src ="Robot_Blue1_SpriteSheet.png";
+	Resource.Image.enemyType1Left.src ="Robot_Blue1_SpriteSheetLeft.png"
 	
 	function onload(){
 		Resource.loading -= 1;
@@ -51,9 +55,13 @@ var Level1 = (function (){
 	portalRadius: 0
   }
   var enemyType1 ={
-	image: Resource.Image.portal
+	image: Resource.Image.enemyType1
+  }
+  var enemyType1Left = {
+	image: Resource.Image.enemyType1Left
   }
   var enemies = []
+  
   var setBackground = function(image){
 	Resource.Image.background = image;
   }
@@ -70,27 +78,30 @@ var Level1 = (function (){
   }
   
   var createEnemies = function(cenemies){
+		enemies = [];
 		cenemies.forEach( function(enemy) {
 			console.log(enemy.enemyType);
 			switch(enemy.enemyType)
 			{
 				case "1":
-					console.log("Enemy would be created at: "+enemy.position.x+","+enemy.position.y);
-					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,character, characterLeft,700,200,5,50,"walking");
-					console.log(newEnemy);
+					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,700,400,5,50,"walking",50,10);
 					enemies.push(newEnemy);
 				break;
 			}
 		});
+		console.log(enemies);
   }
 
   var update = function(elapsedTime){
+		calculateEnemyCharacterCollisions(this.game, enemies);
+		calculateEnemyCharacterBulletCollisions(this.game,enemies);
 		enemies.forEach( function(enemy) {
-			enemy.update();
 			if(enemy.state=="dead")
 			{
+				this.game.score += enemy.maxHealth;
 				enemies.splice($.inArray(enemy, enemies),1);
 			}
+			enemy.update();
 		});
   }
 
@@ -114,25 +125,24 @@ var Level1 = (function (){
 			portal.portalCount++;
 			if(!game.renderCharacter && portal.portalRadius <=100)
 			{
-				screenCtx.drawImage(portal.image,portal.portalx,0,102,126,Tilemap.portals[1].postion.x+game.backgroundx,Tilemap.portals[1].postion.y-50,portal.portalRadius,portal.portalRadius);
+				screenCtx.drawImage(portal.image,portal.portalx,0,102,126,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,portal.portalRadius,portal.portalRadius);
 				if(!game.renderCharacter){
 					portal.portalRadius+=2;
 				}
 			}
 			else{
 				game.renderCharacter = true;
-				screenCtx.drawImage(portal.image,portal.portalx,0,102,126,Tilemap.portals[1].postion.x+game.backgroundx,Tilemap.portals[1].postion.y-50,portal.portalRadius,portal.portalRadius);
+				screenCtx.drawImage(portal.image,portal.portalx,0,102,126,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,portal.portalRadius,portal.portalRadius);
 				if(game.levels[game.level-1].portal.portalRadius >0)
 				{
 					game.levels[game.level-1].portal.portalRadius-=2;
 				}
 			}
 			
-			screenCtx.drawImage(portal.image,portal.portalx,0,102,126,Tilemap.portals[0].postion.x+game.backgroundx*2,Tilemap.portals[0].postion.y-50,100,100);
+			screenCtx.drawImage(portal.image,portal.portalx,0,102,126,Tilemap.portals[0].postion.x,Tilemap.portals[0].postion.y-50,100,100);
   }
   
   var renderEnemies = function(screenCtx){
-			console.log("Rendering Enemies");
 		    enemies.forEach( function(enemy) {
 				enemy.render(screenCtx);
 			});

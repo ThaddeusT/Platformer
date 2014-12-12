@@ -1,14 +1,17 @@
-var Type1Enemy = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, xcount, radius, startingState) {
+var Type1Enemy = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, xcount, radius, startingState, health, damage) {
 	this.game = game;
 	this.x = x;
 	this.y = y;
     this.velocity = 1;
-	this.health = 100;
+	this.maxHealth = health;
+	this.health = health;
 	this.state = startingState;
 	this.sprite_sheet = image;
 	this.sprite_sheet_left = imageLeft;
 	this.sprite_sheet_explosion = new Image();
 	this.sprite_sheet_explosion.src = "explosion.png";
+	this.explodex = 0;
+	this.explodey = 0;
 	this.walkingx = 0;
 	this.walkingy = 0;
 	this.walkingcount = 0;
@@ -20,6 +23,8 @@ var Type1Enemy = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, x
 	this.xcount = xcount;
 	this.radius = radius;
 	this.facing = "right";
+	this.downCheckCounter = 0;
+	this.damage = damage;
 };
 
 Type1Enemy.prototype = {
@@ -32,7 +37,6 @@ Type1Enemy.prototype = {
 		switch(this.state)
 		{
 		 case 'walking':
-			console.log("Rendering Enemy At: "+ this.x+","+this.y);
 			if(this.facing == 'right')
 			{
 				if(this.walkingx == this.xImageMax)
@@ -46,12 +50,13 @@ Type1Enemy.prototype = {
 				else{
 					this.walkingcount++;
 				}
-				context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
+				//context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
+				context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x, this.y, 100,100);
 			}
 			else{
 				if(this.walkingLeftX == 0)
 				{
-					this.walkingLeftX = xImageMax;
+					this.walkingLeftX = this.xImageMax;
 				}
 				if(this.walkingcount==5){
 					this.walkingLeftX-=100;
@@ -60,11 +65,12 @@ Type1Enemy.prototype = {
 				else{
 					this.walkingcount++;
 				}
-				context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
+				//context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
+				context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x, this.y, 100,100);
 			}
 			break;
 		case 'explode':
-			context.drawImage(this.sprite_sheet_explosion, this.explodex, this.explodey, 64, 64, this.x-this.radius+this.game.backgroundx*2, this.y-this.radius, this.radius*2, this.radius*2);
+			context.drawImage(this.sprite_sheet_explosion, this.explodex, this.explodey, 64, 64, this.x, this.y, this.radius*2, this.radius*2);
 			if(this.explodey <320)
 			{
 				this.explodex += 64;
@@ -79,7 +85,7 @@ Type1Enemy.prototype = {
 				this.state = 'dead';
 			}
 			break;
-		}
+		}		
 	},
 	update: function() {
 		if(this.health<=0)
@@ -92,9 +98,11 @@ Type1Enemy.prototype = {
 	},
 	
 	move: function() {
-		var x = (this.x-(this.game.backgroundx*2));
+		// var x = (this.x+(this.game.backgroundx*2));
+		var x = this.x;
 		var tileUp = Tilemap.tileAt(x+50, this.y-100,0);
-		var tileDown = Tilemap.tileAt(x+25, this.y+75,0);
+		var tileDown = Tilemap.tileAt(x+25, this.y+75,0); 
+		var tileDownLeft = Tilemap.tileAt(x-25, this.y+75,0); 
 		var tileDownRight = Tilemap.tileAt(x+50, this.y+75,0);
 		var tileLeft =  Tilemap.tileAt(x-15, this.y+50,0);
 		var tileRight = Tilemap.tileAt(x+65, this.y+50,0);
@@ -108,14 +116,14 @@ Type1Enemy.prototype = {
 							this.x += this.velocity;
 						}
 						else{
-							facing = 'left';
+							this.facing = 'left';
 							this.walkingcount = 0;
 							this.walkingLeftX = 700;
 							this.walkingLeftY=0;
 						}
 					}
 					else{
-						facing = 'left';
+						this.facing = 'left';
 						this.walkingcount = 0;
 						this.walkingLeftX = 700;
 						this.walkingLeftY=0;
@@ -123,25 +131,57 @@ Type1Enemy.prototype = {
 				}
 				if(this.facing=='left'){
 					if(tileLeft === undefined || !tileLeft.solid){
-						if(this.x >= this.startingX)
+						if(this.x >= this.startingX-this.xWalkingmax)
 						{
 							this.x -= this.velocity;
 						}
 						else{
-							facing ='right';
+							this.facing ='right';
 							this.walkingx = 0;
 							this.walkingy = 0;
 							this.walkingcount = 0;
 						}
 					}
 					else{
-						facing ='right';
+						this.facing ='right';
 						this.walkingx = 0;
 						this.walkingy = 0;
 						this.walkingcount = 0;
 					}
 				}
+				if(tileDownLeft === undefined || !tileDownLeft.solid )
+				{
+					this.facing = 'right';
+					this.walkingx = 0;
+					this.walkingy = 0;
+					this.walkingcount = 0;
+				}
+				if(tileDownRight === undefined || !tileDownRight.solid)
+				{
+					this.facing = 'left';
+					this.walkingcount = 0;
+					this.walkingLeftX = 700;
+					this.walkingLeftY=0;
+				}
 			break;
 		}		
+	},
+	
+	collidedWithCharacter: function(){
+		if(!this.game.character.takingDamage)
+		{
+			this.game.character.updateHealth(-this.damage);
+		}
+		this.game.character.takingDamage= true;
+	},
+	
+	collideWithCharacterBullet: function(radiusOfBullet)
+	{	
+		this.health -= radiusOfBullet;
+		if(this.health <0)
+		{
+			this.health =0;
+		}
+		console.log(this.health);
 	}
 };

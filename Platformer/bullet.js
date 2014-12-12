@@ -16,6 +16,7 @@ var Bullet = function(game,x,y,radius, image, facing) {
 	this.bulletx=300;
 	this.bulletcount=0;
 	this.tile;
+	this.collided =false;
 };
 
 Bullet.prototype = {

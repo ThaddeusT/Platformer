@@ -86,7 +86,6 @@ var Tilemap = (function (){
 				}
 			}
 		}
-		console.log("Enemy: "+tile.Enemy);
 		if(tile.Enemy)
 		{
 			for(y =0; y<mapHeight; y++)
@@ -215,6 +214,47 @@ function drawGrid(ctx, width, height, GridSize) {
             ctx.stroke();
         }
     }
+
+function calculateEnemyCharacterCollisions(game, enemies)
+{
+	characterX = game.character.x - game.backgroundx*2;
+	characterY = game.character.y;
+	characterRadius = 50;
+	enemies.forEach( function(enemy) {
+		if(Math.abs(characterX-enemy.x) < 500)
+		{
+			x = characterX - enemy.x;
+			y = characterY - enemy.y;
+			d = Math.sqrt(x*x + y*y);
+			if(d<=50)
+			{
+				enemy.collidedWithCharacter();
+			}
+		}
+		
+	});
+}
+
+function calculateEnemyCharacterBulletCollisions(game,enemies)
+{
+	game.characterBullets.forEach(function(bullet)
+	{
+		bulletx = bullet.x - game.backgroundx*2;		
+		enemies.forEach( function(enemy) {
+			if(Math.abs(bulletx-enemy.x)<500)
+			{
+				x = bulletx - (enemy.x+enemy.radius);
+				y = bullet.y - (enemy.y+enemy.radius);
+				d = Math.sqrt(x*x + y*y);
+				if(d <= enemy.radius+bullet.radius && bullet.y >= enemy.y+30)
+				{
+					bullet.collided = true;
+					enemy.collideWithCharacterBullet(bullet.radius);
+				}
+			}
+		});
+	});
+}
 	
 function convertCanvasToImage(canvas) {
 	var image = new Image();
