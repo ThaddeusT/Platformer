@@ -1,15 +1,21 @@
-var Type1Enemy = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, xcount, radius, startingState, health, damage) {
+var Type1Enemy = function(game, x, y, image,imageLeft, enemyHead, xImageMax, xWalkingmax, xcount, radius, startingState, health, damage) {
 	this.game = game;
+	this.type =1;
 	this.x = x;
 	this.y = y;
     this.velocity = 1;
 	this.maxHealth = health;
 	this.health = health;
 	this.state = startingState;
+	this.damaged = false;
+	this.headShot = false;
 	this.sprite_sheet = image;
 	this.sprite_sheet_left = imageLeft;
 	this.sprite_sheet_explosion = new Image();
 	this.sprite_sheet_explosion.src = "explosion.png";
+	this.healthBarWidth = radius;
+	this.enemyHead = enemyHead;
+	this.headShotCount=0;
 	this.explodex = 0;
 	this.explodey = 0;
 	this.walkingx = 0;
@@ -51,7 +57,7 @@ Type1Enemy.prototype = {
 					this.walkingcount++;
 				}
 				//context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
-				context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x, this.y, 100,100);
+				context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
 			}
 			else{
 				if(this.walkingLeftX == 0)
@@ -66,7 +72,7 @@ Type1Enemy.prototype = {
 					this.walkingcount++;
 				}
 				//context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
-				context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x, this.y, 100,100);
+				context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
 			}
 			break;
 		case 'explode':
@@ -85,7 +91,46 @@ Type1Enemy.prototype = {
 				this.state = 'dead';
 			}
 			break;
-		}		
+		}
+		//Draw hit indicator
+		if(this.damaged)
+		{
+			context.save();
+			context.fillStyle = 'rgba(253,8,8,0.1)';
+			context.fillRect(this.x,this.y+this.enemyHead-10,this.radius*2,this.radius*2);
+			context.restore();
+			this.damaged = false;
+		}
+		//Draw HP Bar
+		var healthPercent = (this.health/this.maxHealth)*this.healthBarWidth;
+		context.save();
+		context.beginPath();
+		context.rect(this.x+(this.radius/2), this.y+(this.enemyHead/2), this.radius,5);
+		context.fillStyle = 'gray';
+		context.fill();
+		context.lineWidth = 1;
+		context.strokeStyle = 'black';
+		context.stroke();
+		context.beginPath();
+		context.rect(this.x+(this.radius/2),this.y+(this.enemyHead/2),healthPercent,5);
+		context.fillStyle = 'lime';
+		context.fill();
+		context.lineWidth = 1;
+		context.strokeStyle = 'black';
+		context.stroke();
+		context.restore();
+		if(this.headShot)
+		{
+			context.fillStyle = "purple";
+			context.font = "bold 12px Arial";
+			context.fillText("Head Shot!", this.x+(this.radius/2),this.y+((this.enemyHead/2)-5)-(this.headShotCount/6));
+			this.headShotCount++;
+			if(this.headShotCount==30)
+			{	
+				this.headShot = false;
+			}
+			
+		}
 	},
 	update: function() {
 		if(this.health<=0)
@@ -175,13 +220,18 @@ Type1Enemy.prototype = {
 		this.game.character.takingDamage= true;
 	},
 	
-	collideWithCharacterBullet: function(radiusOfBullet)
+	collideWithCharacterBullet: function(radiusOfBullet, pointMultiplier)
 	{	
-		this.health -= radiusOfBullet;
+		if(this.headShot){
+			this.health -= 2*radiusOfBullet;
+		}
+		else{
+			this.health -= radiusOfBullet;
+		}
 		if(this.health <0)
 		{
 			this.health =0;
 		}
-		console.log(this.health);
+		this.damaged = true;
 	}
 };

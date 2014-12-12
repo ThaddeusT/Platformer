@@ -80,16 +80,14 @@ var Level1 = (function (){
   var createEnemies = function(cenemies){
 		enemies = [];
 		cenemies.forEach( function(enemy) {
-			console.log(enemy.enemyType);
 			switch(enemy.enemyType)
 			{
 				case "1":
-					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,700,400,5,50,"walking",50,10);
+					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10);
 					enemies.push(newEnemy);
 				break;
 			}
 		});
-		console.log(enemies);
   }
 
   var update = function(elapsedTime){

@@ -50,7 +50,6 @@ Character.prototype = {
 				this.walkingy = 0;
 			break;
 			case "jumping":
-				this.jumpcount++;
 				this.walkingLeftX=700;
 				this.walkingLeftY=0;
 				this.walkingx = 0;
@@ -250,8 +249,7 @@ Character.prototype = {
 	
 	move: function(inputState) {
 		var x = (this.x-(this.game.backgroundx*2));
-		//console.log("Character X: "+x); 
-		var tileUp = Tilemap.tileAt(x+50, this.y-100,0);
+		var tileUp = Tilemap.tileAt(x+25, this.y-30,0);
 		var tileDown = Tilemap.tileAt(x+25, this.y+75,0);
 		var tileDownRight = Tilemap.tileAt(x+50, this.y+75,0);
 		var tileLeft =  Tilemap.tileAt(x-15, this.y+50,0);
@@ -263,7 +261,6 @@ Character.prototype = {
 				this.jumpcount = 0;
 			}
 			this.state="jumping";
-			//console.log(this.state);
 		} 
 		else if(inputState.down) {
 			this.state = "crouching";
@@ -290,7 +287,6 @@ Character.prototype = {
 			this.facing = "right";
 			this.state="walkingRight";
 			if(tileRight === undefined){
-				//console.log("Character True X: "+this.x);
 				if(this.x +this.velocity <400)
 				{
 					this.x += this.velocity;
@@ -307,22 +303,29 @@ Character.prototype = {
 					this.game.backgroundx -=this.velocity;
 				}
 			}
-			if(tileDown === undefined)
+			if(tileDown === undefined || !tileDown.solid)
 			{
 				this.y += this.velocity * 9;
+			}
+			else{
+				this.y = Math.floor(this.y/50)*50;
 			}
 		} 
 		else {
 			this.state ="normal";
-			if(tileDown === undefined)
+			if(tileDown === undefined || !tileDown.solid)
 			{
 				this.y += this.velocity * 9;
+			}
+			else{
+				this.y = Math.floor(this.y/50)*50;
 			}
 		}
 		}
 		//calculate for jumping
 		if(this.state == "jumping")
 		{
+			this.jumpcount++;
 			if(inputState.right) {
 				this.facing = "right";
 				if(tileRight === undefined || !tileRight.solid){
@@ -350,7 +353,13 @@ Character.prototype = {
 			}
 			if(this.jumpcount<30)
 			{
-				this.y -= this.velocity * 3;
+				if(tileUp === undefined || !tileUp.solid)
+				{
+					this.y -= this.velocity * 3;
+				}
+				else{
+					this.jumpcount=31;
+				}
 			}
 			if(this.jumpcount >30 && this.jumpcount <61)
 			{
@@ -363,15 +372,12 @@ Character.prototype = {
 				}
 				else{
 					this.jumpcount = 62;
-					//console.log(this.y);
-					//console.log("Calculation 100: "+Math.floor(this.y/100)+" Calculation 50: "+Math.floor(this.y/50));
 					this.y = Math.floor(this.y/50)*50;
 				}
 			}
 			if(this.jumpcount >61)
 			{
 				this.state ="normal";
-				//console.log(this.state);
 			}
 		}
 		if(this.takingDamage)

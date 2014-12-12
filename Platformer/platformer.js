@@ -85,7 +85,7 @@ Game.prototype = {
 		game.characterBullets.forEach(function(bullet)
 		{
 			bullet.update(elapsedTime);
-			if(bullet.x+bullet.radius > game.screen.width)
+			if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
 			{
 				game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
 			}
@@ -99,7 +99,6 @@ Game.prototype = {
 				game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
 			}
 		});		
-		//console.log(game.character.x, (Tilemap.portals[0].postion.x+game.backgroundx*2));
 		if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5)
 		{
 			this.gui.message("Congratulations You've Beaten Level "+game.level);
@@ -289,7 +288,6 @@ Game.prototype = {
 		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.backgroundx);
 		game.characterInitialx = game.character.x;
 		game.levels[game.level-1].createEnemies(Tilemap.enemies);
-		console.log(game.levels[game.level-1]);
 		
 		this.gui.message(
 		"Welcome to Level "+game.level+" Begin!");
@@ -377,7 +375,6 @@ Game.prototype = {
 var game = new Game('game');
 console.log(game);
 function waitForLoad() {
-	console.log(game.levels[game.level-1].Resource.loading);
     if(game.levels[game.level-1].Resource.loading === 0) {
 		game.levels[game.level-1].load(game.backBufferContext);
         game.start();

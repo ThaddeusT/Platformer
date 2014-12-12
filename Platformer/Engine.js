@@ -246,10 +246,37 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 				x = bulletx - (enemy.x+enemy.radius);
 				y = bullet.y - (enemy.y+enemy.radius);
 				d = Math.sqrt(x*x + y*y);
-				if(d <= enemy.radius+bullet.radius && bullet.y >= enemy.y+30)
+				
+				switch(enemy.type)
 				{
-					bullet.collided = true;
-					enemy.collideWithCharacterBullet(bullet.radius);
+					case 1:
+						if(Math.abs(bulletx - enemy.x) < 5)
+						{
+							console.log("Distance: "+d+" Range: "+(enemy.radius+bullet.radius));
+							console.log("First Try - Bullet: "+bulletx+","+(bullet.y+bullet.radius+7)+" Enemy: "+enemy.x+","+(enemy.y+enemy.enemyHead));
+							console.log("Second Try - Bullet: "+bulletx+","+(bullet.y+bullet.radius+8)+" Enemy: "+enemy.x+","+(enemy.y+enemy.enemyHead));
+						}
+						if(d <= enemy.radius+bullet.radius && ((bullet.y+bullet.radius+7) >= enemy.y+enemy.enemyHead || (bullet.y+bullet.radius+8) >= (enemy.y+enemy.enemyHead)))
+						{
+							bullet.collided = true;
+							if((bullet.y+bullet.radius+7) == enemy.y+enemy.enemyHead)
+							{
+								enemy.headShotCount = 0;
+								enemy.headShot = true;
+								game.score += bullet.radius;
+							}
+							else if((bullet.y+bullet.radius+8) == (enemy.y+enemy.enemyHead))
+							{
+								enemy.headShotCount = 0;
+								enemy.headShot = true;
+								game.score += bullet.radius;
+							}
+							else{
+								enemy.headShot =false;
+							}
+							enemy.collideWithCharacterBullet(bullet.radius);
+						}
+					break;
 				}
 			}
 		});
