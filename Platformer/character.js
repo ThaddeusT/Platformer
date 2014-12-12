@@ -241,18 +241,20 @@ Character.prototype = {
 			this.facing = "left";
 			this.state="walkingLeft";
 			if(tileLeft === undefined || !tileLeft.solid){
-				if((this.x -this.velocity)>100)
+			console.log(this.game.backgroundx);
+				if(this.x-this.velocity>100)
 				{
 					this.x -= this.velocity;
 				}
-				if(this.game.backgroundx+this.velocity<0)
+				if (this.game.backgroundx < 0) 
 				{
 					this.game.backgroundx +=this.velocity*2;
 				}
+				
 			}
 			if(tileDown === undefined)
 			{
-				this.y += this.velocity * 3;
+				this.y += this.velocity * 9;
 			}
 		} 
 		else if(inputState.right) {
@@ -269,7 +271,7 @@ Character.prototype = {
 			else{
 				if(!tileRight.solid)
 				{
-					if((this.x +this.velocity) <300)
+					if((this.x +this.velocity) <400)
 					{
 						this.x += this.velocity;
 					}
@@ -295,25 +297,26 @@ Character.prototype = {
 			if(inputState.right) {
 				this.facing = "right";
 				if(tileRight === undefined || !tileRight.solid){
-					if((this.x +this.velocity * 2) <300)
+					if((this.x +this.velocity) <400)
 					{
-						this.x += this.velocity * 2;
+						this.x += this.velocity;
 					}
-					this.game.backgroundx -=this.velocity;
+					
+					this.game.backgroundx -=this.velocity*2;
 				}
 			}
 			if(inputState.left)
 			{
 				this.facing = "left";
 				if(tileLeft === undefined || !tileLeft.solid && (this.x-this.velocity * 2)>0){
-					if((this.x -this.velocity * 2)>100)
+					if((this.x -this.velocity)>100)
 					{
-						this.x -= this.velocity * 2;
+						this.x -= this.velocity;
 					}
 					
 					if(this.game.backgroundx+this.velocity<0)
 					{
-						this.game.backgroundx +=this.velocity;
+						this.game.backgroundx +=this.velocity*2;
 					}
 				}
 			}

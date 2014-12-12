@@ -86,7 +86,7 @@ var Tilemap = (function (){
 				}
 			}
 		}
-		console.log("Enemy: "+tile.Enemy);
+		//console.log("Enemy: "+tile.Enemy);
 		if(tile.Enemy)
 		{
 			for(y =0; y<mapHeight; y++)
@@ -144,7 +144,6 @@ var Tilemap = (function (){
         for(x = 0; x < 200; x++) {
           for(y = 0; y < 10; y++) {
             var tileId = layer.data[x + layer.width * y];
-            
             // tiles with an id of 0 don't exist
             if(tileId != 0) {
               var tile = tiles[tileId - 1];

@@ -71,13 +71,13 @@ var Level1 = (function (){
   
   var createEnemies = function(cenemies){
 		cenemies.forEach( function(enemy) {
-			console.log(enemy.enemyType);
+			//console.log(enemy.enemyType);
 			switch(enemy.enemyType)
 			{
 				case "1":
-					console.log("Enemy would be created at: "+enemy.position.x+","+enemy.position.y);
+					//console.log("Enemy would be created at: "+enemy.position.x+","+enemy.position.y);
 					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,character, characterLeft,700,200,5,50,"walking");
-					console.log(newEnemy);
+					//console.log(newEnemy);
 					enemies.push(newEnemy);
 				break;
 			}
@@ -132,7 +132,7 @@ var Level1 = (function (){
   }
   
   var renderEnemies = function(screenCtx){
-			console.log("Rendering Enemies");
+			//console.log("Rendering Enemies");
 		    enemies.forEach( function(enemy) {
 				enemy.render(screenCtx);
 			});

@@ -32,7 +32,7 @@ Type1Enemy.prototype = {
 		switch(this.state)
 		{
 		 case 'walking':
-			console.log("Rendering Enemy At: "+ this.x+","+this.y);
+			//console.log("Rendering Enemy At: "+ this.x+","+this.y);
 			if(this.facing == 'right')
 			{
 				if(this.walkingx == this.xImageMax)

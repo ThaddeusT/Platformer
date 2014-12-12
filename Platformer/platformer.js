@@ -54,7 +54,9 @@ var Game = function (canvasId) {
   this.health = 100;
   this.gui = new GUI(this);
   this.levels = [];
+  this.levels.push(LevelH);
   this.levels.push(Level1);
+ 
   this.level =1;
   this.backgroundx = 0;
   this.backgroundy = 0;
@@ -99,7 +101,7 @@ Game.prototype = {
 		if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5)
 		{
 			this.gui.message("Congratulations You've Beaten Level "+game.level);
-			game.level =1;
+			game.level +=1;
 			game.loadLevel();
 		}
 	},
@@ -280,10 +282,11 @@ Game.prototype = {
 		game.renderCharacter = false;
 		game.characterBullets =[];
 		game.levels[game.level-1].setGame(game);
+		//game.levels[game.level-1].load(game.backBufferContext);
 		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.backgroundx);
 		game.characterInitialx = game.character.x;
 		game.levels[game.level-1].createEnemies(Tilemap.enemies);
-		console.log(game.levels[game.level-1].enemies);
+		//console.log(game.levels[game.level-1].enemies);
 		
 		this.gui.message(
 		"Welcome to Level "+game.level+" Begin!");
