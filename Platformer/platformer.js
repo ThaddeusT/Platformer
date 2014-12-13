@@ -279,6 +279,10 @@ Game.prototype = {
 			right: false,
 			q: false
 		};
+		self.inputState.left = false;
+		self.inputState.right = false;
+		self.inputState.up = false;
+		self.inputState.down = false;
 		game.backgroundx = 0;
 		game.backgroundy = 0;
 		game.backgroundLoaded =false;

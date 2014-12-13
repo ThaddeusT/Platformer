@@ -69,12 +69,11 @@ var Level2 = (function (){
   var load = function(screenCtx)
   {
 		var self = this;
-		Tilemap.portals = [];
 	    Tilemap.load(tilemapDataLvl2, {
 			onload: function() {
 			  // Tilemap.render(screenCtx);
 			  console.log('Tilemap Loaded');
-			  console.log(Tilemap.portals);
+			  console.log(Tilemap.layers);
 			}
 		  });
   }
