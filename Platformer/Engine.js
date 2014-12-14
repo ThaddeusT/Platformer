@@ -33,6 +33,8 @@ var Tilemap = (function (){
     tiles = [];
     tilesets = [];
 	layers = [];
+	
+	// could also do portals.length = 0; Slightly more efficient because splice returns a value, not sure if it matters for this small array though.
 	portals.splice(0, 2);
 	enemies.splice(0,enemies.length);
 	

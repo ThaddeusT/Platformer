@@ -24,6 +24,7 @@ var Character = function(game, x, y, image, imageLeft, respawnx, respawny, respa
 	this.walkingcount =0;
 	this.facing = "right";
 	this.jumpcount=0;
+	this.hitcealing = false;
 	this.chargingx=300;
 	this.chargingcount=0;
 	this.chargingRadius=5;
@@ -248,7 +249,7 @@ Character.prototype = {
 	
 	move: function(inputState) {
 		var x = (this.x-(this.game.backgroundx*2));
-		var tileUp = Tilemap.tileAt(x+25, this.y-30,0);
+		var tileUp = Tilemap.tileAt(x+25, this.y-4,0); //y-30 originally 
 		var tileDown = Tilemap.tileAt(x+25, this.y+75,0);
 		var tileDownForJump = Tilemap.tileAt(x+20, this.y+75,0);
 		var tileDownRight = Tilemap.tileAt(x+50, this.y+75,0);
@@ -259,6 +260,7 @@ Character.prototype = {
 		if(inputState.up) {
 			if(this.state!="jumping"){
 				this.jumpcount = 0;
+				this.hitcealing = false;
 			}
 			this.state="jumping";
 		} 
@@ -332,11 +334,11 @@ Character.prototype = {
 			if(inputState.right) {
 				this.facing = "right";
 				if(tileRight === undefined || !tileRight.solid){
-					if((this.x +this.velocity * 2) <300)
+					if((this.x +this.velocity * 2) <400)
 					{
-						this.x += this.velocity * 2;
+						this.x += this.velocity;
 					}
-					this.game.backgroundx -=this.velocity;
+					this.game.backgroundx -=this.velocity*2;
 				}
 			}
 			if(inputState.left)
@@ -345,7 +347,7 @@ Character.prototype = {
 				if(tileLeft === undefined || !tileLeft.solid && (this.x-this.velocity * 2)>0){
 					if((this.x -this.velocity * 2)>100)
 					{
-						this.x -= this.velocity * 2;
+						this.x -= this.velocity;
 					}
 					
 					if(this.game.backgroundx+this.velocity<0)
@@ -358,27 +360,39 @@ Character.prototype = {
 			{
 				if(tileUp === undefined || !tileUp.solid)
 				{
-					this.y -= this.velocity * 4;
+					if (this.hitcealing === false)
+					{
+						this.y -= this.velocity * 4;
+					}
 				}
 				else{
-					this.jumpcount=31;
+					//this.jumpcount=31;
+					this.hitcealing = true;
 				}
 			}
-			if(this.jumpcount >30 && this.jumpcount <61)
+			if(this.jumpcount >30)
 			{
 				if((tileDown === undefined || !tileDown.solid) && (tileDownRight === undefined || !tileDownRight.solid))
 				{
-					this.y += this.velocity*6;
+					if (this.jumpcount < 61) 
+					{
+						this.y += this.velocity*6;
+					}
+					else if (this.jumpcount > 61)
+					{
+						this.y += this.velocity * 9;
+					}
 				}
 				else{
-					this.jumpcount = 62;
+					
+					this.state = "normal";
 					this.y = Math.floor(this.y/50)*50;
 				}
 			}
-			if(this.jumpcount >61)
-			{
-				this.state ="normal";
-			}
+			//if(this.jumpcount >61)
+			//{
+				//this.state ="normal";
+			//}
 		}
 		if(this.takingDamage)
 		{
