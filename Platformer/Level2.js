@@ -40,8 +40,7 @@ var Level2 = (function (){
 	}	  
   var background = {
 	image: Resource.Image.background,
-    offset: {x: 0, y: 0},
-	size: {x:3500,y:480}
+    offset: {x: 0, y: 0}
   }
   var character = {
 	image: Resource.Image.character

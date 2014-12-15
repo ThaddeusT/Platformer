@@ -49,8 +49,6 @@ var Game = function (canvasId) {
 	};
 	
   // Game variables
-  this.gameover = false;
-  this.gameresetting = false;
   this.score = 0;
   this.lives = 3;
   this.health = 100;
@@ -84,55 +82,31 @@ Game.prototype = {
 	// http://gameprogrammingpatterns.com/update-method.html
 	update: function(elapsedTime) {
 		var self = this;
-		if(!game.gameover)
+		game.levels[game.level-1].update();
+		game.character.update(elapsedTime, this.inputState);
+		game.characterBullets.forEach(function(bullet)
 		{
-			game.levels[game.level-1].update();
-			game.character.update(elapsedTime, this.inputState);
-			game.characterBullets.forEach(function(bullet)
+			bullet.update(elapsedTime);
+			if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
 			{
-				bullet.update(elapsedTime);
-				if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
-				{
+				game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+			}
+			if(bullet.tile){
+				if(bullet.tile.solid){
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
 				}
-				if(bullet.tile){
-					if(bullet.tile.solid){
-						game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
-					}
-				}
-				if(bullet.collided)
-				{
-					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
-				}
-			});		
-			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5)
-			{
-				this.gui.message("Congratulations You've Beaten Level "+game.level);
-				game.level += 1;
-				console.log(game.level);
-				//To be overriden by tileFaceLeft.solidtileFaceLeft.solid condition.
-				if(game.level > game.levels.length)
-				{
-					game.level = 1;
-				}
-				game.loadLevel();
 			}
-		}
-		else{
-			if(!game.gameresetting)
+			if(bullet.collided)
 			{
-				game.gameresetting = true;
-				game.gui.message("GAME OVER");
-				game.gameover = false;
-				game.renderCharacter = false;
-				setTimeout(function(){ 
-					game.level = 1;
-					game.lives = 3;
-					game.health = 100;
-					game.loadLevel();
-					game.gameresetting =false;
-				}, 2000);
+				game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
 			}
+		});		
+		if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5)
+		{
+			this.gui.message("Congratulations You've Beaten Level "+game.level);
+			game.level += 1;
+			console.log(game.level);
+			game.loadLevel();
 		}
 	},
 	
@@ -141,8 +115,7 @@ Game.prototype = {
 		// Clear the screen
 		this.backBufferContext.clearRect(0, 0, WIDTH, HEIGHT);
 		//this.backBufferContext.drawImage(game.levels[game.level-1].background.image,game.backgroundx,game.backgroundy,800,500,0,0,800,500);
-		//this.backBufferContext.drawImage(game.levels[game.level-1].background.image, game.backgroundx/2, 0);
-		this.backBufferContext.drawImage(game.levels[game.level-1].background.image, 0,0,game.levels[game.level-1].background.size.x,game.levels[game.level-1].background.size.y,game.backgroundx/2, 0, game.levels[game.level-1].background.size.x, 500);
+		this.backBufferContext.drawImage(game.levels[game.level-1].background.image, game.backgroundx/2, 0);
 		
 		this.backBufferContext.save();
 		this.backBufferContext.translate(game.backgroundx*2,0);
@@ -154,7 +127,7 @@ Game.prototype = {
 		
 		
 		//Render Character
-		if(game.renderCharacter && !game.gameresetting)
+		if(game.renderCharacter)
 		{
 			game.character.render(this.backBufferContext);
 		}
