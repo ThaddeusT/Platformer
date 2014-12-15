@@ -151,7 +151,7 @@ Character.prototype = {
 		// context.stroke();
 		// context.beginPath();
 		// context.fillStyle = 'green';
-		// context.arc(this.x+50, this.y+101,3,0,2*Math.PI);
+		// context.arc(this.x-15, this.y+25,3,0,2*Math.PI);
 		// context.fill();
 		// context.stroke();
 		// context.beginPath();
@@ -180,12 +180,17 @@ Character.prototype = {
 			if(game.health <=0)
 			{
 				this.game.lives--;
-				this.game.health = 100;
-				this.health = 100;
-				this.game.backgroundx = this.respawnScroll;
-				this.x = this.respawnx;
-				this.y = this.respawny;
-				this.facing = 'right';
+				if(this.game.lives > 0){
+					this.game.health = 100;
+					this.health = 100;
+					this.game.backgroundx = this.respawnScroll;
+					this.x = this.respawnx;
+					this.y = this.respawny;
+					this.facing = 'right';
+				}
+				else{
+					this.game.gameover =true;
+				}
 			}
 		}
 		
@@ -253,16 +258,19 @@ Character.prototype = {
 		var tileDown = Tilemap.tileAt(x+25, this.y+75,0);
 		var tileDownForJump = Tilemap.tileAt(x+20, this.y+75,0);
 		var tileDownRight = Tilemap.tileAt(x+50, this.y+75,0);
-		var tileLeft =  Tilemap.tileAt(x-15, this.y+50,0);
-		var tileRight = Tilemap.tileAt(x+65, this.y+50,0);
+		var tileLeft =  Tilemap.tileAt(x-15, this.y+25,0);
+		var tileFaceLeft = Tilemap.tileAt(x,this.y+5);
+		var tileRight = Tilemap.tileAt(x+65, this.y+25,0);
 		if(this.state!="jumping")
 			{
 		if(inputState.up) {
 			if(this.state!="jumping"){
-				this.jumpcount = 0;
 				this.hitcealing = false;
 			}
-			this.state="jumping";
+			if(this.jumpcount==0)
+			{
+				this.state="jumping";
+			}
 		} 
 		else if(inputState.down) {
 			if(this.state != 'jumping')
@@ -273,6 +281,12 @@ Character.prototype = {
 		else if(inputState.left) {
 			this.facing = "left";
 			this.state="walkingLeft";
+			if(tileFaceLeft === undefined)
+			{
+			}
+			else{
+				console.log(tileFaceLeft.solid);
+			}
 			if(tileLeft === undefined || !tileLeft.solid){
 				if((this.x -this.velocity)>100)
 				{
@@ -366,7 +380,7 @@ Character.prototype = {
 					}
 				}
 				else{
-					//this.jumpcount=31;
+					this.jumpcount = 31;
 					this.hitcealing = true;
 				}
 			}
@@ -384,7 +398,7 @@ Character.prototype = {
 					}
 				}
 				else{
-					
+					this.jumpcount = 0;
 					this.state = "normal";
 					this.y = Math.floor(this.y/50)*50;
 				}

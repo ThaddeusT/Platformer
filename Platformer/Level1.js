@@ -40,7 +40,8 @@ var Level1 = (function (){
 	}	  
   var background = {
 	image: Resource.Image.background,
-    offset: {x: 0, y: 0}
+    offset: {x: 0, y: 0},
+	size: {x:3500,y:480}
   }
   var character = {
 	image: Resource.Image.character
@@ -104,8 +105,11 @@ var Level1 = (function (){
   }
 
   var render = function(screenCtx) {
-		renderPortals(screenCtx);
-		renderEnemies(screenCtx);
+		if(!game.gameresetting)
+		{
+			renderPortals(screenCtx);
+			renderEnemies(screenCtx);
+		}
   }
   
   var renderPortals = function(screenCtx)
