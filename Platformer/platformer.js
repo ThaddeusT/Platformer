@@ -7,7 +7,8 @@ var keys = {
     down: false,
 	left: false,
 	right: false,
-	q: false
+	q: false,
+	e: false
 };
 
 // Fixed time step of 1/60th a second
@@ -129,6 +130,7 @@ Game.prototype = {
 					game.level = 1;
 					game.lives = 3;
 					game.health = 100;
+					game.score = 0;
 					game.loadLevel();
 					game.gameresetting =false;
 				}, 2000);
@@ -179,6 +181,10 @@ Game.prototype = {
 		{
 			keys["q"] = true;
 		}
+		if(e.keyCode == 69)
+		{
+			keys["e"] = true;
+		}
 		if(e.keyCode == 37)
 		{
 			keys["left"] = true;
@@ -197,8 +203,11 @@ Game.prototype = {
 		}
 		if(keys["q"])
 		{
-			game.character.
 			game.character.chargeBullet();
+		}
+		if(keys["e"])
+		{
+			game.character.shield();
 		}
 		if(keys["left"] && !keys["up"] && !keys["right"] && !keys["down"])
 		{
@@ -249,6 +258,11 @@ Game.prototype = {
 		{
 			keys["q"] = false;
 			game.character.fireBullet();
+		}
+		else if(e.keyCode == 69)
+		{
+			keys["e"] = false;
+			game.character.dropShield();
 		}
 		
 		if(!keys["left"])
@@ -322,7 +336,7 @@ Game.prototype = {
 		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.backgroundx);
 		game.characterInitialx = game.character.x;
 		game.levels[game.level-1].createEnemies(Tilemap.enemies);
-		
+		game.levels[game.level-1].createTreasures(Tilemap.treasures);
 		this.gui.message(
 		"Welcome to Level "+game.level+" Begin!");
 		setTimeout(function() {

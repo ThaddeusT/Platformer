@@ -92,6 +92,21 @@ var Level2 = (function (){
 		});
   }
 
+  var createTreasures = function(ctreasures){
+		treasures = []
+		ctreasures.forEach( function(treasure) {
+			switch(treasure.treasureType)
+			{
+				case "1":
+					var newTreasure = new Type1Treasure(this.game, treasure.position.x, treasure.position.y, Resource.Image.greyCrystal, 100, 700, 5, 25, 'normal', 2500);
+					treasures.push(newTreasure);
+				break;
+			}
+		});
+		console.log(treasures);
+  }
+  
+  
   var update = function(elapsedTime){
 		calculateEnemyCharacterCollisions(this.game, enemies);
 		calculateEnemyCharacterBulletCollisions(this.game,enemies);
@@ -102,6 +117,15 @@ var Level2 = (function (){
 				enemies.splice($.inArray(enemy, enemies),1);
 			}
 			enemy.update();
+		});
+		treasures.forEach( function(treasure) {
+			if(treasure.state=="dead")
+			{
+				console.log(treasure.state);
+				this.game.score += treasure.value;
+				treasures.splice($.inArray(treasure, treasures),1);
+			}
+			treasure.update();
 		});
   }
 
@@ -148,6 +172,12 @@ var Level2 = (function (){
 			});
   }
   
+    var renderTreasures =  function(screenCtx){
+	treasures.forEach( function(treasure) {
+		treasure.render(screenCtx);
+	});
+  }
+  
   
   // Expose the module's public API
   return {
@@ -163,6 +193,7 @@ var Level2 = (function (){
 	portal:portal,
 	enemyType1: enemyType1,
 	enemies: enemies,
-	createEnemies: createEnemies
+	createEnemies: createEnemies,
+	createTreasures: createTreasures
   }
 })();

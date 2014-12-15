@@ -28,6 +28,9 @@ var Character = function(game, x, y, image, imageLeft, respawnx, respawny, respa
 	this.chargingx=300;
 	this.chargingcount=0;
 	this.chargingRadius=5;
+	this.shielded = false;
+	this.shieldCount = 0;
+	this.shieldCooldown = 0;
 };
 
 Character.prototype = {
@@ -146,6 +149,16 @@ Character.prototype = {
 			}
 			break;
 		}
+		console.log(this.shielded);
+		if(this.shielded){
+			context.beginPath();
+			context.fillStyle = "rgba(15, 45, 242, 0.5)";
+			context.arc(this.x+50, this.y+50,63,0,2*Math.PI);
+			context.fill();
+			context.lineWidth = 3;
+			context.strokeStyle = "rgba(15, 45, 242, 0.6)";
+			context.stroke();
+		}
 		// context.beginPath();
 		// context.rect(this.x,this.y,100,100);
 		// context.stroke();
@@ -235,6 +248,14 @@ Character.prototype = {
 			// 8*Math.sin(this.turret_angle)
 		// );
 		// this.game.bullets.push(bullet);
+	},
+	
+	shield: function(){
+		this.shielded = true;
+	},
+	
+	dropShield: function(){
+		this.shielded = false;
 	},
 	
 	fireMissile: function(x, y) {

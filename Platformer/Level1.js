@@ -1,14 +1,15 @@
 var Level1 = (function (){
 	this.game;
 	var Resource = {
-		loading: 6,
+		loading: 7,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
 		   characterLeft: new Image(),
 		   portal: new Image(),
 		   enemyType1: new Image(),
-		   enemyType1Left: new Image()
+		   enemyType1Left: new Image(),
+		   greyCrystal: new Image()
 		},
 		Music: {
 			
@@ -23,12 +24,14 @@ var Level1 = (function (){
 	Resource.Image.portal.onload = onload;
 	Resource.Image.enemyType1.onload = onload;
 	Resource.Image.enemyType1Left.onload = onload;
+	Resource.Image.greyCrystal.onload = onload;
 	Resource.Image.background.src = "background.png";
 	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
 	Resource.Image.characterLeft.src = "mainCharacterSpriteSheet100Left.png";
 	Resource.Image.portal.src = "portalSpriteSheet.png";
 	Resource.Image.enemyType1.src ="Robot_Blue1_SpriteSheet.png";
 	Resource.Image.enemyType1Left.src ="Robot_Blue1_SpriteSheetLeft.png"
+	Resource.Image.greyCrystal.src = "greenCrystalSpriteSheet.png";
 	
 	function onload(){
 		Resource.loading -= 1;
@@ -62,6 +65,7 @@ var Level1 = (function (){
 	image: Resource.Image.enemyType1Left
   }
   var enemies = []
+  var treasures = []
   
   var setBackground = function(image){
 	Resource.Image.background = image;
@@ -70,7 +74,7 @@ var Level1 = (function (){
   var load = function(screenCtx)
   {
 		var self = this;
-	    Tilemap.load(tilemapDataLvl1V3, {
+	    Tilemap.load(tilemapDataLvl1V5, {
 			onload: function() {
 			  // Tilemap.render(screenCtx);
 			  console.log('Tilemap Loaded');
@@ -84,23 +88,48 @@ var Level1 = (function (){
 			switch(enemy.enemyType)
 			{
 				case "1":
-					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10);
+					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10,250);
 					enemies.push(newEnemy);
 				break;
 			}
 		});
   }
+  
+  var createTreasures = function(ctreasures){
+		treasures = []
+		ctreasures.forEach( function(treasure) {
+			switch(treasure.treasureType)
+			{
+				case "1":
+					var newTreasure = new Type1Treasure(this.game, treasure.position.x, treasure.position.y, Resource.Image.greyCrystal, 100, 700, 5, 25, 'normal', 2500);
+					treasures.push(newTreasure);
+				break;
+			}
+		});
+		console.log(treasures);
+  }
+  
 
   var update = function(elapsedTime){
+		calculateTreasureCharacterCollisions(this.game, treasures);
 		calculateEnemyCharacterCollisions(this.game, enemies);
 		calculateEnemyCharacterBulletCollisions(this.game,enemies);
 		enemies.forEach( function(enemy) {
 			if(enemy.state=="dead")
 			{
-				this.game.score += enemy.maxHealth;
+				this.game.score += enemy.value;
 				enemies.splice($.inArray(enemy, enemies),1);
 			}
 			enemy.update();
+		});
+		treasures.forEach( function(treasure) {
+			if(treasure.state=="dead")
+			{
+				console.log(treasure.state);
+				this.game.score += treasure.value;
+				treasures.splice($.inArray(treasure, treasures),1);
+			}
+			treasure.update();
 		});
   }
 
@@ -109,6 +138,7 @@ var Level1 = (function (){
 		{
 			renderPortals(screenCtx);
 			renderEnemies(screenCtx);
+			renderTreasures(screenCtx);
 		}
   }
   
@@ -150,6 +180,12 @@ var Level1 = (function (){
 			});
   }
   
+  var renderTreasures =  function(screenCtx){
+	treasures.forEach( function(treasure) {
+		treasure.render(screenCtx);
+	});
+  }
+  
   
   // Expose the module's public API
   return {
@@ -165,7 +201,8 @@ var Level1 = (function (){
 	portal:portal,
 	enemyType1: enemyType1,
 	enemies: enemies,
-	createEnemies: createEnemies
+	createEnemies: createEnemies,
+	createTreasures: createTreasures
   }
 })();
 

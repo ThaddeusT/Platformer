@@ -1,4 +1,4 @@
-var Type1Enemy = function(game, x, y, image,imageLeft, enemyHead, xImageMax, xWalkingmax, xcount, radius, startingState, health, damage) {
+var Type1Enemy = function(game, x, y, image,imageLeft, enemyHead, xImageMax, xWalkingmax, xcount, radius, startingState, health, damage, value) {
 	this.game = game;
 	this.type =1;
 	this.x = x;
@@ -31,6 +31,8 @@ var Type1Enemy = function(game, x, y, image,imageLeft, enemyHead, xImageMax, xWa
 	this.facing = "right";
 	this.downCheckCounter = 0;
 	this.damage = damage;
+	this.pointsCount=0;
+	this.value = value;
 };
 
 Type1Enemy.prototype = {
@@ -89,6 +91,14 @@ Type1Enemy.prototype = {
 			else
 			{
 				this.state = 'dead';
+			}
+			context.fillStyle = "purple";
+			context.font = "bold 12px Arial";
+			context.fillText("+"+this.value, this.x+(this.radius/2),this.y-(this.pointsCount/6));
+			this.pointsCount++;
+			if(this.pointsCount==30)
+			{	
+				this.state='dead';
 			}
 			break;
 		}
@@ -213,11 +223,11 @@ Type1Enemy.prototype = {
 	},
 	
 	collidedWithCharacter: function(){
-		if(!this.game.character.takingDamage)
+		if(!this.game.character.takingDamage && !this.game.character.shielded)
 		{
 			this.game.character.updateHealth(-this.damage);
 		}
-		this.game.character.takingDamage= true;
+		this.game.character.takingDamage = true;
 	},
 	
 	collideWithCharacterBullet: function(radiusOfBullet, pointMultiplier)

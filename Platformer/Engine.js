@@ -14,8 +14,16 @@ var Tilemap = (function (){
 		y:y};
 	this.enemyType = type;
   }
+  var Treasure = function(x,y,type)
+  {
+	this.position = {
+		x:x,
+		y:y};
+	this.treasureType = type;
+  }
   var portals = [];
   var enemies = [];
+  var treasures = [];
   var tiles = [],
 	  tilesets = [],
       layers = [],
@@ -35,8 +43,11 @@ var Tilemap = (function (){
 	layers = [];
 	
 	// could also do portals.length = 0; Slightly more efficient because splice returns a value, not sure if it matters for this small array though.
-	portals.splice(0, 2);
-	enemies.splice(0,enemies.length);
+	// portals.splice(0, 2);
+	// enemies.splice(0,enemies.length);
+	portals.length = 0;
+	enemies.length = 0;
+	treasures.length = 0;
 	
     // Resize the map
     tileWidth = mapData.tilewidth;
@@ -75,6 +86,8 @@ var Tilemap = (function (){
 		  portal:(tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].portal == "true") ? true : false,
 		  Enemy: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].Enemy == "true") ? true : false,
 		  EnemyType: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].EnemyType != "0") ? tilesetmapData.tileproperties[i].EnemyType : 0,
+		  Treasure: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].treasure == "true") ? true : false,
+		  TreasureType: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].treasureType != "0") ? tilesetmapData.tileproperties[i].treasureType : 0,
         }
         tiles.push(tile);
 		if(tile.portal)
@@ -99,6 +112,20 @@ var Tilemap = (function (){
 					if(mapData.layers[0].data[x+y*mapWidth]==tiles.length)
 					{
 						enemies.push(new Enemy(x*tileWidth,y*tileHeight, tile.EnemyType));
+					}
+				}
+			}
+		}
+		if(tile.Treasure)
+		{
+			for(y =0; y<mapHeight; y++)
+			{
+				for(x=0; x<mapWidth; x++)
+				{
+					if(mapData.layers[0].data[x+y*mapWidth]==tiles.length)
+					{
+						var treasure = new Treasure(x*tileWidth,y*tileHeight, tile.TreasureType);
+						treasures.push(treasure);
 					}
 				}
 			}
@@ -160,7 +187,7 @@ var Tilemap = (function (){
 						//screenCtx.drawImage(Portal.image,0,0,102,126,x*tileWidth,y*tileHeight-50,tileWidth*2, tileHeight*2);
 					}
 					else{
-						if(!tile.Enemy)
+						if(!tile.Enemy && !tile.Treasure)
 						{
 							screenCtx.drawImage(
 							  tile.image,     // The image to draw 
@@ -200,6 +227,7 @@ var Tilemap = (function (){
     tileAt: tileAt,
 	portals : portals,
 	enemies : enemies,
+	treasures : treasures,
 	layers : layers
   }
   
@@ -243,6 +271,35 @@ function calculateEnemyCharacterCollisions(game, enemies)
 	});
 }
 
+function calculateTreasureCharacterCollisions(game, treasures)
+{
+	characterX = game.character.x - game.backgroundx*2;
+	characterY = game.character.y;
+	characterRadius = 50;
+	var treasureCount = 0;
+	treasures.forEach( function(treasure) {
+		if(treasureCount == 0)
+		{
+			// console.log(game.character.x+"-"+game.backgroundx*2+"="+characterX);
+			// console.log(Math.abs(characterX-treasure.x));
+			// console.log(characterX+"-"+treasure.x+"="+Math.abs(characterX-treasure.x));
+			if(Math.abs(characterX-treasure.x) < 500 && treasure.state != 'explode' && treasure.state != 'dead')
+			{
+				x = characterX - treasure.x;
+				y = characterY - treasure.y;
+				d = Math.sqrt(x*x + y*y);
+				mindist = characterRadius+treasure.radius;
+				if(d<=mindist)
+				{
+					treasure.collidedWithCharacter();
+				}
+			}
+			treasureCount = 0;
+		}
+		treasureCount++;
+	});
+}
+
 function calculateEnemyCharacterBulletCollisions(game,enemies)
 {
 	game.characterBullets.forEach(function(bullet)
@@ -271,13 +328,11 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 							{
 								enemy.headShotCount = 0;
 								enemy.headShot = true;
-								game.score += bullet.radius;
 							}
 							else if((bullet.y+bullet.radius+8) == (enemy.y+enemy.enemyHead))
 							{
 								enemy.headShotCount = 0;
 								enemy.headShot = true;
-								game.score += bullet.radius;
 							}
 							else{
 								enemy.headShot =false;
