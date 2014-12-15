@@ -49,12 +49,16 @@ var Game = function (canvasId) {
 	};
 	
   // Game variables
+  this.gameover = false;
+  this.gameresetting = false;
   this.score = 0;
   this.lives = 3;
   this.health = 100;
   this.gui = new GUI(this);
   this.levels = [];
   this.levels.push(Level1);
+  this.levels.push(Level2);
+  console.log(this.levels);
   this.level =1;
   this.backgroundx = 0;
   this.backgroundy = 0;
@@ -80,30 +84,55 @@ Game.prototype = {
 	// http://gameprogrammingpatterns.com/update-method.html
 	update: function(elapsedTime) {
 		var self = this;
-		game.levels[game.level-1].update();
-		game.character.update(elapsedTime, this.inputState);
-		game.characterBullets.forEach(function(bullet)
+		if(!game.gameover)
 		{
-			bullet.update(elapsedTime);
-			if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
+			game.levels[game.level-1].update();
+			game.character.update(elapsedTime, this.inputState);
+			game.characterBullets.forEach(function(bullet)
 			{
-				game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
-			}
-			if(bullet.tile){
-				if(bullet.tile.solid){
+				bullet.update(elapsedTime);
+				if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
+				{
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
 				}
-			}
-			if(bullet.collided)
+				if(bullet.tile){
+					if(bullet.tile.solid){
+						game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+					}
+				}
+				if(bullet.collided)
+				{
+					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+				}
+			});		
+			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5)
 			{
-				game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+				this.gui.message("Congratulations You've Beaten Level "+game.level);
+				game.level += 1;
+				console.log(game.level);
+				//To be overriden by tileFaceLeft.solidtileFaceLeft.solid condition.
+				if(game.level > game.levels.length)
+				{
+					game.level = 1;
+				}
+				game.loadLevel();
 			}
-		});		
-		if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5)
-		{
-			this.gui.message("Congratulations You've Beaten Level "+game.level);
-			game.level =1;
-			game.loadLevel();
+		}
+		else{
+			if(!game.gameresetting)
+			{
+				game.gameresetting = true;
+				game.gui.message("GAME OVER");
+				game.gameover = false;
+				game.renderCharacter = false;
+				setTimeout(function(){ 
+					game.level = 1;
+					game.lives = 3;
+					game.health = 100;
+					game.loadLevel();
+					game.gameresetting =false;
+				}, 2000);
+			}
 		}
 	},
 	
@@ -112,7 +141,8 @@ Game.prototype = {
 		// Clear the screen
 		this.backBufferContext.clearRect(0, 0, WIDTH, HEIGHT);
 		//this.backBufferContext.drawImage(game.levels[game.level-1].background.image,game.backgroundx,game.backgroundy,800,500,0,0,800,500);
-		this.backBufferContext.drawImage(game.levels[game.level-1].background.image, game.backgroundx/2, 0);
+		//this.backBufferContext.drawImage(game.levels[game.level-1].background.image, game.backgroundx/2, 0);
+		this.backBufferContext.drawImage(game.levels[game.level-1].background.image, 0,0,game.levels[game.level-1].background.size.x,game.levels[game.level-1].background.size.y,game.backgroundx/2, 0, game.levels[game.level-1].background.size.x, 500);
 		
 		this.backBufferContext.save();
 		this.backBufferContext.translate(game.backgroundx*2,0);
@@ -124,7 +154,7 @@ Game.prototype = {
 		
 		
 		//Render Character
-		if(game.renderCharacter)
+		if(game.renderCharacter && !game.gameresetting)
 		{
 			game.character.render(this.backBufferContext);
 		}
@@ -267,7 +297,6 @@ Game.prototype = {
 		}
 	},
 	
-	
 	loadLevel: function(){
 		var self = this;	
 		keys = {
@@ -277,9 +306,14 @@ Game.prototype = {
 			right: false,
 			q: false
 		};
+		self.inputState.left = false;
+		self.inputState.right = false;
+		self.inputState.up = false;
+		self.inputState.down = false;
 		game.backgroundx = 0;
 		game.backgroundy = 0;
 		game.backgroundLoaded =false;
+		game.levels[game.level-1].load(game.backBufferContext);
 		game.characterInitialx=0;
 		game.renderCharacter = false;
 		game.characterBullets =[];
@@ -376,7 +410,6 @@ var game = new Game('game');
 console.log(game);
 function waitForLoad() {
     if(game.levels[game.level-1].Resource.loading === 0) {
-		game.levels[game.level-1].load(game.backBufferContext);
         game.start();
     }
     else {

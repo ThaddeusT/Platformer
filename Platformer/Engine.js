@@ -1,5 +1,6 @@
 // Tilemap engine defined using the Module pattern
 // See http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
+
 var Tilemap = (function (){
   var Portal = function(x,y){
 	this.offset= {x: 0, y: 0};
@@ -16,7 +17,7 @@ var Tilemap = (function (){
   var portals = [];
   var enemies = [];
   var tiles = [],
-      tilesets = [],
+	  tilesets = [],
       layers = [],
       tileWidth = 0,
       tileHeight = 0,
@@ -24,7 +25,6 @@ var Tilemap = (function (){
       mapHeight = 0,
       screen,
       screenCtx;
-      
   var load = function(mapData, options) {
       
     var loading = 0;
@@ -32,13 +32,17 @@ var Tilemap = (function (){
     // Release old tiles & tilesets
     tiles = [];
     tilesets = [];
-    
+	layers = [];
+	
+	// could also do portals.length = 0; Slightly more efficient because splice returns a value, not sure if it matters for this small array though.
+	portals.splice(0, 2);
+	enemies.splice(0,enemies.length);
+	
     // Resize the map
     tileWidth = mapData.tilewidth;
     tileHeight = mapData.tileheight;
     mapWidth = mapData.width;
     mapHeight = mapData.height;
-    
     // Load the tileset(s)
     mapData.tilesets.forEach( function(tilesetmapData, index) {
       // Load the tileset image
@@ -146,23 +150,26 @@ var Tilemap = (function (){
             
             // tiles with an id of 0 don't exist
             if(tileId != 0) {
-              var tile = tiles[tileId - 1];
-              if(tile.image) { // Make sure the image has loaded
-				if(tile.portal)
-				{
-					//screenCtx.drawImage(Portal.image,0,0,102,126,x*tileWidth,y*tileHeight-50,tileWidth*2, tileHeight*2);
+                var tile = tiles[tileId - 1];
+				if(tile===undefined){
+					console.log(tileId);
 				}
-				else{
-					if(!tile.Enemy)
+				if(tile.image) { // Make sure the image has loaded
+					if(tile.portal)
 					{
-						screenCtx.drawImage(
-						  tile.image,     // The image to draw 
-						  tile.sx, tile.sy, tileWidth, tileHeight, // The portion of image to draw
-						  x*tileWidth, y*tileHeight, tileWidth, tileHeight // Where to draw the image on-screen
-						);
+						//screenCtx.drawImage(Portal.image,0,0,102,126,x*tileWidth,y*tileHeight-50,tileWidth*2, tileHeight*2);
 					}
-				}
-              }
+					else{
+						if(!tile.Enemy)
+						{
+							screenCtx.drawImage(
+							  tile.image,     // The image to draw 
+							  tile.sx, tile.sy, tileWidth, tileHeight, // The portion of image to draw
+							  x*tileWidth, y*tileHeight, tileWidth, tileHeight // Where to draw the image on-screen
+							);
+						}
+					}
+				}			  
             }
             
           }
@@ -192,7 +199,8 @@ var Tilemap = (function (){
     render: render,
     tileAt: tileAt,
 	portals : portals,
-	enemies : enemies
+	enemies : enemies,
+	layers : layers
   }
   
   
@@ -221,7 +229,7 @@ function calculateEnemyCharacterCollisions(game, enemies)
 	characterY = game.character.y;
 	characterRadius = 50;
 	enemies.forEach( function(enemy) {
-		if(Math.abs(characterX-enemy.x) < 500)
+		if(Math.abs(characterX-enemy.x) < 500 && enemy.state != 'explode' && enemy.state != 'dead')
 		{
 			x = characterX - enemy.x;
 			y = characterY - enemy.y;
@@ -252,9 +260,9 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 					case 1:
 						if(Math.abs(bulletx - enemy.x) < 5)
 						{
-							console.log("Distance: "+d+" Range: "+(enemy.radius+bullet.radius));
-							console.log("First Try - Bullet: "+bulletx+","+(bullet.y+bullet.radius+7)+" Enemy: "+enemy.x+","+(enemy.y+enemy.enemyHead));
-							console.log("Second Try - Bullet: "+bulletx+","+(bullet.y+bullet.radius+8)+" Enemy: "+enemy.x+","+(enemy.y+enemy.enemyHead));
+							// console.log("Distance: "+d+" Range: "+(enemy.radius+bullet.radius));
+							// console.log("First Try - Bullet: "+bulletx+","+(bullet.y+bullet.radius+7)+" Enemy: "+enemy.x+","+(enemy.y+enemy.enemyHead));
+							// console.log("Second Try - Bullet: "+bulletx+","+(bullet.y+bullet.radius+8)+" Enemy: "+enemy.x+","+(enemy.y+enemy.enemyHead));
 						}
 						if(d <= enemy.radius+bullet.radius && ((bullet.y+bullet.radius+7) >= enemy.y+enemy.enemyHead || (bullet.y+bullet.radius+8) >= (enemy.y+enemy.enemyHead)))
 						{
