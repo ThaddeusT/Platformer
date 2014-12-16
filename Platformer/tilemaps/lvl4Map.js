@@ -105,7 +105,7 @@ var tilemapDataLvl4 = {"height":10,
             },
          "tilewidth":50
         }, 
-        {
+       {
          "firstgid":7,
          "image":"tilesets\/healthCrystal.png",
          "imageheight":50,
@@ -118,6 +118,16 @@ var tilemapDataLvl4 = {"height":10,
             },
          "spacing":0,
          "tileheight":50,
+         "tileproperties":
+            {
+             "0":
+                {
+                 "portal":"false",
+                 "solid":"false",
+                 "treasure":"true",
+                 "treasureType":"1"
+                }
+            },
          "tilewidth":50
         }, 
         {
@@ -133,21 +143,41 @@ var tilemapDataLvl4 = {"height":10,
             },
          "spacing":0,
          "tileheight":50,
+         "tileproperties":
+            {
+             "0":
+                {
+                 "portal":"false",
+                 "solid":"false",
+                 "treasure":"true",
+                 "treasureType":"2"
+                }
+            },
          "tilewidth":50
         }, 
         {
          "firstgid":9,
-         "image":"tilesets\/pinkCrystal.png",
+         "image":"tilesets\/respawnCrystal.png",
          "imageheight":50,
          "imagewidth":50,
          "margin":0,
-         "name":"pinkCrystal",
+         "name":"respawnCrystal",
          "properties":
             {
 
             },
          "spacing":0,
          "tileheight":50,
+         "tileproperties":
+            {
+             "0":
+                {
+                 "portal":"false",
+                 "solid":"false",
+                 "treasure":"true",
+                 "treasureType":"3"
+                }
+            },
          "tilewidth":50
         }],
  "tilewidth":50,
