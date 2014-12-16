@@ -353,6 +353,9 @@ Character.prototype = {
 		var tileFaceLeft = Tilemap.tileAt(x,this.y+5);
 		var tileRight = Tilemap.tileAt(x+65, this.y+25,0);
 		var jtileRightTop = Tilemap.tileAt(x+65, this.y+10,0);
+		var jtileRightBottom = Tilemap.tileAt(x+65, this.y+60,0);
+		var jtileLeftTop = Tilemap.tileAt(x-15, this.y+10,0);
+		var jtileLeftBottom = Tilemap.tileAt(x-15, this.y+60,0);
 		if(!this.jetPack)
 		{
 			if(this.state!="jumping")
@@ -506,6 +509,7 @@ Character.prototype = {
 		else{
 			//console.log(inputState.up,inputState.down,inputState.right,inputState.left);
 			console.log("Tile Top Right: "+(jtileRightTop === undefined || !jtileRightTop.solid));
+			console.log("Tile Bottom Right: "+(jtileRightBottom === undefined || !jtileRightBottom.solid));
 			if(inputState.up) {
 				if((tileUp === undefined || !tileUp.solid) && this.y>20)
 				{
@@ -520,7 +524,7 @@ Character.prototype = {
 			}
 			if(inputState.right) {
 				this.facing = "right";
-				if(tileRight === undefined || !tileRight.solid){
+				if((jtileRightTop === undefined || !jtileRightTop.solid) && (jtileRightBottom === undefined || !jtileRightBottom.solid)){
 					if(this.x +this.velocity*2 <400)
 					{
 						this.x += this.velocity*2;
@@ -531,7 +535,7 @@ Character.prototype = {
 			if(inputState.left)
 			{
 				this.facing = "left";
-				if(tileLeft === undefined || !tileLeft.solid && (this.x-this.velocity * 2)>0){
+				if((jtileLeftTop === undefined || !jtileLeftTop.solid) && (jtileLeftBottom === undefined || !jtileLeftBottom.solid) && (this.x-this.velocity * 2)>0){
 					if((this.x -this.velocity * 2)>100)
 					{
 						this.x -= this.velocity;
@@ -554,7 +558,7 @@ Character.prototype = {
 				this.damageCount++;
 				if(this.facing == 'right')
 				{
-					if(tileLeft === undefined || !tileLeft.solid)
+					if((jtileLeftTop === undefined || !jtileLeftTop.solid) && (jtileLeftBottom === undefined || !jtileLeftBottom.solid))
 					{
 						if((this.x -this.velocity * 6)>100)
 						{
@@ -569,7 +573,7 @@ Character.prototype = {
 				}
 				else
 				{
-					if(tileRight === undefined || !tileRight.solid){
+					if((jtileRightTop === undefined || !jtileRightTop.solid) && (jtileRightBottom === undefined || !jtileRightBottom.solid)){
 						this.x += this.velocity*6;
 					}
 				}
