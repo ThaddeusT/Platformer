@@ -1,6 +1,6 @@
 var Type1Enemy = function(game, x, y, image,imageLeft, enemyHead, xImageMax, xWalkingmax, xcount, radius, startingState, health, damage, value) {
 	this.game = game;
-	this.type =1;
+	this.type =3;
 	this.x = x;
 	this.y = y;
     this.velocity = 1;
