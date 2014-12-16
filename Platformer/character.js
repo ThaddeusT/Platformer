@@ -234,12 +234,10 @@ Character.prototype = {
 					this.takingDamage = false;
 					this.game.health = 100;
 					this.health = 100;
-					console.log("Current: ",this.x,this.y,this.game.respawnScroll);
 					this.game.backgroundx = this.game.respawnScroll;
 					this.x = this.game.respawnx;
 					this.y = this.game.respawny;
 					this.facing = 'right';
-					console.log("New: ",this.x,this.y,this.game.respawnScroll,this.state);
 					this.state='normal';
 				}
 				else{
@@ -247,7 +245,7 @@ Character.prototype = {
 				}
 			}
 			else{
-				console.log("Character: "+this.x+","+this.y);
+				//console.log("Character: "+this.x+","+this.y);
 			}
 			if(this.shielded)
 			{
@@ -324,6 +322,7 @@ Character.prototype = {
 	enableJetPack: function(){
 		this.jetPack = true;
 		this.state = 'normal';
+		this.jumpcount = 0;
 	},
 	
 	disableJetPack: function(){
@@ -334,7 +333,6 @@ Character.prototype = {
 		this.game.respawnx = x;
 		this.game.respawny = y;
 		this.game.respawnScroll = scroll;
-		console.log("Setting Respawn Point: ",this.game.respawnx,this.game.respawny,this.game.respawnScroll);
 	},
 	
 	fireMissile: function(x, y) {
@@ -365,6 +363,9 @@ Character.prototype = {
 		var jtileRightBottom = Tilemap.tileAt(x+65, this.y+60,0);
 		var jtileLeftTop = Tilemap.tileAt(x-15, this.y+10,0);
 		var jtileLeftBottom = Tilemap.tileAt(x-15, this.y+60,0);
+		console.log(this.jetPack);
+		console.log(inputState.up,inputState.down,inputState.right,inputState.left);
+		console.log(this.state);
 		if(!this.jetPack)
 		{
 			if(this.state!="jumping")
