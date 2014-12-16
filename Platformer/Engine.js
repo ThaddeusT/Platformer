@@ -111,6 +111,7 @@ var Tilemap = (function (){
 				{
 					if(mapData.layers[0].data[x+y*mapWidth]==tiles.length)
 					{
+						console.log(tile.EnemyType);
 						enemies.push(new Enemy(x*tileWidth,y*tileHeight, tile.EnemyType));
 					}
 				}
