@@ -12,6 +12,7 @@ var GUI = function(game) {
 	this.center = document.getElementById("gui-center");
 	this.topLeft = document.getElementById("gui-top-left");
 	this.topLeftBelow = document.getElementById("gui-top-leftBelow");
+	this.topLeftCancel = document.getElementById("gui-top-leftCancel");
 	this.topCenter = document.getElementById("gui-top-center");
 	this.topRight = document.getElementById("gui-top-right");
 	this.bottomLeft = document.getElementById("gui-bottom-left");
@@ -70,6 +71,15 @@ var GUI = function(game) {
 						   src: 'jetpack.png',
 						   alt:'jetpack'})
 						  .appendTo(this.topLeftBelow);
+			this.topLeftCancel.innerHTML = "";
+			if(!this.game.character.jetPack)
+			{
+				var img = $('<img />',
+							 { class: 'cancellation',
+							   src: 'cancelimage.png',
+							   alt:'cancellation'})
+							  .appendTo(this.topLeftCancel);
+			}
 		}
 		// TODO: Render Score
 		this.topRight.innerHTML = this.game.score;

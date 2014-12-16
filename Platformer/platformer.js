@@ -9,7 +9,7 @@ var keys = {
 	right: false,
 	q: false,
 	e: false,
-	j: false
+	w: false
 };
 
 // Fixed time step of 1/60th a second
@@ -110,8 +110,9 @@ Game.prototype = {
 				{
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
 				}
-			});		
-			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5 && Math.abs(game.character.y-(Tilemap.portals[0].postion.y))<50)
+			});	
+		    console.log(Math.abs(game.character.y-(Tilemap.portals[0].postion.y)));
+			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5 && Math.abs(game.character.y-(Tilemap.portals[0].postion.y))<100)
 			{
 				this.gui.message("Congratulations You've Beaten Level "+game.level);
 				game.level += 1;
@@ -190,11 +191,11 @@ Game.prototype = {
 		{
 			keys["e"] = true;
 		}
-		if(e.keyCode == 74)
+		if(e.keyCode == 87)
 		{
 			if(game.jetPackPowerCollected)
 			{
-				keys["j"] = true;
+				keys["w"] = true;
 			}
 		}
 		if(e.keyCode == 37)
@@ -221,7 +222,7 @@ Game.prototype = {
 		{
 			game.character.shield();
 		}
-		if(keys["j"])
+		if(keys["w"])
 		{
 			if(game.character.jetPack)
 			{
@@ -297,9 +298,9 @@ Game.prototype = {
 			keys["e"] = false;
 			game.character.dropShield();
 		}
-		else if(e.keyCode == 74)
+		else if(e.keyCode == 87)
 		{
-			keys["j"] = false;
+			keys["w"] = false;
 		}
 		
 		if(!keys["left"])
