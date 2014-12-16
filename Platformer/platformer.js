@@ -238,6 +238,16 @@ Game.prototype = {
 			this.inputState.up = true;
 			this.inputState.left = true;
 		}
+		else if(!keys["left"] && !keys["up"] && keys["right"] && keys["down"])
+		{
+			this.inputState.down = true;
+			this.inputState.right =true;
+		}
+		else if(keys["left"] && !keys["up"] && !keys["right"] && keys["down"])
+		{
+			this.inputState.down = true;
+			this.inputState.left =true;
+		}
 	},
 	keyUp: function(e)
 	{

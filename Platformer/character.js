@@ -23,6 +23,8 @@ var Character = function(game, x, y, image, imageLeft, jetpackSprite, jetpackLef
 	this.walkingcount =0;
 	this.jetpackx = 0;
 	this.jetpacky = 0;
+	this.jetPackLeftX=700;
+	this.jetPackLeftY=0;
 	this.jetpackcount = 0;
 	this.facing = "right";
 	this.jumpcount=0;
@@ -34,7 +36,7 @@ var Character = function(game, x, y, image, imageLeft, jetpackSprite, jetpackLef
 	this.shieldCount = 0;
 	this.shieldCooldown = 0;
 	this.shieldPower = 100;
-	this.jetPack = true;
+	this.jetPack = false;
 };
 
 Character.prototype = {
@@ -163,18 +165,35 @@ Character.prototype = {
 			context.stroke();
 		}
 		if(this.jetPack){
-			if(this.jetpackx == 700)
+			if(this.facing == 'right')
 			{
-				this.jetpackx = 0;
-			}
-			if(this.jetpackcount==5){
-				this.jetpackx+=100;
-				this.jetpackcount=0;
+				if(this.jetpackx == 700)
+				{
+					this.jetpackx = 0;
+				}
+				if(this.jetpackcount==5){
+					this.jetpackx+=100;
+					this.jetpackcount=0;
+				}
+				else{
+					this.jetpackcount++;
+				}
+				context.drawImage(this.jetPackSheet, this.jetpackx, this.jetpacky, 100, 100,this.x-15,this.y+20, 100,100);
 			}
 			else{
-				this.jetpackcount++;
+				if(this.jetPackLeftX == 0)
+				{
+					this.jetPackLeftX = 700;
+				}
+				if(this.jetpackcount==5){
+					this.jetPackLeftX-=100;
+					this.jetpackcount=0;
+				}
+				else{
+					this.jetpackcount++;
+				}
+				context.drawImage(this.jetPackLeftSheet, this.jetPackLeftX, this.jetPackLeftY, 100, 100,this.x+15,this.y+20, 100,100);
 			}
-			context.drawImage(this.jetPackSheet, this.jetpackx, this.jetpacky, 100, 100,this.x-15,this.y+20, 100,100);
 		}
 		// context.beginPath();
 		// context.rect(this.x,this.y,100,100);
@@ -333,6 +352,7 @@ Character.prototype = {
 		var tileLeft =  Tilemap.tileAt(x-15, this.y+25,0);
 		var tileFaceLeft = Tilemap.tileAt(x,this.y+5);
 		var tileRight = Tilemap.tileAt(x+65, this.y+25,0);
+		var jtileRightTop = Tilemap.tileAt(x+65, this.y+10,0);
 		if(!this.jetPack)
 		{
 			if(this.state!="jumping")
@@ -484,13 +504,15 @@ Character.prototype = {
 			}
 		}
 		else{
+			//console.log(inputState.up,inputState.down,inputState.right,inputState.left);
+			console.log("Tile Top Right: "+(jtileRightTop === undefined || !jtileRightTop.solid));
 			if(inputState.up) {
 				if((tileUp === undefined || !tileUp.solid) && this.y>20)
 				{
 					this.y -= this.velocity*2;
 				}
 			}
-			else if(inputState.down) {
+			if(inputState.down) {
 				if((tileDown === undefined || !tileDown.solid) && ((this.y+100)<500))
 				{
 					this.y += this.velocity * 4;
@@ -504,6 +526,20 @@ Character.prototype = {
 						this.x += this.velocity*2;
 					}
 					this.game.backgroundx -=this.velocity*2;
+				}
+			}
+			if(inputState.left)
+			{
+				this.facing = "left";
+				if(tileLeft === undefined || !tileLeft.solid && (this.x-this.velocity * 2)>0){
+					if((this.x -this.velocity * 2)>100)
+					{
+						this.x -= this.velocity;
+					}
+					if(this.game.backgroundx+this.velocity<0)
+					{
+						this.game.backgroundx +=this.velocity*2;
+					}
 				}
 			}
 		}
