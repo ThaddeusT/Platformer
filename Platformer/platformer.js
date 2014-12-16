@@ -336,7 +336,7 @@ Game.prototype = {
 		game.characterBullets =[];
 		game.levels[game.level-1].setGame(game);
 		game.health = 100;
-		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image);
+		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image,game.levels[game.level-1].jetpack.image, game.levels[game.level-1].jetpackLeft.image);
 		game.characterInitialx = game.character.x;
 		game.respawnx = Tilemap.portals[1].postion.x;
 		game.respawny = Tilemap.portals[1].postion.y-50;
