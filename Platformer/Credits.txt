@@ -19,7 +19,6 @@ Author: CodeHxr
 Source: http://xboxforums.create.msdn.com/forums/t/32476.aspx
 License: Public Domain
 
-
 Music:
 
 battle1_1.ogg by Tyrfing under LGPL 3.0 & 2.1 
@@ -57,11 +56,24 @@ Author: FoxSynergy
 Source: http://opengameart.org/content/soul-star
 License: http://creativecommons.org/licenses/by/3.0/
 
+Sound Effects:
+
 Contributors:
 
+Game Engine design & level 1 design:
 Thaddeus Tuck - thaddeus@ksu.edu
+
+Graphic Desginer:
 Grant Unruh - gunruh@ksu.edu
+
 Matthieu Thibaudeau - matthieu@ksu.edu
+
+Sound Effects:
 Kyle Murphy - kmurph27@ksu.edu
+
+Level 2 design:
+Chris Handyside
+
+Level 3 design:
 Ondrej Kuzela - kuzela@ksu.edu
 Salva Garccia - salva@ksu.edu
