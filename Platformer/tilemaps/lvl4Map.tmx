@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="10" tilewidth="50" tileheight="50">
+ <tileset firstgid="1" name="baseTileSet" tilewidth="50" tileheight="50">
+  <image source="tilesets/baseTileSet.png" width="100" height="100"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="5" name="EnemyType1" tilewidth="50" tileheight="50">
+  <image source="tilesets/EnemyType1.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="Enemy" value="true"/>
+    <property name="EnemyType" value="1"/>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="6" name="portal" tilewidth="50" tileheight="50">
+  <image source="tilesets/portal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="true"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="7" name="healthCrystal" tilewidth="50" tileheight="50">
+  <image source="../../Platformer-master-3/Platformer/tilesets/healthCrystal.png" width="50" height="50"/>
+ </tileset>
+ <tileset firstgid="8" name="jetPackCrystal" tilewidth="50" tileheight="50">
+  <image source="../../Platformer-master-3/Platformer/tilesets/jetPackCrystal.png" width="50" height="50"/>
+ </tileset>
+ <tileset firstgid="9" name="pinkCrystal" tilewidth="50" tileheight="50">
+  <image source="../../Platformer-master-3/Platformer/tilesets/pinkCrystal.png" width="50" height="50"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="200" height="10">
+  <data encoding="base64" compression="zlib">
+   eJztV9kOgjAQBBWP//9hwwMJNrPbmW1LAZlkozZ7X63DEMeY0IU6QLkck+8jyWvxnA1niTGdqdK4auvbA5Sev+bjfPX/Byi1egNZpA/9VueDnZ2Pce7to612Fau399zUtn/E2bf6M83L5Mjn+gzZaTUfrXoqjd/T/8ro2nOfRHxT5n1rMDa9fknPmNoqvbeeA2Zu0FnJjs/xpncfg5xOy6fe90EOpTFFdSM+VpfHz9j0+hLJ3wsJ2V9/5s5ZOes3Arr7UF68u0iVU8Dk8UnKKmD7a3B4GJ3sXojsj9L56A1mPqy8qHfLDLVHIrDemjO8/rBQupOUfcX4w2CtYwJnC6z3CPOOqOUL8mv+f1ojl0fC0eJrORcoZusOUnyrEV9EZpGLvIdVOzm6AXo4pPIjGdXHVF/LHkPx3fhS/GCLmVBjQ7WJ5EOtY7SGnv3SvrqoHrG7ometvs96Bk4=
+  </data>
+ </layer>
+</map>
