@@ -1,18 +1,65 @@
-http://pixgood.com/blue-portal-gif.html
+Sprites: 
 
-2D Blue Robots sprites
-http://c-toy.blogspot.pt/
-kalface@gmail.com, 
-blog  http://c-toy.blogspot.pt/
-Carlos Alface
+Blue Portal gif 
+Source: http://pixgood.com/blue-portal-gif.html 
+License: Public Domain
 
-http://opengameart.org/content/rotating-crystal-animation-8-step
+2D Blue Robots sprites by Carlos Alface under Public Domain
+Author: Carlos Alface, kalface@gmail.com
+Source: http://c-toy.blogspot.pt/
+License: Public Domain
+
+Rotating Crystal Animation by Guboup under CC-BY 3.0
 Author: qubodup
-Friday, June 22, 2012 - 16:19
+Source: http://opengameart.org/content/rotating-crystal-animation-8-step
+License: http://creativecommons.org/licenses/by/3.0/
+
+Explosion.png by CodeHxr under Public Domain
+Author: CodeHxr
+Source: http://xboxforums.create.msdn.com/forums/t/32476.aspx
+License: Public Domain
 
 
+Music:
+
+battle1_1.ogg by Tyrfing under LGPL 3.0 & 2.1 
+Author: Tyrfing
+Source: http://opengameart.org/content/battle-loop
+License: http://www.gnu.org/licenses/lgpl-3.0.html and http://www.gnu.org/licenses/lgpl-2.1.html
+
+Exodus (Spacey Soundtrack) by Sindwiller under CC-BY-SA 3.0 and GPL 3.0
+Author: Sindwiller
+Source: http://opengameart.org/content/exodus-spacey-soundtrack
+License: http://creativecommons.org/licenses/by-sa/3.0/ and http://www.gnu.org/licenses/gpl-3.0.html
+
+accion.ogg by djsaryon under CC-BY-SA 3.0 and GPL 3.0 and GPL 2.0/
+Author: djsaryon
+Source: http://opengameart.org/content/battle-midi
+License: http://creativecommons.org/licenses/by-sa/3.0/ and http://www.gnu.org/licenses/gpl-3.0.html and http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+Intron-Soundtrack by Iamjot under CC-BY 3.0 and CC-BY-SA 3.0
+Author: Iamjot
+Source: http://opengameart.org/content/intron-soundtrack
+License: http://creativecommons.org/licenses/by-sa/3.0/ and http://creativecommons.org/licenses/by/3.0/
+
+Mysterious Ambience(song21) by cynicmusic under CC-BY 3.0, CC-BY-SA 3.0, and GPL 3.0
+Author: cynicmusic
+Source: http://opengameart.org/content/mysterious-ambience-song21
+License: http://creativecommons.org/licenses/by-sa/3.0/ and http://creativecommons.org/licenses/by/3.0/ and http://www.gnu.org/licenses/gpl-3.0.html
+
+Crystal Cave(song 18) by cynicmusic under CC-BY 3.0, CC-BY-SA 3.0, and GPL 3.0
+Author: cynicmusic
+Source: http://opengameart.org/content/mysterious-ambience-song21
+License: http://creativecommons.org/licenses/by-sa/3.0/ and http://creativecommons.org/licenses/by/3.0/ and http://www.gnu.org/licenses/gpl-3.0.html
+
+Soul Star by FoxSynergy under CC-BY 3.0
+Author: FoxSynergy
+Source: http://opengameart.org/content/soul-star
+License: http://creativecommons.org/licenses/by/3.0/
 
 Contributors:
 
 Thaddeus Tuck - thaddeus@ksu.edu
 Grant Unruh - gunruh@ksu.edu
+Matthieu Thibaudeau - matthieu@ksu.edu
+Kyle Murphy - kmurph27@ksu.edu
