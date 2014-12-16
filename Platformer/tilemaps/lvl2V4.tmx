@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="10" tilewidth="50" tileheight="50">
+ <tileset firstgid="1" name="Tileset" tilewidth="50" tileheight="50">
+  <image source="../tilesets/Ex 50x50.png" width="100" height="100"/>
+  <tile id="0">
+   <properties>
+    <property name="Enemy" value="true"/>
+    <property name="EnemyType" value="5"/>
+    <property name="portal" value="false"/>
+    <property name="rotation" value="1"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Enemy" value="true"/>
+    <property name="EnemyType" value="5"/>
+    <property name="portal" value="false"/>
+    <property name="rotation" value="3"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Enemy" value="true"/>
+    <property name="EnemyType" value="5"/>
+    <property name="portal" value="false"/>
+    <property name="rotation" value="2"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="5" name="portal" tilewidth="50" tileheight="50">
+  <image source="../tilesets/portal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="true"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="6" name="EnemyType1" tilewidth="50" tileheight="50">
+  <image source="../tilesets/EnemyType1.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="Enemy" value="true"/>
+    <property name="EnemyType" value="1"/>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="7" name="Bat" tilewidth="50" tileheight="50">
+  <image source="../tilesets/Bat.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="Enemy" value="true"/>
+    <property name="EnemyType" value="2"/>
+    <property name="portal " value="false"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="200" height="10">
+  <data encoding="base64" compression="zlib">
+   eJztlw0LAyEIhtva2v//xyPYQMQ8LS07eiDuLsrs4z0tpRh8VjvwIw/0jTKHw8GLEX1UniZeHO6G9FwVQd/RMzoCNXYGpfJo9IX1Ryd78zayw51lfK4kfSV1nnlMHaugb24OEqBuLOwdfMjo3WOPRvSiseWFRstUjHgJ7O+uETwHrkQHa0IKlQdxtlfgpW+8t8VwrB3PEGQHnzX+XenDKs+ahUTv2nrtuDBG/HMn6X0j6n92dkzwsJ/RU9uWu3vib+rO3BuLvGj5Q73npFs/2H/GuVhBhD20AO/rbH206lYjiROcPnrj8AgRcvVV9zrrebb2kxuDa3vH+NHSAlXHrWeEvKKnYJvUXCV7Z+0Xt2Ye86eeeLyrtpS/XyqxA38=
+  </data>
+ </layer>
+ <objectgroup name="Objects">
+  <object name="Platform2" type="MovingPlatform" x="1600" y="200" width="150" height="50">
+   <properties>
+    <property name="Portal" value="false"/>
+    <property name="Solid" value="true"/>
+   </properties>
+  </object>
+  <object name="Platform1" type="MovingPlatform" x="800" y="350" width="50" height="50">
+   <properties>
+    <property name="Portal" value="false"/>
+    <property name="Solid" value="true"/>
+   </properties>
+  </object>
+  <object name="Platform3" type="MovingPlatform" x="9812" y="400" width="50" height="50">
+   <properties>
+    <property name="Portal" value="false"/>
+    <property name="Solid" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
