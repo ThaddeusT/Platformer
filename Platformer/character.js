@@ -155,15 +155,6 @@ Character.prototype = {
 			}
 			break;
 		}
-		if(this.shielded){
-			context.beginPath();
-			context.fillStyle = "rgba(15, 45, 242, 0.5)";
-			context.arc(this.x+50, this.y+50,63,0,2*Math.PI);
-			context.fill();
-			context.lineWidth = 3;
-			context.strokeStyle = "rgba(15, 45, 242, 0.6)";
-			context.stroke();
-		}
 		if(this.jetPack){
 			if(this.facing == 'right')
 			{
@@ -194,6 +185,15 @@ Character.prototype = {
 				}
 				context.drawImage(this.jetPackLeftSheet, this.jetPackLeftX, this.jetPackLeftY, 100, 100,this.x+15,this.y+20, 100,100);
 			}
+		}
+		if(this.shielded){
+			context.beginPath();
+			context.fillStyle = "rgba(15, 45, 242, 0.5)";
+			context.arc(this.x+50, this.y+50,63,0,2*Math.PI);
+			context.fill();
+			context.lineWidth = 3;
+			context.strokeStyle = "rgba(15, 45, 242, 0.6)";
+			context.stroke();
 		}
 		// context.beginPath();
 		// context.rect(this.x,this.y,100,100);
@@ -518,10 +518,10 @@ Character.prototype = {
 		}
 		else{
 			//console.log(inputState.up,inputState.down,inputState.right,inputState.left);
-			console.log("Tile Top Right: "+(jtileRightTop === undefined || !jtileRightTop.solid));
-			console.log("Tile Bottom Right: "+(jtileRightBottom === undefined || !jtileRightBottom.solid));
+			//console.log("Tile Top Right: "+(jtileRightTop === undefined || !jtileRightTop.solid));
+			//console.log("Tile Bottom Right: "+(jtileRightBottom === undefined || !jtileRightBottom.solid));
 			if(inputState.up) {
-				if((tileUp === undefined || !tileUp.solid) && this.y>20)
+				if((tileUp === undefined || !tileUp.solid) && this.y>0)
 				{
 					this.y -= this.velocity*2;
 				}
