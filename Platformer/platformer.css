@@ -31,6 +31,20 @@
 	padding: 5px;
 }
 
+#gui-top-left {
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	padding: 5px;
+}
+
+#gui-top-leftBelow {
+	position:absolute;
+	top: 60px;
+	left: 0px;
+	padding: 0px;
+}
+
 #gui-top-center{
 	position:absolute;
 	top: 0px;
@@ -73,6 +87,14 @@ span.life {
 	width: 50px;
 	height: 20px;
 	background-image: url("live.png");
+	background-size: 100px 100px;
+}
+span.jetPack {
+	display: block;
+	float: left;
+	width: 50px;
+	height: 20px;
+	background-image: url("jetPack.png");
 	background-size: 100px 100px;
 }
 

@@ -158,7 +158,8 @@ var Level1 = (function (){
 						this.game.character.updateHealth(25);
 					break;
 					case 2:
-						this.game.character.jetPack = true;
+						this.game.jetPackPowerCollected =true;
+						this.game.character.enableJetPack();
 					break;
 					case 3:
 						this.game.character.setRespawnPoint(this.game.character.x,this.game.character.y, this.game.backgroundx);

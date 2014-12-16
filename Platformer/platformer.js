@@ -8,7 +8,8 @@ var keys = {
 	left: false,
 	right: false,
 	q: false,
-	e: false
+	e: false,
+	j: false
 };
 
 // Fixed time step of 1/60th a second
@@ -71,6 +72,7 @@ var Game = function (canvasId) {
   this.respawnScroll = 0;
   this.renderCharacter = false;
   this.characterBullets =[];
+  this.jetPackPowerCollected = true;
   
   // Timing variables
   this.elapsedTime = 0.0;
@@ -188,6 +190,13 @@ Game.prototype = {
 		{
 			keys["e"] = true;
 		}
+		if(e.keyCode == 74)
+		{
+			if(game.jetPackPowerCollected)
+			{
+				keys["j"] = true;
+			}
+		}
 		if(e.keyCode == 37)
 		{
 			keys["left"] = true;
@@ -211,6 +220,17 @@ Game.prototype = {
 		if(keys["e"])
 		{
 			game.character.shield();
+		}
+		if(keys["j"])
+		{
+			if(game.character.jetPack)
+			{
+				game.character.disableJetPack();
+			}
+			else
+			{
+				game.character.enableJetPack();
+			}
 		}
 		if(keys["left"] && !keys["up"] && !keys["right"] && !keys["down"])
 		{
@@ -277,6 +297,10 @@ Game.prototype = {
 			keys["e"] = false;
 			game.character.dropShield();
 		}
+		else if(e.keyCode == 74)
+		{
+			keys["j"] = false;
+		}
 		
 		if(!keys["left"])
 		{
@@ -331,7 +355,9 @@ Game.prototype = {
 			down: false,
 			left: false,
 			right: false,
-			q: false
+			q: false,
+			e: false,
+			j: false
 		};
 		self.inputState.left = false;
 		self.inputState.right = false;

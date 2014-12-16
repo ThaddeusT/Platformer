@@ -321,6 +321,14 @@ Character.prototype = {
 		this.shielded = false;
 	},
 	
+	enableJetPack: function(){
+		this.jetPack = true;
+	},
+	
+	disableJetPack: function(){
+		this.jetPack = false;
+	},
+	
 	setRespawnPoint: function(x,y, scroll){
 		this.game.respawnx = x;
 		this.game.respawny = y;

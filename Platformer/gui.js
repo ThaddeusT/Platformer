@@ -11,6 +11,7 @@ var GUI = function(game) {
 	// GUI panels
 	this.center = document.getElementById("gui-center");
 	this.topLeft = document.getElementById("gui-top-left");
+	this.topLeftBelow = document.getElementById("gui-top-leftBelow");
 	this.topCenter = document.getElementById("gui-top-center");
 	this.topRight = document.getElementById("gui-top-right");
 	this.bottomLeft = document.getElementById("gui-bottom-left");
@@ -61,7 +62,12 @@ var GUI = function(game) {
 			}
 			this.oldLives = this.game.lives;
 		}
-		
+		this.topLeftBelow.innerHTML ="";
+		var img = $('<img />',
+					 { class: 'jetPack',
+					   src: 'jetpack.png',
+					   alt:'jetpack'})
+					  .appendTo(this.topLeftBelow);
 		// TODO: Render Score
 		this.topRight.innerHTML = this.game.score;
 		
