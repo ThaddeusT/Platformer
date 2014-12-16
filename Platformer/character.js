@@ -1,13 +1,10 @@
 
 // Character class
 //----------------------------------
-var Character = function(game, x, y, image, imageLeft, respawnx, respawny, respawnScroll) {
+var Character = function(game, x, y, image, imageLeft) {
 	this.game = game;
 	this.x = x;
 	this.y = y;
-	this.respawnx = respawnx;
-	this.respawny = respawny;
-	this.respawnScroll = respawnScroll;
 	this.velocity = 1;
 	this.health = 100;
 	this.state = "normal";
@@ -32,6 +29,7 @@ var Character = function(game, x, y, image, imageLeft, respawnx, respawny, respa
 	this.shieldCount = 0;
 	this.shieldCooldown = 0;
 	this.shieldPower = 100;
+	
 };
 
 Character.prototype = {
@@ -192,18 +190,26 @@ Character.prototype = {
 			}
 			if(game.health <=0)
 			{
+				this.state = 'dead';
 				this.game.lives--;
 				if(this.game.lives > 0){
+					this.takingDamage = false;
 					this.game.health = 100;
 					this.health = 100;
-					this.game.backgroundx = this.respawnScroll;
-					this.x = this.respawnx;
-					this.y = this.respawny;
+					console.log("Current: ",this.x,this.y,this.game.respawnScroll);
+					this.game.backgroundx = this.game.respawnScroll;
+					this.x = this.game.respawnx;
+					this.y = this.game.respawny;
 					this.facing = 'right';
+					console.log("New: ",this.x,this.y,this.game.respawnScroll,this.state);
+					this.state='normal';
 				}
 				else{
 					this.game.gameover =true;
 				}
+			}
+			else{
+				console.log("Character: "+this.x+","+this.y);
 			}
 			if(this.shielded)
 			{
@@ -277,9 +283,11 @@ Character.prototype = {
 		this.shielded = false;
 	},
 	
-	setRespawnPoint: function(x,y){
-		this.respawnx = x;
-		this.respawny = y;
+	setRespawnPoint: function(x,y, scroll){
+		this.game.respawnx = x;
+		this.game.respawny = y;
+		this.game.respawnScroll = scroll;
+		console.log("Setting Respawn Point: ",this.game.respawnx,this.game.respawny,this.game.respawnScroll);
 	},
 	
 	fireMissile: function(x, y) {
@@ -466,8 +474,16 @@ Character.prototype = {
 				{
 					if(tileLeft === undefined || !tileLeft.solid)
 					{
-						this.x -= this.velocity*6;
+						if((this.x -this.velocity * 6)>100)
+						{
+							this.x -= this.velocity*6;
+						}		
+						if((this.game.backgroundx+this.velocity*2)<0)
+						{
+							this.game.backgroundx +=this.velocity*2;
+						}
 					}
+					
 				}
 				else
 				{
@@ -481,10 +497,17 @@ Character.prototype = {
 	},
 	
 	updateHealth: function(amount){
-		if((this.health + amount) >-1 && (this.health + amount) <100)
+		this.health += amount;
+		this.game.health += amount;
+		if(this.health<0)
 		{
-			this.health += amount;
-			this.game.health += amount;
+			this.health =0;
+			this.game.health =0;
+		}
+		if(this.health >100)
+		{
+			this.health = 100;
+			this.game.health = 100;
 		}
 	},
 	

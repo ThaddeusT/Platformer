@@ -148,7 +148,7 @@ var Level1 = (function (){
 						
 					break;
 					case 3:
-						this.game.character.setRespawnPoint(treasure.x,treasure.y-50);
+						this.game.character.setRespawnPoint(this.game.character.x,this.game.character.y, this.game.backgroundx);
 					break;
 				}
 				
@@ -156,6 +156,7 @@ var Level1 = (function (){
 			}
 			treasure.update();
 		});
+		
   }
 
   var render = function(screenCtx) {

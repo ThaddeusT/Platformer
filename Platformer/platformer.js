@@ -66,6 +66,9 @@ var Game = function (canvasId) {
   this.backgroundLoaded =false;
   this.character;
   this.characterInitialx=0;
+  this.respawnx = 0;
+  this.respawny = 0;
+  this.respawnScroll = 0;
   this.renderCharacter = false;
   this.characterBullets =[];
   
@@ -333,8 +336,11 @@ Game.prototype = {
 		game.characterBullets =[];
 		game.levels[game.level-1].setGame(game);
 		game.health = 100;
-		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.backgroundx);
+		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image);
 		game.characterInitialx = game.character.x;
+		game.respawnx = Tilemap.portals[1].postion.x;
+		game.respawny = Tilemap.portals[1].postion.y-50;
+		game.respawnScroll = game.backgroundx;
 		game.levels[game.level-1].createEnemies(Tilemap.enemies);
 		game.levels[game.level-1].createTreasures(Tilemap.treasures);
 		this.gui.message(

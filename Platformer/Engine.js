@@ -257,7 +257,7 @@ function calculateEnemyCharacterCollisions(game, enemies)
 	characterY = game.character.y;
 	characterRadius = 50;
 	enemies.forEach( function(enemy) {
-		if(Math.abs(characterX-enemy.x) < 500 && enemy.state != 'explode' && enemy.state != 'dead')
+		if(Math.abs(characterX-enemy.x) < 500 && enemy.state != 'explode' && enemy.state != 'dead' && game.character.state != 'dead')
 		{
 			x = characterX - enemy.x;
 			y = characterY - enemy.y;
@@ -282,9 +282,9 @@ function calculateTreasureCharacterCollisions(game, treasures)
 		// {
 			if(Math.abs(characterX-treasure.x) < 1000)
 			{
-				console.log(game.character.x+"-"+game.backgroundx*2+"="+characterX);
-				console.log(Math.abs(characterX-treasure.x));
-				console.log(characterX+"-"+treasure.x+"="+Math.abs(characterX-treasure.x));
+				// console.log(game.character.x+"-"+game.backgroundx*2+"="+characterX);
+				// console.log(Math.abs(characterX-treasure.x));
+				// console.log(characterX+"-"+treasure.x+"="+Math.abs(characterX-treasure.x));
 			}
 			if(Math.abs(characterX-treasure.x) < 500 && treasure.state != 'explode' && treasure.state != 'dead')
 			{
@@ -292,7 +292,7 @@ function calculateTreasureCharacterCollisions(game, treasures)
 				y = characterY - treasure.y;
 				d = Math.sqrt(x*x + y*y);
 				mindist = characterRadius+treasure.radius;
-				console.log(d,mindist);
+				// console.log(d,mindist);
 				if(d<=mindist)
 				{
 					treasure.collidedWithCharacter();
