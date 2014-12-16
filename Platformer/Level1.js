@@ -1,11 +1,13 @@
 var Level1 = (function (){
 	this.game;
 	var Resource = {
-		loading: 9,
+		loading: 11,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
 		   characterLeft: new Image(),
+		   jetpack: new Image(),
+		   jetpackLeft: new Image(),
 		   portal: new Image(),
 		   enemyType1: new Image(),
 		   enemyType1Left: new Image(),
@@ -23,6 +25,8 @@ var Level1 = (function (){
 	Resource.Image.background.onload = onload;
 	Resource.Image.character.onload = onload;
 	Resource.Image.characterLeft.onload = onload;
+	Resource.Image.jetpack.onload = onload;
+	Resource.Image.jetpackLeft.onload = onload;
 	Resource.Image.portal.onload = onload;
 	Resource.Image.enemyType1.onload = onload;
 	Resource.Image.enemyType1Left.onload = onload;
@@ -32,6 +36,8 @@ var Level1 = (function (){
 	Resource.Image.background.src = "background.png";
 	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
 	Resource.Image.characterLeft.src = "mainCharacterSpriteSheet100Left.png";
+	Resource.Image.jetpack.src = "jetpackSpriteSheet100.png";
+	Resource.Image.jetpackLeft.src = "jetpackSpriteSheet100Left.png";
 	Resource.Image.portal.src = "portalSpriteSheet.png";
 	Resource.Image.enemyType1.src ="Robot_Blue1_SpriteSheet.png";
 	Resource.Image.enemyType1Left.src ="Robot_Blue1_SpriteSheetLeft.png"
@@ -58,6 +64,13 @@ var Level1 = (function (){
   var characterLeft ={
 	image: Resource.Image.characterLeft
   }
+  var jetpack ={
+	image: Resource.Image.jetpack
+  }
+  var jetpackLeft = {
+	image: Resource.Image.jetpackLeft
+  }
+  
   var portal ={
 	image: Resource.Image.portal,
 	portalx: 0,
@@ -145,7 +158,8 @@ var Level1 = (function (){
 						this.game.character.updateHealth(25);
 					break;
 					case 2:
-						
+						this.game.jetPackPowerCollected =true;
+						this.game.character.enableJetPack();
 					break;
 					case 3:
 						this.game.character.setRespawnPoint(this.game.character.x,this.game.character.y, this.game.backgroundx);
@@ -224,11 +238,13 @@ var Level1 = (function (){
 	Resource : Resource,
 	character : character,
 	characterLeft : characterLeft,
-	portal:portal,
-	enemyType1: enemyType1,
-	enemies: enemies,
-	createEnemies: createEnemies,
-	createTreasures: createTreasures
+	jetpack : jetpack,
+	jetpackLeft: jetpackLeft,
+	portal : portal,
+	enemyType1 : enemyType1,
+	enemies : enemies,
+	createEnemies : createEnemies,
+	createTreasures : createTreasures
   }
 })();
 

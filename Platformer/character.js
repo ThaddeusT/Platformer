@@ -1,7 +1,7 @@
 
 // Character class
 //----------------------------------
-var Character = function(game, x, y, image, imageLeft) {
+var Character = function(game, x, y, image, imageLeft, jetpackSprite, jetpackLeftSprite) {
 	this.game = game;
 	this.x = x;
 	this.y = y;
@@ -14,11 +14,18 @@ var Character = function(game, x, y, image, imageLeft) {
 	this.weaponState = "rest";
 	this.sprite_sheet = image;
 	this.sprite_sheet_left = imageLeft;
+	this.jetPackSheet = jetpackSprite;
+	this.jetPackLeftSheet = jetpackLeftSprite;
 	this.walkingx = 0;
 	this.walkingy = 0;
 	this.walkingLeftX=700;
 	this.walkingLeftY=0;
 	this.walkingcount =0;
+	this.jetpackx = 0;
+	this.jetpacky = 0;
+	this.jetPackLeftX=700;
+	this.jetPackLeftY=0;
+	this.jetpackcount = 0;
 	this.facing = "right";
 	this.jumpcount=0;
 	this.hitcealing = false;
@@ -29,7 +36,7 @@ var Character = function(game, x, y, image, imageLeft) {
 	this.shieldCount = 0;
 	this.shieldCooldown = 0;
 	this.shieldPower = 100;
-	
+	this.jetPack = false;
 };
 
 Character.prototype = {
@@ -157,6 +164,37 @@ Character.prototype = {
 			context.strokeStyle = "rgba(15, 45, 242, 0.6)";
 			context.stroke();
 		}
+		if(this.jetPack){
+			if(this.facing == 'right')
+			{
+				if(this.jetpackx == 700)
+				{
+					this.jetpackx = 0;
+				}
+				if(this.jetpackcount==5){
+					this.jetpackx+=100;
+					this.jetpackcount=0;
+				}
+				else{
+					this.jetpackcount++;
+				}
+				context.drawImage(this.jetPackSheet, this.jetpackx, this.jetpacky, 100, 100,this.x-15,this.y+20, 100,100);
+			}
+			else{
+				if(this.jetPackLeftX == 0)
+				{
+					this.jetPackLeftX = 700;
+				}
+				if(this.jetpackcount==5){
+					this.jetPackLeftX-=100;
+					this.jetpackcount=0;
+				}
+				else{
+					this.jetpackcount++;
+				}
+				context.drawImage(this.jetPackLeftSheet, this.jetPackLeftX, this.jetPackLeftY, 100, 100,this.x+15,this.y+20, 100,100);
+			}
+		}
 		// context.beginPath();
 		// context.rect(this.x,this.y,100,100);
 		// context.stroke();
@@ -196,12 +234,10 @@ Character.prototype = {
 					this.takingDamage = false;
 					this.game.health = 100;
 					this.health = 100;
-					console.log("Current: ",this.x,this.y,this.game.respawnScroll);
 					this.game.backgroundx = this.game.respawnScroll;
 					this.x = this.game.respawnx;
 					this.y = this.game.respawny;
 					this.facing = 'right';
-					console.log("New: ",this.x,this.y,this.game.respawnScroll,this.state);
 					this.state='normal';
 				}
 				else{
@@ -209,7 +245,7 @@ Character.prototype = {
 				}
 			}
 			else{
-				console.log("Character: "+this.x+","+this.y);
+				//console.log("Character: "+this.x+","+this.y);
 			}
 			if(this.shielded)
 			{
@@ -283,11 +319,20 @@ Character.prototype = {
 		this.shielded = false;
 	},
 	
+	enableJetPack: function(){
+		this.jetPack = true;
+		this.state = 'normal';
+		this.jumpcount = 0;
+	},
+	
+	disableJetPack: function(){
+		this.jetPack = false;
+	},
+	
 	setRespawnPoint: function(x,y, scroll){
 		this.game.respawnx = x;
 		this.game.respawny = y;
 		this.game.respawnScroll = scroll;
-		console.log("Setting Respawn Point: ",this.game.respawnx,this.game.respawny,this.game.respawnScroll);
 	},
 	
 	fireMissile: function(x, y) {
@@ -314,96 +359,185 @@ Character.prototype = {
 		var tileLeft =  Tilemap.tileAt(x-15, this.y+25,0);
 		var tileFaceLeft = Tilemap.tileAt(x,this.y+5);
 		var tileRight = Tilemap.tileAt(x+65, this.y+25,0);
-		if(this.state!="jumping")
-			{
-		if(inputState.up) {
-			if(this.state!="jumping"){
-				this.hitcealing = false;
-			}
-			if(this.jumpcount==0)
-			{
-				this.state="jumping";
-			}
-		} 
-		else if(inputState.down) {
-			if(this.state != 'jumping')
-			{
-				this.state = "crouching";
-			}
-		}
-		else if(inputState.left) {
-			this.facing = "left";
-			this.state="walkingLeft";
-			if(tileFaceLeft === undefined)
-			{
-			}
-			else{
-				console.log(tileFaceLeft.solid);
-			}
-			if(tileLeft === undefined || !tileLeft.solid){
-				if((this.x -this.velocity)>100)
+		var jtileRightTop = Tilemap.tileAt(x+65, this.y+10,0);
+		var jtileRightBottom = Tilemap.tileAt(x+65, this.y+60,0);
+		var jtileLeftTop = Tilemap.tileAt(x-15, this.y+10,0);
+		var jtileLeftBottom = Tilemap.tileAt(x-15, this.y+60,0);
+		console.log(this.jetPack);
+		console.log(inputState.up,inputState.down,inputState.right,inputState.left);
+		console.log(this.state);
+		if(!this.jetPack)
+		{
+			if(this.state!="jumping")
 				{
-					this.x -= this.velocity;
+			if(inputState.up) {
+				if(this.state!="jumping"){
+					this.hitcealing = false;
 				}
-				if(this.game.backgroundx+this.velocity<0)
+				if(this.jumpcount==0)
 				{
-					this.game.backgroundx +=this.velocity*2;
+					this.state="jumping";
+				}
+			} 
+			else if(inputState.down) {
+				if(this.state != 'jumping')
+				{
+					this.state = "crouching";
 				}
 			}
-			if(tileDown === undefined || !tileDown.solid)
-			{
-				this.y += this.velocity * 10;
-			}
-		} 
-		else if(inputState.right) {
-			this.facing = "right";
-			this.state="walkingRight";
-			if(tileRight === undefined){
-				if(this.x +this.velocity <400)
+			else if(inputState.left) {
+				this.facing = "left";
+				this.state="walkingLeft";
+				if(tileFaceLeft === undefined)
 				{
-					this.x += this.velocity;
 				}
-				this.game.backgroundx -=this.velocity*2;
-			}
-			else{
-				if(!tileRight.solid)
+				else{
+					console.log(tileFaceLeft.solid);
+				}
+				if(tileLeft === undefined || !tileLeft.solid){
+					if((this.x -this.velocity)>100)
+					{
+						this.x -= this.velocity;
+					}
+					if(this.game.backgroundx+this.velocity<0)
+					{
+						this.game.backgroundx +=this.velocity*2;
+					}
+				}
+				if(tileDown === undefined || !tileDown.solid)
 				{
-					if((this.x +this.velocity) <300)
+					this.y += this.velocity * 10;
+				}
+			} 
+			else if(inputState.right) {
+				this.facing = "right";
+				this.state="walkingRight";
+				if(tileRight === undefined){
+					if(this.x +this.velocity <400)
 					{
 						this.x += this.velocity;
 					}
 					this.game.backgroundx -=this.velocity*2;
 				}
+				else{
+					if(!tileRight.solid)
+					{
+						if((this.x +this.velocity) <300)
+						{
+							this.x += this.velocity;
+						}
+						this.game.backgroundx -=this.velocity*2;
+					}
+				}
+				if(tileDown === undefined || !tileDown.solid)
+				{
+					this.y += this.velocity * 10;
+				}
+				else{
+					this.y = Math.floor(this.y/50)*50;
+				}
+			} 
+			else {
+				this.state ="normal";
+				if(tileDown === undefined || !tileDown.solid)
+				{
+					this.y += this.velocity * 9;
+				}
+				else{
+					this.y = Math.floor(this.y/50)*50;
+				}
 			}
-			if(tileDown === undefined || !tileDown.solid)
+			}
+			//calculate for jumping
+			if(this.state == "jumping")
 			{
-				this.y += this.velocity * 10;
-			}
-			else{
-				this.y = Math.floor(this.y/50)*50;
-			}
-		} 
-		else {
-			this.state ="normal";
-			if(tileDown === undefined || !tileDown.solid)
-			{
-				this.y += this.velocity * 9;
-			}
-			else{
-				this.y = Math.floor(this.y/50)*50;
+				this.jumpcount++;
+				if(inputState.right) {
+					this.facing = "right";
+					if(tileRight === undefined || !tileRight.solid){
+						if((this.x +this.velocity * 2) <400)
+						{
+							this.x += this.velocity;
+						}
+						this.game.backgroundx -=this.velocity*2;
+					}
+				}
+				if(inputState.left)
+				{
+					this.facing = "left";
+					if(tileLeft === undefined || !tileLeft.solid && (this.x-this.velocity * 2)>0){
+						if((this.x -this.velocity * 2)>100)
+						{
+							this.x -= this.velocity;
+						}
+						
+						if(this.game.backgroundx+this.velocity<0)
+						{
+							this.game.backgroundx +=this.velocity*2;
+						}
+					}
+				}
+				if(this.jumpcount<30)
+				{
+					if(tileUp === undefined || !tileUp.solid)
+					{
+						if (this.hitcealing === false)
+						{
+							this.y -= this.velocity * 4;
+						}
+					}
+					else{
+						this.jumpcount = 31;
+						this.hitcealing = true;
+					}
+				}
+				if(this.jumpcount >30)
+				{
+					if((tileDown === undefined || !tileDown.solid) && (tileDownRight === undefined || !tileDownRight.solid))
+					{
+						if (this.jumpcount < 61) 
+						{
+							this.y += this.velocity*6;
+						}
+						else if (this.jumpcount > 61)
+						{
+							this.y += this.velocity * 9;
+						}
+					}
+					else{
+						this.jumpcount = 0;
+						this.state = "normal";
+						this.y = Math.floor(this.y/50)*50;
+					}
+				}
+				//if(this.jumpcount >61)
+				//{
+					//this.state ="normal";
+				//}
 			}
 		}
-		}
-		//calculate for jumping
-		if(this.state == "jumping")
-		{
-			this.jumpcount++;
+		else{
+			//console.log(inputState.up,inputState.down,inputState.right,inputState.left);
+			console.log("Tile Top Right: "+(jtileRightTop === undefined || !jtileRightTop.solid));
+			console.log("Tile Bottom Right: "+(jtileRightBottom === undefined || !jtileRightBottom.solid));
+			if(inputState.up) {
+				if((tileUp === undefined || !tileUp.solid) && this.y>20)
+				{
+					this.y -= this.velocity*2;
+				}
+			}
+			if(inputState.down) {
+				if((tileDown === undefined || !tileDown.solid) && ((this.y+100)<500))
+				{
+					this.y += this.velocity * 4;
+				}
+			}
 			if(inputState.right) {
 				this.facing = "right";
-				if(tileRight === undefined || !tileRight.solid){
-					if((this.x +this.velocity * 2) <400)
+				if((jtileRightTop === undefined || !jtileRightTop.solid) && (jtileRightBottom === undefined || !jtileRightBottom.solid)){
+					if(this.x +this.velocity*2 <400)
 					{
-						this.x += this.velocity;
+						this.x += this.velocity*2;
 					}
 					this.game.backgroundx -=this.velocity*2;
 				}
@@ -411,55 +545,17 @@ Character.prototype = {
 			if(inputState.left)
 			{
 				this.facing = "left";
-				if(tileLeft === undefined || !tileLeft.solid && (this.x-this.velocity * 2)>0){
+				if((jtileLeftTop === undefined || !jtileLeftTop.solid) && (jtileLeftBottom === undefined || !jtileLeftBottom.solid) && (this.x-this.velocity * 2)>0){
 					if((this.x -this.velocity * 2)>100)
 					{
 						this.x -= this.velocity;
 					}
-					
 					if(this.game.backgroundx+this.velocity<0)
 					{
 						this.game.backgroundx +=this.velocity*2;
 					}
 				}
 			}
-			if(this.jumpcount<30)
-			{
-				if(tileUp === undefined || !tileUp.solid)
-				{
-					if (this.hitcealing === false)
-					{
-						this.y -= this.velocity * 4;
-					}
-				}
-				else{
-					this.jumpcount = 31;
-					this.hitcealing = true;
-				}
-			}
-			if(this.jumpcount >30)
-			{
-				if((tileDown === undefined || !tileDown.solid) && (tileDownRight === undefined || !tileDownRight.solid))
-				{
-					if (this.jumpcount < 61) 
-					{
-						this.y += this.velocity*6;
-					}
-					else if (this.jumpcount > 61)
-					{
-						this.y += this.velocity * 9;
-					}
-				}
-				else{
-					this.jumpcount = 0;
-					this.state = "normal";
-					this.y = Math.floor(this.y/50)*50;
-				}
-			}
-			//if(this.jumpcount >61)
-			//{
-				//this.state ="normal";
-			//}
 		}
 		if(this.takingDamage)
 		{
@@ -472,7 +568,7 @@ Character.prototype = {
 				this.damageCount++;
 				if(this.facing == 'right')
 				{
-					if(tileLeft === undefined || !tileLeft.solid)
+					if((jtileLeftTop === undefined || !jtileLeftTop.solid) && (jtileLeftBottom === undefined || !jtileLeftBottom.solid))
 					{
 						if((this.x -this.velocity * 6)>100)
 						{
@@ -487,7 +583,7 @@ Character.prototype = {
 				}
 				else
 				{
-					if(tileRight === undefined || !tileRight.solid){
+					if((jtileRightTop === undefined || !jtileRightTop.solid) && (jtileRightBottom === undefined || !jtileRightBottom.solid)){
 						this.x += this.velocity*6;
 					}
 				}

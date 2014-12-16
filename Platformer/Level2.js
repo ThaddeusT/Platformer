@@ -1,14 +1,19 @@
 var Level2 = (function (){
 	this.game;
 	var Resource = {
-		loading: 6,
+		loading: 11,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
 		   characterLeft: new Image(),
+		   jetpack: new Image(),
+		   jetpackLeft: new Image(),
 		   portal: new Image(),
 		   enemyType1: new Image(),
-		   enemyType1Left: new Image()
+		   enemyType1Left: new Image(),
+		   greenCrystal: new Image(),
+		   redCrystal: new Image(),
+		   blueCrystal: new Image()
 		},
 		Music: {
 			
@@ -20,15 +25,25 @@ var Level2 = (function (){
 	Resource.Image.background.onload = onload;
 	Resource.Image.character.onload = onload;
 	Resource.Image.characterLeft.onload = onload;
+	Resource.Image.jetpack.onload = onload;
+	Resource.Image.jetpackLeft.onload = onload;
 	Resource.Image.portal.onload = onload;
 	Resource.Image.enemyType1.onload = onload;
 	Resource.Image.enemyType1Left.onload = onload;
+	Resource.Image.greenCrystal.onload = onload;
+	Resource.Image.blueCrystal.onload = onload;
+	Resource.Image.redCrystal.onload = onload;
 	Resource.Image.background.src = "background.png";
 	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
 	Resource.Image.characterLeft.src = "mainCharacterSpriteSheet100Left.png";
+	Resource.Image.jetpack.src = "jetpackSpriteSheet100.png";
+	Resource.Image.jetpackLeft.src = "jetpackSpriteSheet100Left.png";
 	Resource.Image.portal.src = "portalSpriteSheet.png";
 	Resource.Image.enemyType1.src ="Robot_Blue1_SpriteSheet.png";
 	Resource.Image.enemyType1Left.src ="Robot_Blue1_SpriteSheetLeft.png"
+	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
+	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
+	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
 	
 	function onload(){
 		Resource.loading -= 1;
@@ -49,6 +64,13 @@ var Level2 = (function (){
   var characterLeft ={
 	image: Resource.Image.characterLeft
   }
+  var jetpack ={
+	image: Resource.Image.jetpack
+  }
+  var jetpackLeft = {
+	image: Resource.Image.jetpackLeft
+  }
+  
   var portal ={
 	image: Resource.Image.portal,
 	portalx: 0,
@@ -62,6 +84,7 @@ var Level2 = (function (){
 	image: Resource.Image.enemyType1Left
   }
   var enemies = []
+  var treasures = []
   
   var setBackground = function(image){
 	Resource.Image.background = image;
@@ -74,7 +97,6 @@ var Level2 = (function (){
 			onload: function() {
 			  // Tilemap.render(screenCtx);
 			  console.log('Tilemap Loaded');
-			  console.log(Tilemap.layers);
 			}
 		  });
   }
@@ -85,35 +107,43 @@ var Level2 = (function (){
 			switch(enemy.enemyType)
 			{
 				case "1":
-					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10);
+					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10,250);
 					enemies.push(newEnemy);
 				break;
 			}
 		});
   }
-
+  
   var createTreasures = function(ctreasures){
-		treasures = []
+		treasures = [];
 		ctreasures.forEach( function(treasure) {
 			switch(treasure.treasureType)
 			{
 				case "1":
-					var newTreasure = new Type1Treasure(this.game, treasure.position.x, treasure.position.y, Resource.Image.greyCrystal, 100, 700, 5, 25, 'normal', 2500);
+					var newTreasure = new Type1Treasure(this.game, treasure.position.x, treasure.position.y, Resource.Image.greenCrystal, 1, 100, 700, 5, 25, 'normal', 2500);
+					treasures.push(newTreasure);
+				break;
+				case "2":
+					var newTreasure = new Type1Treasure(this.game, treasure.position.x, treasure.position.y, Resource.Image.redCrystal, 2, 100, 700, 5, 25, 'normal', 2500);
+					treasures.push(newTreasure);
+				break;
+				case "3":
+					var newTreasure = new Type1Treasure(this.game, treasure.position.x, treasure.position.y, Resource.Image.blueCrystal, 3, 100, 700, 5, 25, 'normal', 2500);
 					treasures.push(newTreasure);
 				break;
 			}
 		});
-		console.log(treasures);
   }
   
-  
+
   var update = function(elapsedTime){
+		calculateTreasureCharacterCollisions(this.game, treasures);
 		calculateEnemyCharacterCollisions(this.game, enemies);
 		calculateEnemyCharacterBulletCollisions(this.game,enemies);
 		enemies.forEach( function(enemy) {
 			if(enemy.state=="dead")
 			{
-				this.game.score += enemy.maxHealth;
+				this.game.score += enemy.value;
 				enemies.splice($.inArray(enemy, enemies),1);
 			}
 			enemy.update();
@@ -121,17 +151,35 @@ var Level2 = (function (){
 		treasures.forEach( function(treasure) {
 			if(treasure.state=="dead")
 			{
-				console.log(treasure.state);
 				this.game.score += treasure.value;
+				switch(treasure.type)
+				{
+					case 1:
+						this.game.character.updateHealth(25);
+					break;
+					case 2:
+						this.game.jetPackPowerCollected =true;
+						this.game.character.enableJetPack();
+					break;
+					case 3:
+						this.game.character.setRespawnPoint(this.game.character.x,this.game.character.y, this.game.backgroundx);
+					break;
+				}
+				
 				treasures.splice($.inArray(treasure, treasures),1);
 			}
 			treasure.update();
 		});
+		
   }
 
   var render = function(screenCtx) {
-		renderPortals(screenCtx);
-		renderEnemies(screenCtx);
+		if(!game.gameresetting)
+		{
+			renderPortals(screenCtx);
+			renderEnemies(screenCtx);
+			renderTreasures(screenCtx);
+		}
   }
   
   var renderPortals = function(screenCtx)
@@ -172,7 +220,7 @@ var Level2 = (function (){
 			});
   }
   
-    var renderTreasures =  function(screenCtx){
+  var renderTreasures =  function(screenCtx){
 	treasures.forEach( function(treasure) {
 		treasure.render(screenCtx);
 	});
@@ -190,10 +238,12 @@ var Level2 = (function (){
 	Resource : Resource,
 	character : character,
 	characterLeft : characterLeft,
-	portal:portal,
-	enemyType1: enemyType1,
-	enemies: enemies,
-	createEnemies: createEnemies,
-	createTreasures: createTreasures
+	jetpack : jetpack,
+	jetpackLeft: jetpackLeft,
+	portal : portal,
+	enemyType1 : enemyType1,
+	enemies : enemies,
+	createEnemies : createEnemies,
+	createTreasures : createTreasures
   }
 })();

@@ -8,7 +8,8 @@ var keys = {
 	left: false,
 	right: false,
 	q: false,
-	e: false
+	e: false,
+	w: false
 };
 
 // Fixed time step of 1/60th a second
@@ -71,6 +72,7 @@ var Game = function (canvasId) {
   this.respawnScroll = 0;
   this.renderCharacter = false;
   this.characterBullets =[];
+  this.jetPackPowerCollected = false;
   
   // Timing variables
   this.elapsedTime = 0.0;
@@ -108,8 +110,8 @@ Game.prototype = {
 				{
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
 				}
-			});		
-			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5)
+			});	
+			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5 && Math.abs(game.character.y-(Tilemap.portals[0].postion.y))<100)
 			{
 				this.gui.message("Congratulations You've Beaten Level "+game.level);
 				game.level += 1;
@@ -188,6 +190,13 @@ Game.prototype = {
 		{
 			keys["e"] = true;
 		}
+		if(e.keyCode == 87)
+		{
+			if(game.jetPackPowerCollected)
+			{
+				keys["w"] = true;
+			}
+		}
 		if(e.keyCode == 37)
 		{
 			keys["left"] = true;
@@ -211,6 +220,17 @@ Game.prototype = {
 		if(keys["e"])
 		{
 			game.character.shield();
+		}
+		if(keys["w"])
+		{
+			if(game.character.jetPack)
+			{
+				game.character.disableJetPack();
+			}
+			else
+			{
+				game.character.enableJetPack();
+			}
 		}
 		if(keys["left"] && !keys["up"] && !keys["right"] && !keys["down"])
 		{
@@ -237,6 +257,16 @@ Game.prototype = {
 		{
 			this.inputState.up = true;
 			this.inputState.left = true;
+		}
+		else if(!keys["left"] && !keys["up"] && keys["right"] && keys["down"])
+		{
+			this.inputState.down = true;
+			this.inputState.right =true;
+		}
+		else if(keys["left"] && !keys["up"] && !keys["right"] && keys["down"])
+		{
+			this.inputState.down = true;
+			this.inputState.left =true;
 		}
 	},
 	keyUp: function(e)
@@ -266,6 +296,10 @@ Game.prototype = {
 		{
 			keys["e"] = false;
 			game.character.dropShield();
+		}
+		else if(e.keyCode == 87)
+		{
+			keys["w"] = false;
 		}
 		
 		if(!keys["left"])
@@ -321,7 +355,9 @@ Game.prototype = {
 			down: false,
 			left: false,
 			right: false,
-			q: false
+			q: false,
+			e: false,
+			j: false
 		};
 		self.inputState.left = false;
 		self.inputState.right = false;
@@ -336,7 +372,7 @@ Game.prototype = {
 		game.characterBullets =[];
 		game.levels[game.level-1].setGame(game);
 		game.health = 100;
-		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image);
+		game.character = new Character(game,Tilemap.portals[1].postion.x,Tilemap.portals[1].postion.y-50,game.levels[game.level-1].character.image,game.levels[game.level-1].characterLeft.image,game.levels[game.level-1].jetpack.image, game.levels[game.level-1].jetpackLeft.image);
 		game.characterInitialx = game.character.x;
 		game.respawnx = Tilemap.portals[1].postion.x;
 		game.respawny = Tilemap.portals[1].postion.y-50;
