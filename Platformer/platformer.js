@@ -111,7 +111,7 @@ Game.prototype = {
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
 				}
 			});		
-			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5)
+			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5 && Math.abs(game.character.y-(Tilemap.portals[0].postion.y))<50)
 			{
 				this.gui.message("Congratulations You've Beaten Level "+game.level);
 				game.level += 1;
