@@ -16,7 +16,7 @@ var Level1 = (function (){
 		   blueCrystal: new Image()
 		},
 		Music: {
-			
+			level_1_music: new Audio()
 		},
 		Sfx: {
 			
@@ -44,7 +44,14 @@ var Level1 = (function (){
 	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
-	
+    Resource.Music.level_1_music.src = "Levelmusic/Soul Star v1_0.mp3";
+	Resource.Music.level_1_music.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    
+    
+    
 	function onload(){
 		Resource.loading -= 1;
 	}
@@ -99,6 +106,7 @@ var Level1 = (function (){
 			  console.log('Tilemap Loaded');
 			}
 		  });
+          Resource.Music.level_1_music.play();
   }
   
   var createEnemies = function(cenemies){
@@ -112,6 +120,10 @@ var Level1 = (function (){
 				break;
 			}
 		});
+  }
+  
+  var stopLevelMusic = function() {
+    Resource.Music.level_1_music.pause();
   }
   
   var createTreasures = function(ctreasures){
@@ -244,7 +256,8 @@ var Level1 = (function (){
 	enemyType1 : enemyType1,
 	enemies : enemies,
 	createEnemies : createEnemies,
-	createTreasures : createTreasures
+	createTreasures : createTreasures,
+    stopLevelMusic : stopLevelMusic
   }
 })();
 

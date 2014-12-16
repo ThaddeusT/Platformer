@@ -16,7 +16,7 @@ var Level2 = (function (){
 		   blueCrystal: new Image()
 		},
 		Music: {
-			
+			level_2_music: new Audio()
 		},
 		Sfx: {
 			
@@ -44,7 +44,13 @@ var Level2 = (function (){
 	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
-	
+	Resource.Music.level_2_music.src = "Levelmusic/acci_n_.mp3";
+	Resource.Music.level_2_music.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    
+    
 	function onload(){
 		Resource.loading -= 1;
 	}
@@ -99,6 +105,11 @@ var Level2 = (function (){
 			  console.log('Tilemap Loaded');
 			}
 		  });
+          Resource.Music.level_2_music.play();
+  }
+  
+  var stopLevelMusic = function() {
+    Resource.Music.level_2_music.pause();
   }
   
   var createEnemies = function(cenemies){
