@@ -60,6 +60,7 @@ var Game = function (canvasId) {
   this.levels = [];
   this.levels.push(Level1);
   this.levels.push(Level2);
+  this.levels.push(Level3);
   console.log(this.levels);
   this.level =1;
   this.backgroundx = 0;
