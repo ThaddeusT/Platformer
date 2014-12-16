@@ -6,6 +6,7 @@ var GUI = function(game) {
 	this.game = game;
 	this.oldLives = 0;
 	this.oldHealth = 100;
+	this.oldShield = 100;
 	
 	// GUI panels
 	this.center = document.getElementById("gui-center");
@@ -24,6 +25,13 @@ var GUI = function(game) {
 	this.healthBackground.appendChild(this.healthBar);
 	this.topCenter.appendChild(this.healthBackground);
 	
+	this.shieldBar = document.createElement('span');
+	this.shieldBar.className = "shield-bar";
+	this.shieldBackground = document.createElement('span');
+	this.shieldBackground.className = "shield-background";
+	this.shieldBackground.appendChild(this.shieldBar);
+	this.topCenter.appendChild(this.shieldBackground);
+	
 	// Display message on center of screen
 	this.message = function(message) {
 		self.center.innerHTML = message;
@@ -31,10 +39,14 @@ var GUI = function(game) {
 	
 	this.render = function(context) {
 		
-		// TODO: Render Health
 		if(this.oldHealth !== this.game.health) {
 			this.healthBar.style.width = Math.max(this.game.health, 0) + "%";
 			this.oldHealth = this.game.health;
+		}
+		if(this.oldShield !== this.game.character.shieldPower)
+		{
+			this.shieldBar.style.width = Math.max(this.game.character.shieldPower, 0) + "%";
+			this.oldShield = this.game.character.shieldPower;
 		}
 		
 		// TODO: Render Lives

@@ -1,6 +1,6 @@
-var Type1Treasure = function(game, x, y, image, increment, xImageMax, xcountMax, radius, startingState, value) {
+var Type1Treasure = function(game, x, y, image, type, increment, xImageMax, xcountMax, radius, startingState, value) {
 	this.game = game;
-	this.type = 1;
+	this.type = type;
 	this.x = x;
 	this.y = y;
 	this.state = startingState;
@@ -60,7 +60,6 @@ Type1Treasure.prototype = {
 		
 	},	
 	collidedWithCharacter: function(){
-		console.log("Treasure Captured");
 		this.state='captured';
 		this.captured = true;
 	}

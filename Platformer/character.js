@@ -31,6 +31,7 @@ var Character = function(game, x, y, image, imageLeft, respawnx, respawny, respa
 	this.shielded = false;
 	this.shieldCount = 0;
 	this.shieldCooldown = 0;
+	this.shieldPower = 100;
 };
 
 Character.prototype = {
@@ -149,7 +150,6 @@ Character.prototype = {
 			}
 			break;
 		}
-		console.log(this.shielded);
 		if(this.shielded){
 			context.beginPath();
 			context.fillStyle = "rgba(15, 45, 242, 0.5)";
@@ -205,6 +205,21 @@ Character.prototype = {
 					this.game.gameover =true;
 				}
 			}
+			if(this.shielded)
+			{
+				this.shieldPower--;
+				if(this.shieldPower==0)
+				{
+					this.shielded = false;
+				}
+			}
+			else
+			{
+				if(this.shieldPower<100)
+				{
+					this.shieldPower++;
+				}
+			}
 		}
 		
 		// // Aim the turrent
@@ -251,11 +266,20 @@ Character.prototype = {
 	},
 	
 	shield: function(){
-		this.shielded = true;
+		if(!this.shielded && this.shieldPower==100)
+		{
+			this.shielded = true;
+		}
 	},
 	
 	dropShield: function(){
+		this.shieldCooldown = (100-this.shieldPower);
 		this.shielded = false;
+	},
+	
+	setRespawnPoint: function(x,y){
+		this.respawnx = x;
+		this.respawny = y;
 	},
 	
 	fireMissile: function(x, y) {

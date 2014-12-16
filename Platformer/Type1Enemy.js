@@ -92,7 +92,7 @@ Type1Enemy.prototype = {
 			{
 				this.state = 'dead';
 			}
-			context.fillStyle = "purple";
+			context.fillStyle = "lime";
 			context.font = "bold 12px Arial";
 			context.fillText("+"+this.value, this.x+(this.radius/2),this.y-(this.pointsCount/6));
 			this.pointsCount++;

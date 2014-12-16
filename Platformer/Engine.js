@@ -278,24 +278,28 @@ function calculateTreasureCharacterCollisions(game, treasures)
 	characterRadius = 50;
 	var treasureCount = 0;
 	treasures.forEach( function(treasure) {
-		if(treasureCount == 0)
-		{
-			// console.log(game.character.x+"-"+game.backgroundx*2+"="+characterX);
-			// console.log(Math.abs(characterX-treasure.x));
-			// console.log(characterX+"-"+treasure.x+"="+Math.abs(characterX-treasure.x));
+		// if(treasureCount == 0)
+		// {
+			if(Math.abs(characterX-treasure.x) < 1000)
+			{
+				console.log(game.character.x+"-"+game.backgroundx*2+"="+characterX);
+				console.log(Math.abs(characterX-treasure.x));
+				console.log(characterX+"-"+treasure.x+"="+Math.abs(characterX-treasure.x));
+			}
 			if(Math.abs(characterX-treasure.x) < 500 && treasure.state != 'explode' && treasure.state != 'dead')
 			{
 				x = characterX - treasure.x;
 				y = characterY - treasure.y;
 				d = Math.sqrt(x*x + y*y);
 				mindist = characterRadius+treasure.radius;
+				console.log(d,mindist);
 				if(d<=mindist)
 				{
 					treasure.collidedWithCharacter();
 				}
 			}
 			treasureCount = 0;
-		}
+		// }
 		treasureCount++;
 	});
 }
