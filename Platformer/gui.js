@@ -62,12 +62,15 @@ var GUI = function(game) {
 			}
 			this.oldLives = this.game.lives;
 		}
-		this.topLeftBelow.innerHTML ="";
-		var img = $('<img />',
-					 { class: 'jetPack',
-					   src: 'jetpack.png',
-					   alt:'jetpack'})
-					  .appendTo(this.topLeftBelow);
+		if(this.game.jetPackPowerCollected)
+		{
+			this.topLeftBelow.innerHTML ="";
+			var img = $('<img />',
+						 { class: 'jetPack',
+						   src: 'jetpack.png',
+						   alt:'jetpack'})
+						  .appendTo(this.topLeftBelow);
+		}
 		// TODO: Render Score
 		this.topRight.innerHTML = this.game.score;
 		

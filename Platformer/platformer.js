@@ -72,7 +72,7 @@ var Game = function (canvasId) {
   this.respawnScroll = 0;
   this.renderCharacter = false;
   this.characterBullets =[];
-  this.jetPackPowerCollected = true;
+  this.jetPackPowerCollected = false;
   
   // Timing variables
   this.elapsedTime = 0.0;

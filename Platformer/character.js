@@ -323,6 +323,7 @@ Character.prototype = {
 	
 	enableJetPack: function(){
 		this.jetPack = true;
+		this.state = 'normal';
 	},
 	
 	disableJetPack: function(){
