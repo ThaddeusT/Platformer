@@ -80,3 +80,7 @@ Salva Garccia - salva@ksu.edu
 
 Level 5 design:
 Ladislav Vrbsky - lada@ksu.edu
+Matej Uhrin - matej@ksu.edu
+
+Testing:
+Luiz Chagas - luiz@ksu.edu
