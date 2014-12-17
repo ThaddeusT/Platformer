@@ -29,7 +29,8 @@ var Level3 = (function (){
             greenCrystalSound: new Audio(),
             blueCrystalSound: new Audio(),
             playerHitSound: new Audio(),
-            headShot: new Audio()
+            headShot: new Audio(),
+            wingsFlapping: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -68,6 +69,7 @@ var Level3 = (function (){
     Resource.Sfx.blueCrystalSound.src = "Sound Effects/Blue Powerup.wav";
     Resource.Sfx.playerHitSound.src = "Sound Effects/pain1.wav";
     Resource.Sfx.headShot.src = "Sound Effects/Headshot.wav";
+    Resource.Sfx.wingsFlapping.src = "Sound Effects/Wings Fapping.mp3";
     
     //Level Music
     Resource.Music.level_3_music.src = "Levelmusic/battle1_1.mp3";

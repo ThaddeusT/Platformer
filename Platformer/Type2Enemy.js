@@ -144,6 +144,7 @@ Type2Enemy.prototype = {
 					if(this.y - this.origin > -100 ){
 						this.y -= this.velocity * 2;
 						this.x -= this.velocity;
+                        this.game.levels[game.level-1].Resource.Sfx.wingsFlapping.play();
 					}
 					else 
 					{
@@ -155,6 +156,7 @@ Type2Enemy.prototype = {
 					if(this.origin - this.y > -100 ){
 						this.y += this.velocity * 2;
 						this.x -= this.velocity;
+                        this.game.levels[game.level-1].Resource.Sfx.wingsFlapping.play();
 					}
 					else
 					{
