@@ -74,7 +74,7 @@
   </tile>
  </tileset>
  <tileset firstgid="11" name="example" tilewidth="64" tileheight="64">
-  <image source="../../../../../../Volumes/CORSAIR 32/game/tilesets/example.png" width="128" height="130"/>
+  <image source="../tilesets/example.png" width="128" height="130"/>
   <tile id="2">
    <properties>
     <property name="solid" value="true"/>
@@ -83,7 +83,7 @@
  </tileset>
  <layer name="Tile Layer 1" width="200" height="10">
   <data encoding="base64" compression="zlib">
-   eJztV4sKxSAIDeLubvv/Dx6DBSGZ+WoGOxCLHqauY5rSBw/kp32Yi9vn29tKLIiMfAu2xpjVWSsjI+3GjHuYkf7I+giw8JG3nzk+s/DvCD+OtEac6/Fj1vmtfm/93+CsFSC9P/U+yubWfGusvC8ceXX/R+yLiJoPexrjBzYnsR+eNcoPKY89+AFlSm3CxjXxytJeSQxdLR5BUG/HjLfFix8whs7Q31KmVq43Nzj3JYP5FUC9q5RPuI3So1cfanlarz0E+0dlR8EbOkWoJSx0wHy3d+a46OVaxQZu/NHkGDUHLUHpdj5fTu7pfbdXrAM0oOyN5g/vfA07s6DHEUndr9G/lXtEeY+s84do9nlA4wdY/1P+soz1Gcjr1SbW/5YjC3JFI8/zfkfhh6eOZwA/SX1rKe8C5sYFRw==
+   eJztV4sKxSAIDeLubvv/Dx6DBSGZ+WoGOxCLHqauY5rSBw/kp32Yi9vn29tKLIiMfAu2xpjVWSsjI+3GjHuYkf7I+ugY9Z+3nzk+s/DvCD+OtEac6/Fj1vmtfm/93+CsFSC9P/U+yubWfGusvC8ceXX/R+yLiJoPexrjBzYnsR+eNcoPKY89+AFlSm3CxjXxytJeSQxdLR5BUG/HjLfFix8whs7Q31KmVq43Nzj3JYP5FUC9q5RPuI3So1cfanlarz0E+0dlR8EbOkWoJSx0wHy3d+a46OVaxQZu/NHkGDUHLUHpdj5fTu7pfbdXrAM0oOyN5g/vfA07s6DHEUndr9G/lXtEeY+s84do9nlA4wdY/1P+soz1Gcjr1SbW/5YjC3JFI8/zfkfhh6eOZwA/SX1rKe8C5h4FRw==
   </data>
  </layer>
 </map>
