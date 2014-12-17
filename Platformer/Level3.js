@@ -73,7 +73,7 @@ var Level3 = (function (){
     Resource.Sfx.playerHitSound.src = "Sound Effects/pain1.wav";
     Resource.Sfx.headShot.src = "Sound Effects/Headshot.wav";
     Resource.Sfx.wingsFlapping.src = "Sound Effects/Wings Fapping.mp3";
-    Resource.Sfx.bossScream.src = "Sound Effects/horror005.mp3";
+    Resource.Sfx.bossScream.src = "Sound Effects/horror005.wav";
     Resource.Sfx.barrierUp.src ="Sound Effects/cogs.mp3";
     Resource.Sfx.barrierDown.src = "Sound Effects/boxopen.mp3";
     
