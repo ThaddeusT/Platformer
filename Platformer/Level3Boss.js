@@ -32,6 +32,8 @@ var Level3Boss = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, x
 	this.damage = damage;
 	this.pointsCount=0;
 	this.value = value;
+	this.spriteIter = 0;
+	this.spriteIterCount = 5;
 };
 
 Level3Boss.prototype = {
@@ -73,7 +75,12 @@ Level3Boss.prototype = {
 				// }
 				// context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
 			// }
-			context.drawImage(this.sprite_sheet.image, 0,0,400,400,this.x,this.y,50,50);
+			context.drawImage(this.sprite_sheet.image, 400*this.spriteIter,0,400,400,this.x-125,this.y-125,250,250);
+			this.spriteIterCount--;
+			if(this.spriteIterCount==0){
+				this.spriteIterCount=5;
+				this.spriteIter=(this.spriteIter+1)%8;
+			}
 			break;
 		case 'explode':
 			context.drawImage(this.sprite_sheet_explosion, this.explodex, this.explodey, 64, 64, this.x, this.y, this.radius*2, this.radius*2);

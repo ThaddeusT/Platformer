@@ -256,7 +256,7 @@ function calculateEnemyCharacterCollisions(game, enemies)
 {
 	characterX = game.character.x - game.backgroundx*2;
 	characterY = game.character.y;
-	characterRadius = 50;
+	characterRadius = game.character.radius;
 	enemies.forEach( function(enemy) {
 		if(Math.abs(characterX-enemy.x) < 500 && enemy.state != 'explode' && enemy.state != 'dead' && game.character.state != 'dead')
 		{

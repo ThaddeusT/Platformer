@@ -5,6 +5,7 @@ var Character = function(game, x, y, image, imageLeft, jetpackSprite, jetpackLef
 	this.game = game;
 	this.x = x;
 	this.y = y;
+	this.radius=50;
 	this.velocity = 1;
 	this.health = 100;
 	this.state = "normal";
