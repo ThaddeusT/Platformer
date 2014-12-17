@@ -86,6 +86,7 @@ var Tilemap = (function (){
 		  portal:(tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].portal == "true") ? true : false,
 		  Enemy: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].Enemy == "true") ? true : false,
 		  EnemyType: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].EnemyType != "0") ? tilesetmapData.tileproperties[i].EnemyType : 0,
+		  rotation: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].rotation != "0") ? tilesetmapData.tileproperties[i].rotation : 0,
 		  Treasure: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].treasure == "true") ? true : false,
 		  TreasureType: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].treasureType != "0") ? tilesetmapData.tileproperties[i].treasureType : 0,
         }
@@ -341,6 +342,12 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 							else{
 								enemy.headShot =false;
 							}
+							enemy.collideWithCharacterBullet(bullet.radius);
+						}
+					break;
+					case 2:
+						if(d <= enemy.radius+bullet.radius && ((bullet.y+bullet.radius+7) >= enemy.y+enemy.enemyHead || (bullet.y+bullet.radius+8) >= (enemy.y+enemy.enemyHead)))
+						{
 							enemy.collideWithCharacterBullet(bullet.radius);
 						}
 					break;
