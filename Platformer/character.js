@@ -240,6 +240,7 @@ Character.prototype = {
 					this.y = this.game.respawny;
 					this.facing = 'right';
 					this.state='normal';
+					this.jumpcount = 0;
 				}
 				else{
 					this.game.gameover =true;

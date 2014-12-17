@@ -1,6 +1,6 @@
 var Type3Enemy = function(game, x, y, image,imageLeft, xImageMax, xTravelmax, xcount, radius, startingState, health, damage, value) {
 	this.game = game;
-	this.type =1;
+	this.type =3;
 	this.x = x;
 	this.y = y;
     this.velocity = 1;
@@ -146,12 +146,10 @@ Type3Enemy.prototype = {
 		switch(this.state)
 		{
 			case "normal":
-				console.log("TeleCount: "+this.teleportCount);
 				if(this.teleportCount==100)
 				{
 					var amount = Math.floor((Math.random() * 100) + 25);
 					var direction = Math.floor((Math.random() * 4) + 1);
-					console.log("Direction: "+direction);
 					switch(direction)
 					{
 						case 1:

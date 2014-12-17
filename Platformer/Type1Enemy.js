@@ -32,6 +32,7 @@ var Type1Enemy = function(game, x, y, image,imageLeft, enemyHead, xImageMax, xWa
 	this.downCheckCounter = 0;
 	this.damage = damage;
 	this.pointsCount=0;
+	console.log(value);
 	this.value = value;
 };
 
