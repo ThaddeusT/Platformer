@@ -382,6 +382,25 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 							enemy.collideWithCharacterBullet(bullet.radius);
 						}
 					break;
+					case 1005:
+						x = bulletx - (enemy.x+enemy.radius);
+						y = bullet.y - (enemy.y-(enemy.radius/2));
+						d = Math.sqrt(x*x + y*y);
+						var mindist = enemy.radius+bullet.radius;
+						console.log(d,mindist);
+						if(d <= mindist)
+						{
+							bullet.collided = true;
+							enemy.collideWithCharacterBullet(bullet.radius);
+						}
+					break;
+					case 2000:
+						if(d <= enemy.radius+bullet.radius && ((bullet.y+bullet.radius+7) >= enemy.y+enemy.enemyHead || (bullet.y+bullet.radius+8) >= (enemy.y+enemy.enemyHead)))
+						{
+							bullet.collided = true;
+							enemy.collideWithCharacterBullet(bullet.radius);
+						}
+					break;
 				}
 			}
 		});

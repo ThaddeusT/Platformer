@@ -48,7 +48,6 @@ Level2Boss.prototype = {
 	
 	render: function(context) {
 		// Render enemy
-		console.log(this.state);
 		switch(this.state)
 		{
 		 case 'idle':
@@ -194,7 +193,7 @@ Level2Boss.prototype = {
 				if(this.crystalx == this.xImageMax)
 				{
 					this.crystalx = 0;
-					this.coolDownCount = 100;
+					//this.coolDownCount = 100;
 				}
 				console.log(this.count, this.xcount);
 				if(this.count==this.xcount){
@@ -217,20 +216,26 @@ Level2Boss.prototype = {
 				// else{
 					// this.count++;
 				// }
-				if (this.coolDownCount%10 == 0)
+				if (this.coolDownCount >= 30)
 				{
-				console.log("Number of Enemy Bullets",+this.game.enemyBullets.length);
-					if(this.game.enemyBullets.length <8)
+					if (this.coolDownCount%10 == 0)
 					{
-						var newBullet = new Bullet(this.game, this.game.character.x, 0, 25, this.sprite_sheet4.image, 0, 0, 100, 100, 100,700, "right", false, this.angle, 15);
-						console.log(newBullet);
-						this.game.enemyBullets.push(newBullet);
-					}
-					if(this.coolDownCount == 100)
-					{
-						this.state = "coolDown";
+					console.log("Number of Enemy Bullets",+this.game.enemyBullets.length);
+						if(this.game.enemyBullets.length <8)
+						{
+							var newBullet = new Bullet(this.game, this.game.character.x, 0, 25, this.sprite_sheet4.image, 0, 0, 100, 100, 100,700, "right", false, this.angle, 15);
+							console.log(newBullet);
+							this.game.enemyBullets.push(newBullet);
+						}
+						else this.coolDownCount = 100;
+						if(this.coolDownCount == 100)
+						{
+							this.state = "coolDown";
+							this.coolDownCount = 130;
+						}
 					}
 				}
+				this.coolDownCount++;
 				context.drawImage(this.sprite_sheet4.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
 			break;
 		case 'explode':

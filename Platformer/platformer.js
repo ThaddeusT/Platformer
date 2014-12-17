@@ -63,6 +63,7 @@ var Game = function (canvasId) {
   this.levels.push(Level5);
   this.levels.push(Level3);
   this.levels.push(Level2);
+  this.levels.push(Level6);
   this.level =1;
   this.backgroundx = 0;
   this.backgroundy = 0;
@@ -99,7 +100,7 @@ Game.prototype = {
 		if(!this.gameStarted || !this.gameInfo)
 		{
 			$(".splashScreen").show();
-			if(!gameover)
+			if(!game.gameover)
 			{
 				if(!this.gameStarted)
 				{
@@ -328,17 +329,24 @@ Game.prototype = {
 		}
 		if(e.keyCode ==13)
 		{
-			if(!this.gameStarted)
+			if(game.gameover)
 			{
-				this.gameStarted = true;
+				game.gameover = false;
 			}
 			else
 			{
-				if(this.gameStarted)
+				if(!this.gameStarted)
 				{
-					this.gameInfo = true;
-					game.levels[game.level-1].Resource.Music.introMusic.pause();
-					game.levels[game.level-1].Resource.Music.level_1_music.play();
+					this.gameStarted = true;
+				}
+				else
+				{
+					if(this.gameStarted)
+					{
+						this.gameInfo = true;
+						game.levels[game.level-1].Resource.Music.introMusic.pause();
+						game.levels[game.level-1].Resource.Music.level_1_music.play();
+					}
 				}
 			}
 		}
