@@ -127,7 +127,7 @@ Level3Boss.prototype = {
 		if(this.moveCount<0){
 			this.onLeft+=this.velocity*this.direction;
 			this.x-=this.velocity*this.direction;
-            this.game.levels[game.level-1].Resource.Sfx.bossScream.play();
+            
 			if(this.onLeft>=this.toLeft){
 				this.direction = -1;
 				this.x+= (this.onLeft-this.toLeft);
@@ -135,6 +135,7 @@ Level3Boss.prototype = {
                 
 			} 
 			else if (this.onLeft<=0){
+                this.game.levels[game.level-1].Resource.Sfx.bossScream.play();
 				this.direction = 1;
 				this.moveCount = 100;
 				this.x+=this.onLeft;

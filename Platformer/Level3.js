@@ -31,7 +31,9 @@ var Level3 = (function (){
             playerHitSound: new Audio(),
             headShot: new Audio(),
             wingsFlapping: new Audio(),
-            bossScream: new Audio()
+            bossScream: new Audio(),
+            barrierUp: new Audio(),
+            barrierDown: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -72,6 +74,8 @@ var Level3 = (function (){
     Resource.Sfx.headShot.src = "Sound Effects/Headshot.wav";
     Resource.Sfx.wingsFlapping.src = "Sound Effects/Wings Fapping.mp3";
     Resource.Sfx.bossScream.src = "Sound Effects/horror005.mp3";
+    Resource.Sfx.barrierUp.src ="Sound Effects/cogs.mp3";
+    Resource.Sfx.barrierDown.src = "Sound Effects/boxopen.mp3";
     
     //Level Music
     Resource.Music.level_3_music.src = "Levelmusic/battle1_1.mp3";
