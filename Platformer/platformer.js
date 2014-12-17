@@ -1,4 +1,4 @@
-// Screen Size
+/ Screen Size
 var WIDTH = 800;
 var HEIGHT = 500;
 var LEVEL_LENGTH = 140000;
@@ -76,6 +76,8 @@ var Game = function (canvasId) {
   this.characterBullets =[];
   this.enemyBullets = [];
   this.jetPackPowerCollected = false;
+  this.gameStarted = false;
+  this.splashScreenCount = 0;
   
   // Timing variables
   this.elapsedTime = 0.0;
@@ -93,77 +95,97 @@ Game.prototype = {
 	// http://gameprogrammingpatterns.com/update-method.html
 	update: function(elapsedTime) {
 		var self = this;
-		if(!game.gameover)
+		if(!this.gameStarted)
 		{
-			game.levels[game.level-1].update();
-			game.character.update(elapsedTime, this.inputState);
-			game.characterBullets.forEach(function(bullet)
+			if(this.splashScreenCount == 10)
 			{
-				bullet.update(elapsedTime);
-				//console.log(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0);
-				if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
+				if($(".splashScreen img").attr("src")=="StartScreen0.png")
 				{
-					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+					$(".splashScreen img").attr("src","StartScreen1.png");
 				}
-				if(bullet.tile){
-					if(bullet.tile.solid){
-						game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
-					}
-				}
-				if(bullet.collided)
+				else
 				{
-					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+					$(".splashScreen img").attr("src","StartScreen0.png");
 				}
-			});
-			game.enemyBullets.forEach(function(bullet)
-			{
-				bullet.update(elapsedTime);
-				if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
-				{
-					game.enemyBullets.splice($.inArray(bullet, game.characterBullets),1);
-				}
-				//if(bullet.tile){
-					//if(bullet.tile.solid){
-						//game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
-					//}
-				//}
-				if(bullet.collided)
-				{
-					game.enemyBullets.splice($.inArray(bullet, game.characterBullets),1);
-				}
-			});	
-			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5 && Math.abs(game.character.y-(Tilemap.portals[0].postion.y))<100)
-			{
-				this.gui.message("Congratulations You've Beaten Level "+game.level);
-				game.levels[game.level-1].stopLevelMusic();
-                game.level += 1;
-				console.log(game.level);
-				//To be overriden by tileFaceLeft.solidtileFaceLeft.solid condition.
-				if(game.level > game.levels.length)
-				{
-					game.jetPackPowerCollected = false;
-					game.level = 1;
-				}
-				game.loadLevel();
+				this.splashScreenCount=0;
+			}
+			else{
+				this.splashScreenCount++;
 			}
 		}
 		else{
-			if(!game.gameresetting)
+			$(".splashScreen").hide();
+			if(!game.gameover)
 			{
-				game.levels[game.level-1].stopLevelMusic();
-				game.gameresetting = true;
-				game.gui.message("GAME OVER");
-                game.levels[game.level-1].stopLevelMusic();
-				game.gameover = false;
-				game.renderCharacter = false;
-				setTimeout(function(){ 
-					game.level = 1;
-					game.lives = 3;
-					game.health = 100;
-					game.score = 0;
+				game.levels[game.level-1].update();
+				game.character.update(elapsedTime, this.inputState);
+				game.characterBullets.forEach(function(bullet)
+				{
+					bullet.update(elapsedTime);
+					//console.log(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0);
+					if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
+					{
+						game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+					}
+					if(bullet.tile){
+						if(bullet.tile.solid){
+							game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+						}
+					}
+					if(bullet.collided)
+					{
+						game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+					}
+				});
+				game.enemyBullets.forEach(function(bullet)
+				{
+					bullet.update(elapsedTime);
+					if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
+					{
+						game.enemyBullets.splice($.inArray(bullet, game.characterBullets),1);
+					}
+					//if(bullet.tile){
+						//if(bullet.tile.solid){
+							//game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+						//}
+					//}
+					if(bullet.collided)
+					{
+						game.enemyBullets.splice($.inArray(bullet, game.characterBullets),1);
+					}
+				});	
+				if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5 && Math.abs(game.character.y-(Tilemap.portals[0].postion.y))<100)
+				{
+					this.gui.message("Congratulations You've Beaten Level "+game.level);
+					game.levels[game.level-1].stopLevelMusic();
+					game.level += 1;
+					console.log(game.level);
+					//To be overriden by tileFaceLeft.solidtileFaceLeft.solid condition.
+					if(game.level > game.levels.length)
+					{
+						game.jetPackPowerCollected = false;
+						game.level = 1;
+					}
 					game.loadLevel();
-					game.gameresetting =false;
-				}, 2000);
+				}
+			}
+			else{
+				if(!game.gameresetting)
+				{
+					game.levels[game.level-1].stopLevelMusic();
+					game.gameresetting = true;
+					game.gui.message("GAME OVER");
+					game.gameover = false;
+					game.renderCharacter = false;
+					setTimeout(function(){ 
+						game.level = 1;
+						game.lives = 3;
+						game.health = 100;
+						game.score = 0;
+						game.loadLevel();
+						game.gameresetting =false;
+					}, 2000);
+				}
 			}
 		}
 	},
@@ -262,6 +284,11 @@ Game.prototype = {
 				game.character.enableJetPack();
 			}
 		}
+		if(!this.gameStarted && e.keyCode ==13)
+		{
+			this.gameStarted = true;
+		}
+		
 		if(keys["left"] && !keys["up"] && !keys["right"] && !keys["down"])
 		{
 			this.inputState.left = true;

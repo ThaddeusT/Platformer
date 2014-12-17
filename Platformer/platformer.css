@@ -88,6 +88,13 @@
 	height:50px;
 }
 
+.splashScreen{
+	position:absolute;
+	top: 0px;
+	width:800px;
+	height:500px;
+}
+
 span.life {
 	display: block;
 	float: left;
