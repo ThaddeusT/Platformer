@@ -1,7 +1,7 @@
 var Level6 = (function (){
 	this.game;
 	var Resource = {
-		loading: 18,
+		loading: 20,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
@@ -16,6 +16,8 @@ var Level6 = (function (){
 		   enemyType5: new Image(),
 		   level2Boss: new Image(),
 		   level3Boss: new Image(),
+		   level6Boss: new Image(),
+		   level6BossLeft: new Image(),
 		   greenCrystal: new Image(),
 		   redCrystal: new Image(),
 		   blueCrystal: new Image(),
@@ -44,6 +46,8 @@ var Level6 = (function (){
 	Resource.Image.enemyType5.onload = onload;
 	Resource.Image.level2Boss.onload = onload;
 	Resource.Image.level3Boss.onload = onload;
+	Resource.Image.level6Boss.onload = onload;
+	Resource.Image.level6BossLeft.onload = onload;
 	Resource.Image.greenCrystal.onload = onload;
 	Resource.Image.blueCrystal.onload = onload;
 	Resource.Image.redCrystal.onload = onload;
@@ -66,6 +70,8 @@ var Level6 = (function (){
 	Resource.Image.enemyType5.src = "tilesets/baseTileSet.png";
 	Resource.Image.level2Boss.src = "greyCrystalSpriteSheet.png";
 	Resource.Image.level3Boss.src = "enemy_Teleporter_BOSS_SpriteSheet100.png";
+	Resource.Image.level6Boss.src = "enemy_DragonBOSS_Flying_SpriteSheet100.png";
+	Resource.Image.level6BossLeft.src = "enemy_DragonBOSS_Flying_SpriteSheet100Left.png";
 	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
@@ -148,6 +154,14 @@ var Level6 = (function (){
 	image: Resource.Image.level3Boss
   }
   
+  var level6Boss ={
+	image: Resource.Image.level6Boss
+  }
+  
+  var level6BossLeft ={
+	image: Resource.Image.level6BossLeft
+  }
+  
   var enemies = []
   var treasures = []
   var lavaTiles = []
@@ -200,6 +214,14 @@ var Level6 = (function (){
 				break;
 				case "boss2":
 					var newEnemy = new Level2Boss(this.game, enemy.position.x, enemy.position.y, level2Boss,level2BossState2, level2BossState3, level2BossState4, 700, 5, 50, "idle", 300, 10,25000);
+					enemies.push(newEnemy);
+				break;
+				case "boss3":
+					var newEnemy = new Level3Boss(this.game, enemy.position.x, enemy.position.y,level3Boss, level3Boss,175,"walking",250,20,25000);
+					enemies.push(newEnemy);
+				break;
+				case "bossDragon":
+					var newEnemy = new Level6Boss(this.game, enemy.position.x, enemy.position.y,level6Boss, level6BossLeft,175,"walking",250,20,25000);
 					enemies.push(newEnemy);
 				break;
 			}
@@ -275,7 +297,11 @@ var Level6 = (function (){
 						this.game.character.setRespawnPoint(this.game.character.x,this.game.character.y, this.game.backgroundx);
 					break;
 					case 4:
-						this.game.ultimatePowerCollected = true;
+						if(this.game.lives+1<6)
+						{
+						this.game.lives++;
+						}
+						this.game.character.updateHealth(1000);
 					break;
 				}
 				
