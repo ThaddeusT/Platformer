@@ -362,7 +362,7 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 						}
 					break;
 					case 1000:
-						var mindist = enemy.radius+bullet.radius;
+						var mindist = enemy.radius*2+bullet.radius;
 						console.log(d,mindist);
 						if(d <= mindist)
 						{

@@ -3,6 +3,7 @@ var Level3Boss = function(game, x, y, image,imageLeft, radius, startingState, he
 	this.type = 1000;
 	this.x = x;
 	this.y = y;
+	this.velocity = 5;
 	this.maxHealth = health;
 	this.health = health;
 	this.state = startingState;
@@ -116,14 +117,15 @@ Level3Boss.prototype = {
 		}
 		if(this.state !='explode' && this.state != 'dead'){
 			this.move();
+			console.log(this.x,this.y);
 		}
 	},
 	
 	move: function() {
 		this.moveCount--;
 		if(this.moveCount<0){
-			this.onLeft+=10*this.direction;
-			this.x-=10*this.direction;
+			this.onLeft+=this.velocity*this.direction;
+			this.x-=this.velocity*this.direction;
 			if(this.onLeft>=this.toLeft){
 				this.direction = -1;
 				this.x+= (this.onLeft-this.toLeft);
@@ -153,6 +155,7 @@ Level3Boss.prototype = {
 		}
 		else{
 			this.health -= radiusOfBullet;
+			console.log("Boss Health: "+ this.health);
 		}
 		if(this.health <0)
 		{

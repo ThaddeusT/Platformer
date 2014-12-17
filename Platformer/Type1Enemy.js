@@ -162,11 +162,15 @@ Type1Enemy.prototype = {
 		var tileDownRight = Tilemap.tileAt(x+50, this.y+75,0);
 		var tileLeft =  Tilemap.tileAt(x-15, this.y+50,0);
 		var tileRight = Tilemap.tileAt(x+65, this.y+50,0);
+		var jtileRightTop = Tilemap.tileAt(x+65, this.y+10,0);
+		var jtileRightBottom = Tilemap.tileAt(x+65, this.y+60,0);
+		var jtileLeftTop = Tilemap.tileAt(x-15, this.y+10,0);
+		var jtileLeftBottom = Tilemap.tileAt(x-15, this.y+60,0);
 		switch(this.state)
 		{
 			case "walking":
 				if(this.facing=='right'){
-					if(tileRight === undefined || !tileRight.solid){
+					if((jtileRightTop === undefined || !jtileRightTop.solid) && (jtileRightBottom === undefined || !jtileRightBottom.solid)){
 						if(this.x < this.xWalkingmax)
 						{
 							this.x += this.velocity;
@@ -186,7 +190,7 @@ Type1Enemy.prototype = {
 					}
 				}
 				if(this.facing=='left'){
-					if(tileLeft === undefined || !tileLeft.solid){
+					if((jtileLeftTop === undefined || !jtileLeftTop.solid) && (jtileLeftBottom === undefined || !jtileLeftBottom.solid)){
 						if(this.x >= this.startingX-this.xWalkingmax)
 						{
 							this.x -= this.velocity;
