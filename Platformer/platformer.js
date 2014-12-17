@@ -9,7 +9,8 @@ var keys = {
 	right: false,
 	q: false,
 	e: false,
-	w: false
+	w: false,
+	r: false
 };
 
 // Fixed time step of 1/60th a second
@@ -75,8 +76,10 @@ var Game = function (canvasId) {
   this.respawnScroll = 0;
   this.renderCharacter = false;
   this.characterBullets =[];
+  this.characterMissiles = [];
   this.enemyBullets = [];
   this.jetPackPowerCollected = false;
+  this.ultimatePowerCollected = false;
   
   // Timing variables
   this.elapsedTime = 0.0;
@@ -227,6 +230,10 @@ Game.prototype = {
 				keys["w"] = true;
 			}
 		}
+		if(e.keyCode == 82)
+		{
+			keys["r"] = true;
+		}
 		if(e.keyCode == 37)
 		{
 			keys["left"] = true;
@@ -246,6 +253,10 @@ Game.prototype = {
 		if(keys["q"])
 		{
 			game.character.chargeBullet();
+		}
+		if(keys["r"] && game.ultimatePowerCollected)
+		{
+			game.character.fireUltimate();
 		}
 		if(keys["e"])
 		{
@@ -331,7 +342,11 @@ Game.prototype = {
 		{
 			keys["w"] = false;
 		}
-		
+		else if(e.keyCode == 82)
+		{
+			keys["r"] = false;
+			game.character.releaseUltimate();
+		}
 		if(!keys["left"])
 		{
 			this.inputState.left = false;
@@ -409,6 +424,10 @@ Game.prototype = {
 		game.respawnScroll = game.backgroundx;
 		game.levels[game.level-1].createEnemies(Tilemap.enemies);
 		game.levels[game.level-1].createTreasures(Tilemap.treasures);
+		if(game.level==1)
+		{
+			game.levels[game.level-1].createLavaTiles(Tilemap.lava);
+		}
 		this.gui.message(
 		"Welcome to Level "+game.level+" Begin!");
 		//Special Level Conditions

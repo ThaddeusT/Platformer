@@ -90,7 +90,18 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="12" name="lava" tilewidth="50" tileheight="50">
+ <tileset firstgid="12" name="missileCrystal" tilewidth="50" tileheight="50">
+  <image source="../tilesets/missileCrystal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+    <property name="treasure" value="true"/>
+    <property name="treasureType" value="4"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="13" name="lava" tilewidth="50" tileheight="50">
   <image source="../tilesets/lava.png" width="50" height="50"/>
   <tile id="0">
    <properties>
@@ -100,7 +111,7 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="13" name="rock" tilewidth="50" tileheight="50">
+ <tileset firstgid="14" name="rock" tilewidth="50" tileheight="50">
   <image source="../tilesets/rock.png" width="50" height="50"/>
   <tile id="0">
    <properties>
@@ -109,7 +120,7 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="14" name="crystal" tilewidth="50" tileheight="50">
+ <tileset firstgid="15" name="crystal" tilewidth="50" tileheight="50">
   <image source="../tilesets/crystal.png" width="50" height="50"/>
   <tile id="0">
    <properties>
@@ -120,7 +131,7 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="15" name="dragon" tilewidth="50" tileheight="50">
+ <tileset firstgid="16" name="dragon" tilewidth="50" tileheight="50">
   <image source="../tilesets/dragonBoss.png" width="50" height="50"/>
   <tile id="0">
    <properties>
@@ -131,7 +142,7 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="16" name="bigPort" tilewidth="50" tileheight="50">
+ <tileset firstgid="17" name="bigPort" tilewidth="50" tileheight="50">
   <image source="../tilesets/bigPort.png" width="50" height="50"/>
   <tile id="0">
    <properties>
@@ -144,7 +155,7 @@
  </tileset>
  <layer name="Tile Layer 1" width="200" height="10">
   <data encoding="base64" compression="zlib">
-   eJztmNsOgyAMhkm26XDH93/axQuShlj6F0o9zC8hLlKxLT0wQzgGw9oKnJwYEwEZGve5PJITEXxP4qGQtWDMrtz8ntHacASbZzRxhz4nxfzS/ECu3PNvSSlQxgJp/7Xxwdnc0lN7rHlj7nvnw5e5f3fVAqcU88g8umaJ2lzX8GIGJ2cJ4o+1z6jWNmvfXdqT3nwAmbQ/MZT3isudYeEeh1evoFC/l2rmGHz2CdmTHE0OcfWAi0ULe0s2ofr08n1tDa7JBW5OkyMlamzhzg+Iz1O+TKC8RKv9Hr0k91fveiCtb5EXPc8hUl+gv5E8WJrzOEfNIPUpkuFVw7yg/ZGrG5Qe9mr8uUW/p1htqVU137Ss0PZrNGf+Ac9zTa0uOVv9/16DRaz2WFMaLd+XJ4WslIe1eWrpCw8kHS7MeO5weMTvWjpfNz724m+t/3/z4xP7
+   eJztmNsOgyAMhkm26XDn93/ZxQuShlj6F0rVzS8hLlKxLT0wQ/gNhrUVODgwJgIyNO5zeSQnIviexE0ha8GYXbn5PaO14RdsntHEHfqcFPNL8wO5cs+/JKVAGQuk/dfGB2dzS0/tseaFue+dDx/m/tVVC5xSzCPz6JolanNdw5MZnJwliD/WPqNa26x9d2lPevMGZNL+xFDeKy53hoV7HF69gkL9XqqZY/DZJ2RPcjQ5xNUDLhYt7C3ZhOrTy/e1NbgmF7g5TY6UqLGFOz8gPk/5MoHyEq32e/SS3F+964G0vkVe9DyHSH2B/kbyYGnO4xw1g9SnSIZXDfOC9keublB62Kvx5xb9nmK1pVbVfNOyQtuv0Zz5BzzPNbW65KT/73cnvXpiEas91pRGy/flSSEr5WFtnlr6wgNJhxMzHjscHvG7ls7njY+9+Fvr/y8yMhVa
   </data>
  </layer>
 </map>

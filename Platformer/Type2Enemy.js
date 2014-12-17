@@ -170,7 +170,7 @@ Type2Enemy.prototype = {
 						this.flyingState = "up";
 					}	
 				break;
-			}	
+			}
 		}
 	},
 	
@@ -186,9 +186,11 @@ Type2Enemy.prototype = {
 	{	
 		if(this.headShot){
 			this.health -= 2*damage;
+			this.health = Math.floor(this.health);
 		}
 		else{
 			this.health -= damage;
+			this.health = Math.floor(this.health);
 		}
 		if(this.health <0)
 		{

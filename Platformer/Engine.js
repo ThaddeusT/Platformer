@@ -212,7 +212,7 @@ var Tilemap = (function (){
 						//screenCtx.drawImage(Portal.image,0,0,102,126,x*tileWidth,y*tileHeight-50,tileWidth*2, tileHeight*2);
 					}
 					else{
-						if(!tile.Enemy && !tile.Treasure)
+						if(!tile.Enemy && !tile.Treasure && !tile.Lava)
 						{
 							screenCtx.drawImage(
 							  tile.image,     // The image to draw 
@@ -253,6 +253,7 @@ var Tilemap = (function (){
 	portals : portals,
 	enemies : enemies,
 	treasures : treasures,
+	lava : lava,
 	layers : layers
   }
   
@@ -326,6 +327,78 @@ function calculateTreasureCharacterCollisions(game, treasures)
 			treasureCount = 0;
 		// }
 		treasureCount++;
+	});
+}
+
+function calculateEnemyCharacterUltimateCollisions(game,enemies)
+{
+	bulletx = (game.character.x+77+game.character.ultimatex)- game.backgroundx*2;
+	enemies.forEach( function(enemy) {
+			if(Math.abs(bulletx-enemy.x)<500)
+			{
+				x = bulletx - (enemy.x+enemy.radius);
+				var radius = 63;
+				y = (game.character.y+50) - (enemy.y+enemy.radius);
+				d = Math.sqrt(x*x + y*y);
+				switch(enemy.type)
+				{
+					case 1:
+						if(Math.abs(bulletx - enemy.x) < 5)
+						{
+							// console.log("Distance: "+d+" Range: "+(enemy.radius+bullet.radius));
+							// console.log("First Try - Bullet: "+bulletx+","+(bullet.y+bullet.radius+7)+" Enemy: "+enemy.x+","+(enemy.y+enemy.enemyHead));
+							// console.log("Second Try - Bullet: "+bulletx+","+(bullet.y+bullet.radius+8)+" Enemy: "+enemy.x+","+(enemy.y+enemy.enemyHead));
+						}
+						if(d <= enemy.radius+radius && ((game.character.y+50)+radius+7) >= enemy.y+enemy.enemyHead || (game.character.y+50+radius+8) >= (enemy.y+enemy.enemyHead)))
+						{
+							bullet.collided = true;
+							if((game.character.y+50+radius+7) == enemy.y+enemy.enemyHead)
+							{
+								enemy.headShotCount = 0;
+								enemy.headShot = true;
+							}
+							else if((game.character.y+50+radius+8) == (enemy.y+enemy.enemyHead))
+							{
+								enemy.headShotCount = 0;
+								enemy.headShot = true;
+							}
+							else{
+								enemy.headShot =false;
+							}
+							enemy.collideWithCharacterBullet(bullet.damage);
+						}
+					break;
+					case 2:
+						if(d <= (enemy.radius+radius) && (((game.character.y+50)+radius+7) >= enemy.y+enemy.enemyHead || ((game.character.y+50)+radius+8) >= (enemy.y+enemy.enemyHead)))
+						{
+							bullet.collided = true;
+							enemy.collideWithCharacterBullet(radius);
+						}
+					break;
+					case 3:
+						var mindist = enemy.radius+radius;
+						if(d <= mindist)
+						{
+							enemy.collideWithCharacterBullet(radius);
+						}
+					break;
+					case 1000:
+						var mindist = enemy.radius*2+radius;
+						console.log(d,mindist);
+						if(d <= mindist)
+						{
+							bullet.collided = true;
+							enemy.collideWithCharacterBullet(radius);
+						}
+					break;
+					case 2000:
+						if(d <= enemy.radius+radius && (((game.character.y+50)+radius+7) >= enemy.y+enemy.enemyHead || ((game.character.y+50)+radius+8) >= (enemy.y+enemy.enemyHead)))
+						{
+							enemy.collideWithCharacterBullet(radius);
+						}
+					break;
+				}
+			}
 	});
 }
 

@@ -48,7 +48,6 @@ Level2Boss.prototype = {
 	
 	render: function(context) {
 		// Render enemy
-		console.log(this.state);
 		switch(this.state)
 		{
 		 case 'idle':

@@ -17,6 +17,7 @@ var Character = function(game, x, y, image, imageLeft, jetpackSprite, jetpackLef
 	this.sprite_sheet_left = imageLeft;
 	this.jetPackSheet = jetpackSprite;
 	this.jetPackLeftSheet = jetpackLeftSprite;
+	this.ultimateSpriteSheet = 
 	this.walkingx = 0;
 	this.walkingy = 0;
 	this.walkingLeftX=700;
@@ -39,6 +40,9 @@ var Character = function(game, x, y, image, imageLeft, jetpackSprite, jetpackLef
 	this.shieldPower = 100;
 	this.jetPack = false;
 	this.damaged = false;
+	this.ultimate = false;
+	this.ultimatex = 0;
+	this.ultimatecount = 0;
 };
 
 Character.prototype = {
@@ -187,6 +191,31 @@ Character.prototype = {
 				}
 				context.drawImage(this.jetPackLeftSheet, this.jetPackLeftX, this.jetPackLeftY, 100, 100,this.x+15,this.y+20, 100,100);
 			}
+		}
+		if(this.ultimate)
+		{
+			console.log((800-(this.x+77+this.ultimatex+63)));
+			if((800-(this.x+77+this.ultimatex+63))<=0)
+			{
+				this.releaseUltimate();
+			}
+			if(this.ultimatecount==5){
+				this.ultimatex+=100;
+				this.ultimatecount=0;
+			}
+			else{
+				this.ultimatecount++;
+			}
+			context.beginPath();
+			context.beginPath();
+			context.fillStyle = "rgba(15, 45, 242, 0.5)";
+			context.arc(this.x+77+this.ultimatex, this.y+50,63,0,2*Math.PI);
+			context.fill();
+			context.lineWidth = 3;
+			context.strokeStyle = "rgba(15, 45, 242, 0.6)";
+			context.stroke();
+			context.fillRect(this.x+77, this.y+30, this.ultimatex,50);
+			context.stroke();
 		}
 		if(this.shielded){
 			context.beginPath();
@@ -383,19 +412,20 @@ Character.prototype = {
 		this.game.respawnScroll = scroll;
 	},
 	
-	fireMissile: function(x, y) {
-		if(this.missiles > 0) {
-			var missile = new Missile(
-				this.game, 
-				this.sprite_sheet, 
-				this.x, 
-				this.y+35, 
-				x, 
-				y
-			);
-			this.game.missiles.push(missile);
-			this.missiles -= 1;
+	fireUltimate: function() {
+		if(this.facing =="right")
+		{
+			if(this.jetPack)
+			{
+				this.ultimate = true;
+			}
 		}
+	},
+	
+	releaseUltimate : function() {
+		this.ultimate = false;
+		this.ultimatex = 0;
+		this.ultimatecount = 0;
 	},
 	
 	move: function(inputState) {

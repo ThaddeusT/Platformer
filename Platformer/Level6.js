@@ -1,7 +1,7 @@
 var Level6 = (function (){
 	this.game;
 	var Resource = {
-		loading: 16,
+		loading: 18,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
@@ -18,7 +18,9 @@ var Level6 = (function (){
 		   level3Boss: new Image(),
 		   greenCrystal: new Image(),
 		   redCrystal: new Image(),
-		   blueCrystal: new Image()
+		   blueCrystal: new Image(),
+		   goldCrystal: new Image(),
+		   lava: new Image()
 		},
 		Music: {
 			level_2_music: new Audio()
@@ -45,6 +47,8 @@ var Level6 = (function (){
 	Resource.Image.greenCrystal.onload = onload;
 	Resource.Image.blueCrystal.onload = onload;
 	Resource.Image.redCrystal.onload = onload;
+	Resource.Image.goldCrystal.onload = onload;
+	Resource.Image.lava.onload = onload;
 	Resource.Music.level_2_music.onload = onload;
 	Resource.Sfx.weaponFire.onload = onload;
 	Resource.Sfx.chargingFire.onload = onload;
@@ -65,6 +69,8 @@ var Level6 = (function (){
 	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
+	Resource.Image.goldCrystal.src = "goldenCrystalSpriteSheet.png";
+	Resource.Image.lava.src = "lavaSpriteSheet.png";
 	
 	 //Sound Effects
     Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
@@ -144,6 +150,7 @@ var Level6 = (function (){
   
   var enemies = []
   var treasures = []
+  var lavaTiles = []
   
   var setBackground = function(image){
 	Resource.Image.background = image;
@@ -216,8 +223,22 @@ var Level6 = (function (){
 					var newTreasure = new Type1Treasure(this.game, treasure.position.x, treasure.position.y, Resource.Image.blueCrystal, 3, 100, 700, 5, 25, 'normal', 2500);
 					treasures.push(newTreasure);
 				break;
+				case "4":
+					var newTreasure = new Type1Treasure(this.game, treasure.position.x, treasure.position.y, Resource.Image.goldCrystal, 4, 100, 700, 5, 25, 'normal', 2500);
+					treasures.push(newTreasure);
+				break;
 			}
 		});
+  }
+  
+  var createLavaTiles = function(clava){
+		lavaTilea = [];
+		clava.forEach( function(lava) {
+			var newLavaTile = new LavaTile(this.game, lava.position.x, lava.position.y, Resource.Image.lava, 1, 16, 704, 5, 25, 'normal', 2500);
+			console.log(newLavaTile);
+			lavaTiles.push(newLavaTile);
+		});
+		console.log(lavaTiles);
   }
   
 
@@ -225,6 +246,10 @@ var Level6 = (function (){
 		calculateTreasureCharacterCollisions(this.game, treasures);
 		calculateEnemyCharacterCollisions(this.game, enemies);
 		calculateEnemyCharacterBulletCollisions(this.game,enemies);
+		if(this.game.character.ultimate)
+		{
+			calculateEnemyCharacterUltimateCollisions(this.game,enemies);
+		}
 		enemies.forEach( function(enemy) {
 			if(enemy.state=="dead")
 			{
@@ -249,18 +274,21 @@ var Level6 = (function (){
 					case 3:
 						this.game.character.setRespawnPoint(this.game.character.x,this.game.character.y, this.game.backgroundx);
 					break;
+					case 4:
+						this.game.ultimatePowerCollected = true;
+					break;
 				}
 				
 				treasures.splice($.inArray(treasure, treasures),1);
 			}
 			treasure.update();
-		});
-		
+		});		
   }
 
   var render = function(screenCtx) {
 		if(!game.gameresetting)
 		{
+			renderLavaTiles(screenCtx);
 			renderPortals(screenCtx);
 			renderEnemies(screenCtx);
 			renderTreasures(screenCtx);
@@ -311,6 +339,12 @@ var Level6 = (function (){
 	});
   }
   
+  var renderLavaTiles =  function(screenCtx){
+	lavaTiles.forEach( function(lavaTile) {
+		lavaTile.render(screenCtx);
+	});
+  }
+  
   
   // Expose the module's public API
   return {
@@ -330,6 +364,7 @@ var Level6 = (function (){
 	enemies : enemies,
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
+	createLavaTiles : createLavaTiles,
 	stopLevelMusic : stopLevelMusic,
 	jetPackAllowed : jetPackAllowed
   }
