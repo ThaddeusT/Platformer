@@ -221,7 +221,7 @@ var Level6 = (function (){
 					enemies.push(newEnemy);
 				break;
 				case "bossDragon":
-					var newEnemy = new Level6Boss(this.game, enemy.position.x, enemy.position.y,level6Boss, level6BossLeft,175,"walking",250,20,25000);
+					var newEnemy = new Level6Boss(this.game, enemy.position.x, enemy.position.y,level6Boss, level6BossLeft,2800,75,50,5,"walking",500,20,25000);
 					enemies.push(newEnemy);
 				break;
 			}

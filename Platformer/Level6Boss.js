@@ -1,6 +1,6 @@
-var Level6Boss = function(game, x, y, image,imageLeft, radius, startingState, health, damage, value) {
+var Level6Boss = function(game, x, y, image,imageLeft,xImageMax, radius, xWalkingmax, xcount, startingState, health, damage, value) {
 	this.game = game;
-	this.type = 1000;
+	this.type = 1005;
 	this.x = x;
 	this.y = y;
 	this.velocity = 7;
@@ -21,12 +21,17 @@ var Level6Boss = function(game, x, y, image,imageLeft, radius, startingState, he
 	this.damage = damage;
 	this.pointsCount=0;
 	this.value = value;
-	this.spriteIter = 0;
-	this.spriteIterCount = 5;
-	this.moveCount = 75;
-	this.toLeft = 550;
-	this.onLeft = 0;
-	this.direction = 1;
+	this.walkingx = 0;
+	this.walkingy = 0;
+	this.walkingcount = 0;
+	this.walkingLeftX = 2800;
+	this.walkingLeftY=0;
+	this.xImageMax = xImageMax;
+	this.xWalkingmax = xWalkingmax;
+	this.stepCount = 0;
+	this.startingX = this.x;
+	this.xcount = xcount;
+	this.facing = "left";
 };
 
 Level6Boss.prototype = {
@@ -38,11 +43,38 @@ Level6Boss.prototype = {
 		switch(this.state)
 		{
 		 case 'walking':
-			context.drawImage(this.sprite_sheet.image, 400*this.spriteIter,0,400,400,this.x-145,this.y-160,350,350);
-			this.spriteIterCount--;
-			if(this.spriteIterCount==0){
-				this.spriteIterCount=5;
-				this.spriteIter=(this.spriteIter+1)%8;
+			if(this.facing == 'right')
+			{
+				if(this.walkingx == this.xImageMax)
+				{
+					this.walkingx = 0;
+				}
+				if(this.walkingcount==this.xcount){
+					this.walkingx+=400;
+					this.walkingcount=0;
+				}
+				else{
+					this.walkingcount++;
+				}
+				//context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
+				//context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
+				context.drawImage(this.sprite_sheet_left.image, this.walkingx, this.walkingy,400,400,this.x-145,this.y-160,350,350);
+			}
+			else{
+				if(this.walkingLeftX == 0)
+				{
+					this.walkingLeftX = this.xImageMax;
+				}
+				if(this.walkingcount==5){
+					this.walkingLeftX-=400;
+					this.walkingcount=0;
+				}
+				else{
+					this.walkingcount++;
+				}
+				//context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
+				//context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
+				context.drawImage(this.sprite_sheet.image,this.walkingLeftX, this.walkingLeftY,400,400,this.x-145,this.y-160,350,350);
 			}
 			break;
 		case 'explode':
@@ -122,22 +154,40 @@ Level6Boss.prototype = {
 	},
 	
 	move: function() {
-		// this.moveCount--;
-		// if(this.moveCount<0){
-			// this.onLeft+=this.velocity*this.direction;
-			// this.x-=this.velocity*this.direction;
-			// if(this.onLeft>=this.toLeft){
-				// this.direction = -1;
-				// this.x+= (this.onLeft-this.toLeft);
-				// this.onLeft = this.toLeft
-			// } 
-			// else if (this.onLeft<=0){
-				// this.direction = 1;
-				// this.moveCount = 100;
-				// this.x+=this.onLeft;
-				// this.onLeft = 0;
-			// }
-		// }	
+		switch(this.state)
+		{
+			case "walking":
+			console.log(this.facing);
+				if(this.facing=='right'){
+						if(this.stepCount < this.xWalkingmax)
+						{
+							this.x += this.velocity;
+							this.stepCount++;
+						}
+						else{
+							this.stepCount =0;
+							this.facing = 'left';
+							this.walkingcount = 0;
+							this.walkingLeftX = 2800;
+							this.walkingLeftY=0;
+						}
+				}
+				if(this.facing=='left'){
+						if(this.stepCount < this.xWalkingmax)
+						{
+							this.x -= this.velocity;
+							this.stepCount++;
+						}
+						else{
+							this.stepCount = 0;
+							this.facing ='right';
+							this.walkingx = 0;
+							this.walkingy = 0;
+							this.walkingcount = 0;
+						}
+				}
+			break;
+		}		
 	},
 	
 	collidedWithCharacter: function(){
