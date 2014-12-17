@@ -16,7 +16,7 @@ var Level2 = (function (){
 		   level2Boss: new Image()
 		},
 		Music: {
-			
+			level_2_music: new Audio()
 		},
 		Sfx: {
 			
@@ -44,7 +44,12 @@ var Level2 = (function (){
 	Resource.Image.enemyType2.src = "BatSpriteSheet.png";
 	Resource.Image.enemyType5.src = "tilesets/baseTileSet.png";
 	Resource.Image.level2Boss.src = "greyCrystalSpriteSheet.png";
-	
+	Resource.Music.level_2_music.src = "Levelmusic/acci_n_.mp3";
+	Resource.Music.level_2_music.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    
 	function onload(){
 		Resource.loading -= 1;
 	}
@@ -107,6 +112,11 @@ var Level2 = (function (){
 			  console.log(Tilemap.layers);
 			}
 		  });
+          Resource.Music.level_2_music.play();
+  }
+  
+  var stopLevelMusic = function() {
+    Resource.Music.level_2_music.pause();
   }
   
   var createEnemies = function(cenemies){
@@ -230,6 +240,7 @@ var Level2 = (function (){
 	enemyType1: enemyType1,
 	enemies: enemies,
 	createEnemies: createEnemies,
-	createTreasures : createTreasures
+	createTreasures : createTreasures,
+    stopLevelMusic : stopLevelMusic
   }
 })();
