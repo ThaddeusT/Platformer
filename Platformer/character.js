@@ -241,10 +241,22 @@ Character.prototype = {
 					this.facing = 'right';
 					this.state='normal';
 					this.jumpcount = 0;
+					this.jetPack = false;
+					this.state = 'normal';
+					this.jumpcount = 0;
 				}
 				else{
 					this.game.gameover =true;
 				}
+				keys = {
+					up: false,
+					down: false,
+					left: false,
+					right: false,
+					q: false,
+					e: false,
+					j: false
+				};
 				this.game.jetPackPowerCollected = false;
 			}
 			else{

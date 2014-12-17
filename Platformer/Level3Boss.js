@@ -62,7 +62,7 @@ Level3Boss.prototype = {
 			}
 			context.fillStyle = "lime";
 			context.font = "bold 12px Arial";
-			context.fillText("+"+this.value, this.x+(this.radius/2),this.y-(this.pointsCount/6));
+			context.fillText("+"+this.value, this.x,this.y-(this.pointsCount/6));
 			this.pointsCount++;
 			if(this.pointsCount==30)
 			{	
@@ -117,7 +117,7 @@ Level3Boss.prototype = {
 		}
 		if(this.state !='explode' && this.state != 'dead'){
 			this.move();
-			console.log(this.x,this.y);
+			//console.log(this.x,this.y);
 		}
 	},
 	

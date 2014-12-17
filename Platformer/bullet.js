@@ -39,7 +39,6 @@ var Bullet = function(game, x, y, radius, image, bulletx, bullety, sourcex, sour
 	this.xImageMax = xImageMax;
 	this.tile;
 	this.collided =false;
-	console.log("bullet");
 };
 
 Bullet.prototype = {

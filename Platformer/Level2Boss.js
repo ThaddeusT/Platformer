@@ -1,4 +1,4 @@
-var Level2Boss = function(game, x, y, image, xImageMax, xcount, radius, startingState, health, damage) {
+var Level2Boss = function(game, x, y, image, xImageMax, xcount, radius, startingState, health, damage,value) {
 	this.game = game;
 	this.type = 2000;
 	this.x = x;
@@ -29,7 +29,9 @@ var Level2Boss = function(game, x, y, image, xImageMax, xcount, radius, starting
 	this.radius = radius;
 	this.vulnerable = false;
 	this.downCheckCounter = 0;
+	this.pointsCount = 0;
 	this.damage = damage;
+	this.value = value;
 	this.attack = 0;
 	this.angle = 1.5*Math.PI;
 };
@@ -41,7 +43,6 @@ Level2Boss.prototype = {
 	
 	render: function(context) {
 		// Render enemy
-		console.log(this.state);
 		switch(this.state)
 		{
 		 case 'idle':
@@ -184,6 +185,14 @@ Level2Boss.prototype = {
 			else
 			{
 				this.state = 'dead';
+			}
+			context.fillStyle = "lime";
+			context.font = "bold 12px Arial";
+			context.fillText("+"+this.value, this.x+(this.radius/2),(this.y-(this.radius/2)-(this.pointsCount/6)));
+			this.pointsCount++;
+			if(this.pointsCount==30)
+			{	
+				this.state='dead';
 			}
 			break;
 		}

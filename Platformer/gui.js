@@ -63,9 +63,9 @@ var GUI = function(game) {
 			}
 			this.oldLives = this.game.lives;
 		}
+		this.topLeftBelow.innerHTML ="";
 		if(this.game.jetPackPowerCollected)
 		{
-			this.topLeftBelow.innerHTML ="";
 			var img = $('<img />',
 						 { class: 'jetPack',
 						   src: 'jetpack.png',

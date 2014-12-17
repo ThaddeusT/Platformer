@@ -1,4 +1,4 @@
-var Type2Enemy = function(game, x, y, image, xImageMax, xcount, radius, startingState, health, damage) {
+var Type2Enemy = function(game, x, y, image, xImageMax, xcount, radius, startingState, health, damage, value) {
 	this.game = game;
 	this.type = 2;
 	this.x = x;
@@ -18,6 +18,7 @@ var Type2Enemy = function(game, x, y, image, xImageMax, xcount, radius, starting
 	this.flyingy = 0;
 	this.enemyHead = 40;
 	this.flyingcount = 0;
+	this.pointsCount = 0;
 	this.origin = this.y;
 	this.flyingState = "up";
 	this.walkingLeftY=0;
@@ -28,7 +29,7 @@ var Type2Enemy = function(game, x, y, image, xImageMax, xcount, radius, starting
 	this.facing = "right";
 	this.downCheckCounter = 0;
 	this.damage = damage;
-	console.log(this.image);
+	this.value = value;
 };
 
 Type2Enemy.prototype = {
@@ -85,6 +86,14 @@ Type2Enemy.prototype = {
 			else
 			{
 				this.state = 'dead';
+			}
+			context.fillStyle = "lime";
+			context.font = "bold 12px Arial";
+			context.fillText("+"+this.value, this.x+(this.radius/2),(this.y-(this.radius/2)-(this.pointsCount/6)));
+			this.pointsCount++;
+			if(this.pointsCount==30)
+			{	
+				this.state='dead';
 			}
 			break;
 		}

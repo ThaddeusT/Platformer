@@ -144,11 +144,11 @@ var Level2 = (function (){
 			switch(enemy.enemyType)
 			{
 				case "1":
-					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10);
+					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10,250);
 					enemies.push(newEnemy);
 				break;
 				case "2":
-					var newEnemy = new Type2Enemy(this.game, enemy.position.x, enemy.position.y, enemyType2, 700, 5, 50, "idle", 25, 15);
+					var newEnemy = new Type2Enemy(this.game, enemy.position.x, enemy.position.y, enemyType2, 700, 5, 50, "idle", 25, 15,200);
 					enemies.push(newEnemy);
 				break;
 				case "5":
@@ -156,7 +156,7 @@ var Level2 = (function (){
 					enemies.push(newEnemy);
 				break;
 				case "boss":
-					var newEnemy = new Level2Boss(this.game, enemy.position.x, enemy.position.y, level2Boss, 700, 5, 50, "idle", 300, 10);
+					var newEnemy = new Level2Boss(this.game, enemy.position.x, enemy.position.y, level2Boss, 700, 5, 50, "idle", 300, 10,25000);
 					enemies.push(newEnemy);
 				break;
 			}

@@ -73,6 +73,7 @@ Type3Enemy.prototype = {
 			{
 				this.state = 'dead';
 			}
+			console.log(this.value);
 			context.fillStyle = "lime";
 			context.font = "bold 12px Arial";
 			context.fillText("+"+this.value, this.x+(this.radius/2),this.y-(this.pointsCount/6));
@@ -97,14 +98,14 @@ Type3Enemy.prototype = {
 		var healthPercent = (this.health/this.maxHealth)*this.healthBarWidth;
 		context.save();
 		context.beginPath();
-		context.rect(this.x+(this.radius/2), this.y+(this.enemyHead/2), this.radius,5);
+		context.rect(this.x+(this.radius/2), this.y+30, this.radius,5);
 		context.fillStyle = 'gray';
 		context.fill();
 		context.lineWidth = 1;
 		context.strokeStyle = 'black';
 		context.stroke();
 		context.beginPath();
-		context.rect(this.x+(this.radius/2),this.y+(this.enemyHead/2),healthPercent,5);
+		context.rect(this.x+(this.radius/2),this.y+30,healthPercent,5);
 		context.fillStyle = 'lime';
 		context.fill();
 		context.lineWidth = 1;
