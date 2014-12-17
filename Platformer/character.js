@@ -379,6 +379,7 @@ Character.prototype = {
 				if(this.jumpcount==0)
 				{
 					this.state="jumping";
+                    this.game.levels[game.level-1].Resource.Sfx.jumpingSound.play();
 				}
 			} 
 			else if(inputState.down) {
