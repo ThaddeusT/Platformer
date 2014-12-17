@@ -34,6 +34,10 @@ var Level3Boss = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, x
 	this.value = value;
 	this.spriteIter = 0;
 	this.spriteIterCount = 5;
+	this.moveCount = 75;
+	this.toLeft = 550;
+	this.onLeft = 0;
+	this.direction = 1;
 };
 
 Level3Boss.prototype = {
@@ -75,7 +79,7 @@ Level3Boss.prototype = {
 				// }
 				// context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
 			// }
-			context.drawImage(this.sprite_sheet.image, 400*this.spriteIter,0,400,400,this.x-150,this.y-150,350,350);
+			context.drawImage(this.sprite_sheet.image, 400*this.spriteIter,0,400,400,this.x-145,this.y-160,350,350);
 			this.spriteIterCount--;
 			if(this.spriteIterCount==0){
 				this.spriteIterCount=5;
@@ -166,6 +170,25 @@ Level3Boss.prototype = {
 		var tileDownRight = Tilemap.tileAt(x+50, this.y+75,0);
 		var tileLeft =  Tilemap.tileAt(x-15, this.y+50,0);
 		var tileRight = Tilemap.tileAt(x+65, this.y+50,0);
+		
+		this.moveCount--;
+		if(this.moveCount<0){
+			this.onLeft+=10*this.direction;
+			this.x-=10*this.direction;
+			if(this.onLeft>=this.toLeft){
+				this.direction = -1;
+				this.x+= (this.onLeft-this.toLeft);
+				this.onLeft = this.toLeft
+			} 
+			else if (this.onLeft<=0){
+				this.direction = 1;
+				this.moveCount = 100;
+				this.x+=this.onLeft;
+				this.onLeft = 0;
+			}
+		}
+		
+		
 		switch(this.state)
 		{
 			// case "walking":
