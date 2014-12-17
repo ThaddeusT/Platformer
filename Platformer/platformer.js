@@ -77,6 +77,7 @@ var Game = function (canvasId) {
   this.enemyBullets = [];
   this.jetPackPowerCollected = false;
   this.gameStarted = false;
+  this.gameInfo = false;
   this.splashScreenCount = 0;
   
   // Timing variables
@@ -95,24 +96,37 @@ Game.prototype = {
 	// http://gameprogrammingpatterns.com/update-method.html
 	update: function(elapsedTime) {
 		var self = this;
-		if(!this.gameStarted)
+		if(!this.gameStarted || !this.gameInfo)
 		{
-            game.levels[game.level-1].stopLevelMusic();
-            game.levels[game.level-1].Resource.Music.introMusic.play();
-			if(this.splashScreenCount == 10)
+			$(".splashScreen").show();
+			if(!gameover)
 			{
-				if($(".splashScreen img").attr("src")=="StartScreen0.png")
+				if(!this.gameStarted)
 				{
-					$(".splashScreen img").attr("src","StartScreen1.png");
+					game.levels[game.level-1].stopLevelMusic();
+					game.levels[game.level-1].Resource.Music.introMusic.play();
+					if(this.splashScreenCount == 10)
+					{
+						if($(".splashScreen img").attr("src")=="StartScreen0.png")
+						{
+							$(".splashScreen img").attr("src","StartScreen1.png");
+						}
+						else
+						{
+							$(".splashScreen img").attr("src","StartScreen0.png");
+						}
+						this.splashScreenCount=0;
+					}
+					else{
+						this.splashScreenCount++;
+					}
 				}
-				else
-				{
-					$(".splashScreen img").attr("src","StartScreen0.png");
+				else{
+					$(".splashScreen img").attr("src","instructionScreen.png");
 				}
-				this.splashScreenCount=0;
 			}
 			else{
-				this.splashScreenCount++;
+				$(".splashScreen img").attr("src","creditScreen_WithText.png");
 			}
 		}
 		else{
@@ -169,8 +183,27 @@ Game.prototype = {
 					//To be overriden by tileFaceLeft.solidtileFaceLeft.solid condition.
 					if(game.level > game.levels.length)
 					{
+						$(".splashScreen").show();
+						$(".splashScreen img").attr("src","creditScreen_WithText.png");
 						game.jetPackPowerCollected = false;
 						game.level = 1;
+						if(!game.gameresetting)
+						{
+							game.levels[game.level-1].stopLevelMusic();
+							game.gameresetting = true;
+							game.gui.message("Congratulations! You've beaten the game!");
+							game.renderCharacter = false;
+							this.gameStarted = false;
+							this.gameInfo = false;
+							setTimeout(function(){ 
+								game.level = 1;
+								game.lives = 3;
+								game.health = 100;
+								game.score = 0;
+								game.loadLevel();
+								game.gameresetting =false;
+							}, 2000);
+						}
 					}
 					game.loadLevel();
 				}
@@ -178,11 +211,14 @@ Game.prototype = {
 			else{
 				if(!game.gameresetting)
 				{
+					$(".splashScreen").show();
+					$(".splashScreen img").attr("src","creditScreen_WithText.png");
 					game.levels[game.level-1].stopLevelMusic();
 					game.gameresetting = true;
 					game.gui.message("GAME OVER");
-					game.gameover = false;
 					game.renderCharacter = false;
+					this.gameStarted = false;
+					this.gameInfo = false;
 					setTimeout(function(){ 
 						game.level = 1;
 						game.lives = 3;
@@ -290,11 +326,21 @@ Game.prototype = {
 				game.character.enableJetPack();
 			}
 		}
-		if(!this.gameStarted && e.keyCode ==13)
+		if(e.keyCode ==13)
 		{
-			this.gameStarted = true;
-            game.levels[game.level-1].Resource.Music.introMusic.pause();
-            game.levels[game.level-1].Resource.Music.level_1_music.play();
+			if(!this.gameStarted)
+			{
+				this.gameStarted = true;
+			}
+			else
+			{
+				if(this.gameStarted)
+				{
+					this.gameInfo = true;
+					game.levels[game.level-1].Resource.Music.introMusic.pause();
+					game.levels[game.level-1].Resource.Music.level_1_music.play();
+				}
+			}
 		}
 		
 		if(keys["left"] && !keys["up"] && !keys["right"] && !keys["down"])
