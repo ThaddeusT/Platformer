@@ -245,6 +245,7 @@ Character.prototype = {
 				else{
 					this.game.gameover =true;
 				}
+				this.game.jetPackPowerCollected = false;
 			}
 			else{
 				//console.log("Character: "+this.x+","+this.y);

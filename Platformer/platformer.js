@@ -122,6 +122,7 @@ Game.prototype = {
 				//To be overriden by tileFaceLeft.solidtileFaceLeft.solid condition.
 				if(game.level > game.levels.length)
 				{
+					game.jetPackPowerCollected = false;
 					game.level = 1;
 				}
 				game.loadLevel();
