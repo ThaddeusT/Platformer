@@ -1,7 +1,7 @@
 var Level2 = (function (){
 	this.game;
 	var Resource = {
-		loading: 9,
+		loading: 14,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
@@ -13,7 +13,10 @@ var Level2 = (function (){
 		   enemyType1Left: new Image(),
 		   enemyType2: new Image(),
 		   enemyType5: new Image(),
-		   level2Boss: new Image()
+		   level2Boss: new Image(),
+		   greenCrystal: new Image(),
+		   redCrystal: new Image(),
+		   blueCrystal: new Image()
 		},
 		Music: {
 			level_2_music: new Audio()
@@ -35,6 +38,9 @@ var Level2 = (function (){
 	Resource.Image.enemyType2.onload = onload;
 	Resource.Image.enemyType5.onload = onload;
 	Resource.Image.level2Boss.onload = onload;
+	Resource.Image.greenCrystal.onload = onload;
+	Resource.Image.blueCrystal.onload = onload;
+	Resource.Image.redCrystal.onload = onload;
 	Resource.Image.background.src = "background.png";
 	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
 	Resource.Image.characterLeft.src = "mainCharacterSpriteSheet100Left.png";
@@ -42,12 +48,15 @@ var Level2 = (function (){
 	Resource.Image.jetpackLeft.src = "jetpackSpriteSheet100Left.png";
 	Resource.Image.portal.src = "portalSpriteSheet.png";
 	Resource.Image.enemyType1.src ="Robot_Blue1_SpriteSheet.png";
-	Resource.Image.enemyType1Left.src ="Robot_Blue1_SpriteSheetLeft.png";
+	Resource.Image.enemyType1Left.src ="Robot_Blue1_SpriteSheetLeft.png"
 	Resource.Image.enemyType2.src = "BatSpriteSheet.png";
 	Resource.Image.enemyType5.src = "tilesets/baseTileSet.png";
 	Resource.Image.level2Boss.src = "greyCrystalSpriteSheet.png";
-    
-    //Sound Effects
+	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
+	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
+	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
+	
+	 //Sound Effects
     Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
     Resource.Sfx.chargingFire.src ="Sound Effects/Chargingup.wav";
     Resource.Sfx.jumpingSound.src ="Sound Effects/Jumping.wav";
@@ -58,7 +67,7 @@ var Level2 = (function (){
         this.currentTime = 0;
         this.play();
     }, false);
-    
+	
 	function onload(){
 		Resource.loading -= 1;
 	}
@@ -84,6 +93,7 @@ var Level2 = (function (){
   var jetpackLeft = {
 	image: Resource.Image.jetpackLeft
   }
+  
   var portal ={
 	image: Resource.Image.portal,
 	portalx: 0,
@@ -106,6 +116,7 @@ var Level2 = (function (){
 	image: Resource.Image.level2Boss
   }
   var enemies = []
+  var treasures = []
   
   var setBackground = function(image){
 	Resource.Image.background = image;
@@ -114,32 +125,30 @@ var Level2 = (function (){
   var load = function(screenCtx)
   {
 		var self = this;
-	    Tilemap.load(tilemapDataLvl2V4, {
+	    Tilemap.load(tilemapDataLvl2V6, {
 			onload: function() {
 			  // Tilemap.render(screenCtx);
 			  console.log('Tilemap Loaded');
-			  console.log(Tilemap.layers);
+			  Resource.Music.level_2_music.play();
 			}
 		  });
-          Resource.Music.level_2_music.play();
   }
   
   var stopLevelMusic = function() {
     Resource.Music.level_2_music.pause();
   }
   
-  var createEnemies = function(cenemies){
+    var createEnemies = function(cenemies){
 		enemies = [];
 		cenemies.forEach( function(enemy) {
 			switch(enemy.enemyType)
 			{
 				case "1":
-					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10,250);
+					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10);
 					enemies.push(newEnemy);
 				break;
 				case "2":
 					var newEnemy = new Type2Enemy(this.game, enemy.position.x, enemy.position.y, enemyType2, 700, 5, 50, "idle", 25, 15);
-					console.log(enemyType2);
 					enemies.push(newEnemy);
 				break;
 				case "5":
@@ -147,7 +156,7 @@ var Level2 = (function (){
 					enemies.push(newEnemy);
 				break;
 				case "boss":
-					var newEnemy = new Level2Boss(this.game, enemy.position.x, enemy.position.y, level2Boss, 700, 5, 100, "idle", 300, 10);
+					var newEnemy = new Level2Boss(this.game, enemy.position.x, enemy.position.y, level2Boss, 700, 5, 50, "idle", 300, 10);
 					enemies.push(newEnemy);
 				break;
 			}
@@ -174,23 +183,52 @@ var Level2 = (function (){
 			}
 		});
   }
+  
 
   var update = function(elapsedTime){
+		calculateTreasureCharacterCollisions(this.game, treasures);
 		calculateEnemyCharacterCollisions(this.game, enemies);
 		calculateEnemyCharacterBulletCollisions(this.game,enemies);
 		enemies.forEach( function(enemy) {
 			if(enemy.state=="dead")
 			{
-				this.game.score += enemy.maxHealth;
+				this.game.score += enemy.value;
 				enemies.splice($.inArray(enemy, enemies),1);
 			}
 			enemy.update();
 		});
+		treasures.forEach( function(treasure) {
+			if(treasure.state=="dead")
+			{
+				this.game.score += treasure.value;
+				switch(treasure.type)
+				{
+					case 1:
+						this.game.character.updateHealth(25);
+					break;
+					case 2:
+						this.game.jetPackPowerCollected =true;
+						this.game.character.enableJetPack();
+					break;
+					case 3:
+						this.game.character.setRespawnPoint(this.game.character.x,this.game.character.y, this.game.backgroundx);
+					break;
+				}
+				
+				treasures.splice($.inArray(treasure, treasures),1);
+			}
+			treasure.update();
+		});
+		
   }
 
   var render = function(screenCtx) {
-		renderPortals(screenCtx);
-		renderEnemies(screenCtx);
+		if(!game.gameresetting)
+		{
+			renderPortals(screenCtx);
+			renderEnemies(screenCtx);
+			renderTreasures(screenCtx);
+		}
   }
   
   var renderPortals = function(screenCtx)
@@ -231,6 +269,12 @@ var Level2 = (function (){
 			});
   }
   
+  var renderTreasures =  function(screenCtx){
+	treasures.forEach( function(treasure) {
+		treasure.render(screenCtx);
+	});
+  }
+  
   
   // Expose the module's public API
   return {
@@ -245,11 +289,12 @@ var Level2 = (function (){
 	characterLeft : characterLeft,
 	jetpack : jetpack,
 	jetpackLeft: jetpackLeft,
-	portal:portal,
-	enemyType1: enemyType1,
-	enemies: enemies,
-	createEnemies: createEnemies,
+	portal : portal,
+	enemyType1 : enemyType1,
+	enemies : enemies,
+	createEnemies : createEnemies,
 	createTreasures : createTreasures,
-    stopLevelMusic : stopLevelMusic
+	stopLevelMusic : stopLevelMusic
   }
 })();
+

@@ -290,20 +290,20 @@ Character.prototype = {
 			{
 				if(this.state == 'crouching')
 				{
-					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 375, this.facing, true, 0));
 				}
 				else{
-					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 375, this.facing, true, 0));
 				}
 			}
 		else{
 			if(this.state == 'crouching')
 			{
-				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 375, this.facing, true, 0));
 			}
 			else
 			{
-				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, this.facing));
+				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 375, this.facing, true, 0));
 			}
 		}
 		this.chargingRadius =5;

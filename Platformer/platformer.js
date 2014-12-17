@@ -75,6 +75,7 @@ var Game = function (canvasId) {
   this.respawnScroll = 0;
   this.renderCharacter = false;
   this.characterBullets =[];
+  this.enemyBullets = [];
   this.jetPackPowerCollected = false;
   
   // Timing variables
@@ -113,6 +114,23 @@ Game.prototype = {
 				if(bullet.collided)
 				{
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+				}
+			});
+			game.enemyBullets.forEach(function(bullet)
+			{
+				bullet.update(elapsedTime);
+				if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
+				{
+					game.enemyBullets.splice($.inArray(bullet, game.characterBullets),1);
+				}
+				//if(bullet.tile){
+					//if(bullet.tile.solid){
+						//game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+					//}
+				//}
+				if(bullet.collided)
+				{
+					game.enemyBullets.splice($.inArray(bullet, game.characterBullets),1);
 				}
 			});	
 			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5 && Math.abs(game.character.y-(Tilemap.portals[0].postion.y))<100)
@@ -175,6 +193,11 @@ Game.prototype = {
 		
 		//Render Character Bullets
 		game.characterBullets.forEach( function(bullet) {
+			bullet.render(self.backBufferContext);
+		});
+		
+		//Render Enemy Bullets
+		game.enemyBullets.forEach( function(bullet) {
 			bullet.render(self.backBufferContext);
 		});
 		
