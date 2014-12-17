@@ -118,7 +118,7 @@ var Level3 = (function (){
 					enemies.push(newEnemy);
 				break;
 				case "boss":
-					var newEnemy = new Level3Boss(this.game, enemy.position.x, enemy.position.y,level3Boss, level3Boss, 2800,400,5,125,"walking",500,20,25000);
+					var newEnemy = new Level3Boss(this.game, enemy.position.x, enemy.position.y,level3Boss, level3Boss, 2800,400,5,175,"walking",500,20,25000);
 					enemies.push(newEnemy);
 				break;
 			}
