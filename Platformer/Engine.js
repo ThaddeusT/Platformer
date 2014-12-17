@@ -21,9 +21,17 @@ var Tilemap = (function (){
 		y:y};
 	this.treasureType = type;
   }
+  var LavaTile = function(x,y)
+  {
+	this.position = {
+		x:x,
+		y:y};
+  }
+  
   var portals = [];
   var enemies = [];
   var treasures = [];
+  var lava = [];
   var tiles = [],
 	  tilesets = [],
       layers = [],
@@ -48,6 +56,7 @@ var Tilemap = (function (){
 	portals.length = 0;
 	enemies.length = 0;
 	treasures.length = 0;
+	lava.length = 0;
 	
     // Resize the map
     tileWidth = mapData.tilewidth;
@@ -89,6 +98,7 @@ var Tilemap = (function (){
 		  rotation: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].rotation != "0") ? tilesetmapData.tileproperties[i].rotation : 0,
 		  Treasure: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].treasure == "true") ? true : false,
 		  TreasureType: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].treasureType != "0") ? tilesetmapData.tileproperties[i].treasureType : 0,
+		  Lava: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].lava == "true") ? true : false,
         }
         tiles.push(tile);
 		if(tile.portal)
@@ -127,6 +137,20 @@ var Tilemap = (function (){
 					{
 						var treasure = new Treasure(x*tileWidth,y*tileHeight, tile.TreasureType);
 						treasures.push(treasure);
+					}
+				}
+			}
+		}
+		if(tile.Lava)
+		{
+			for(y =0; y<mapHeight; y++)
+			{
+				for(x=0; x<mapWidth; x++)
+				{
+					if(mapData.layers[0].data[x+y*mapWidth]==tiles.length)
+					{
+						var lavatile = new LavaTile(x*tileWidth,y*tileHeight);
+						lava.push(lavatile);
 					}
 				}
 			}

@@ -58,11 +58,12 @@ var Game = function (canvasId) {
   this.health = 100;
   this.gui = new GUI(this);
   this.levels = [];
-  this.levels.push(Level1);
-  this.levels.push(Level4);
-  this.levels.push(Level5);
-  this.levels.push(Level3);
-  this.levels.push(Level2);
+  // this.levels.push(Level1);
+  // this.levels.push(Level4);
+  // this.levels.push(Level5);
+  // this.levels.push(Level3);
+  // this.levels.push(Level2);
+  this.levels.push(Level6);
   this.level =1;
   this.backgroundx = 0;
   this.backgroundy = 0;
@@ -414,7 +415,9 @@ Game.prototype = {
 		switch(game.level)
 		{
 			case 1:
-				
+				game.lives = 3;
+				game.jetPackPowerCollected = true;
+				game.character.enableJetPack();
 			break;
 			case 2:
 			break;
@@ -428,6 +431,11 @@ Game.prototype = {
 				game.lives = 3;
 				game.jetPackPowerCollected = false;
 				game.character.disableJetPack();
+			break;
+			case 6:
+				game.lives = 3;
+				game.jetPackPowerCollected = true;
+				game.character.enableJetPack();
 			break;
 		}
 		setTimeout(function() {
