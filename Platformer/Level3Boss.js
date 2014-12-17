@@ -3,7 +3,7 @@ var Level3Boss = function(game, x, y, image,imageLeft, radius, startingState, he
 	this.type = 1000;
 	this.x = x;
 	this.y = y;
-	this.velocity = 5;
+	this.velocity = 7;
 	this.maxHealth = health;
 	this.health = health;
 	this.state = startingState;
@@ -62,7 +62,7 @@ Level3Boss.prototype = {
 			}
 			context.fillStyle = "lime";
 			context.font = "bold 12px Arial";
-			context.fillText("+"+this.value, this.x+(this.radius/2),this.y-(this.pointsCount/6));
+			context.fillText("+"+this.value, this.x,this.y-(this.pointsCount/6));
 			this.pointsCount++;
 			if(this.pointsCount==30)
 			{	

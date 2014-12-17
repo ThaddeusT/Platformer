@@ -145,10 +145,15 @@ var Level5 = (function (){
     Resource.Music.level_5_music.pause();
   }
   
+  var jetPackAllowed = function()
+  {
+		return true;
+  }
+  
   var createEnemies = function(cenemies){
 		enemies = [];
 		cenemies.forEach( function(enemy) {
-			console.log(enemy.enemyType);
+			//console.log(enemy.enemyType);
 			switch(enemy.enemyType)
 			{
 				case "1":
@@ -294,6 +299,7 @@ var Level5 = (function (){
 	enemies : enemies,
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
-    stopLevelMusic : stopLevelMusic
+    stopLevelMusic : stopLevelMusic,
+	jetPackAllowed : jetPackAllowed
   }
 })();

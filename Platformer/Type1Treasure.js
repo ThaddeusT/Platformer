@@ -43,7 +43,7 @@ Type1Treasure.prototype = {
 			case 'captured' :
 				context.fillStyle = "lime";
 				context.font = "bold 14px Arial";
-				context.fillText("+"+this.value, this.x+(this.radius/2),this.game.character.y-(this.captureCount/6));
+				context.fillText("+"+this.value, this.x+(this.radius/2),this.y-this.radius-(this.captureCount/6));
 				this.captureCount++;
 				if(this.captureCount==30)
 				{	

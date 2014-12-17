@@ -63,15 +63,15 @@ var GUI = function(game) {
 			}
 			this.oldLives = this.game.lives;
 		}
+		this.topLeftBelow.innerHTML ="";
+		this.topLeftCancel.innerHTML = "";
 		if(this.game.jetPackPowerCollected)
 		{
-			this.topLeftBelow.innerHTML ="";
 			var img = $('<img />',
 						 { class: 'jetPack',
 						   src: 'jetpack.png',
 						   alt:'jetpack'})
 						  .appendTo(this.topLeftBelow);
-			this.topLeftCancel.innerHTML = "";
 			if(!this.game.character.jetPack)
 			{
 				var img = $('<img />',
@@ -82,7 +82,14 @@ var GUI = function(game) {
 			}
 		}
 		// TODO: Render Score
-		this.topRight.innerHTML = this.game.score;
+		this.topRight.innerHTML = "";
+		if (typeof(Storage) != "undefined") {
+			this.topRight.innerHTML += "High Score: "+localStorage.getItem("HighScore");
+			this.topRight.innerHTML += "<br/> Current Score: "+this.game.score;
+		}
+		else{
+			this.topRight.innerHTML = "Current Score: "+this.game.score;
+		}
 		
 	}
 }

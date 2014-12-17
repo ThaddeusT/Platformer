@@ -59,11 +59,10 @@ var Game = function (canvasId) {
   this.gui = new GUI(this);
   this.levels = [];
   this.levels.push(Level1);
-  this.levels.push(Level2);
-  this.levels.push(Level3);
   this.levels.push(Level4);
   this.levels.push(Level5);
-  console.log(this.levels);
+  this.levels.push(Level3);
+  this.levels.push(Level2);
   this.level =1;
   this.backgroundx = 0;
   this.backgroundy = 0;
@@ -75,6 +74,7 @@ var Game = function (canvasId) {
   this.respawnScroll = 0;
   this.renderCharacter = false;
   this.characterBullets =[];
+  this.enemyBullets = [];
   this.jetPackPowerCollected = false;
   
   // Timing variables
@@ -100,7 +100,7 @@ Game.prototype = {
 			game.characterBullets.forEach(function(bullet)
 			{
 				bullet.update(elapsedTime);
-				console.log(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0);
+				//console.log(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0);
 				if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
 				{
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
@@ -113,6 +113,23 @@ Game.prototype = {
 				if(bullet.collided)
 				{
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+				}
+			});
+			game.enemyBullets.forEach(function(bullet)
+			{
+				bullet.update(elapsedTime);
+				if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
+				{
+					game.enemyBullets.splice($.inArray(bullet, game.characterBullets),1);
+				}
+				//if(bullet.tile){
+					//if(bullet.tile.solid){
+						//game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
+					//}
+				//}
+				if(bullet.collided)
+				{
+					game.enemyBullets.splice($.inArray(bullet, game.characterBullets),1);
 				}
 			});	
 			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5 && Math.abs(game.character.y-(Tilemap.portals[0].postion.y))<100)
@@ -133,6 +150,7 @@ Game.prototype = {
 		else{
 			if(!game.gameresetting)
 			{
+				game.levels[game.level-1].stopLevelMusic();
 				game.gameresetting = true;
 				game.gui.message("GAME OVER");
                 game.levels[game.level-1].stopLevelMusic();
@@ -175,6 +193,11 @@ Game.prototype = {
 		
 		//Render Character Bullets
 		game.characterBullets.forEach( function(bullet) {
+			bullet.render(self.backBufferContext);
+		});
+		
+		//Render Enemy Bullets
+		game.enemyBullets.forEach( function(bullet) {
 			bullet.render(self.backBufferContext);
 		});
 		
@@ -388,6 +411,26 @@ Game.prototype = {
 		game.levels[game.level-1].createTreasures(Tilemap.treasures);
 		this.gui.message(
 		"Welcome to Level "+game.level+" Begin!");
+		//Special Level Conditions
+		switch(game.level)
+		{
+			case 1:
+				
+			break;
+			case 2:
+			break;
+			case 3:
+				game.jetPackPowerCollected = true;
+				game.character.enableJetPack();
+			break;
+			case 4:
+			break;
+			case 5:
+				game.lives = 3;
+				game.jetPackPowerCollected = false;
+				game.character.disableJetPack();
+			break;
+		}
 		setTimeout(function() {
             self.gui.message("")
         }, 3000);
