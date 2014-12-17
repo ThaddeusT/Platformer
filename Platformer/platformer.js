@@ -1,4 +1,4 @@
-/ Screen Size
+// Screen Size
 var WIDTH = 800;
 var HEIGHT = 500;
 var LEVEL_LENGTH = 140000;
@@ -97,6 +97,8 @@ Game.prototype = {
 		var self = this;
 		if(!this.gameStarted)
 		{
+            game.levels[game.level-1].stopLevelMusic();
+            game.levels[game.level-1].Resource.Music.introMusic.play();
 			if(this.splashScreenCount == 10)
 			{
 				if($(".splashScreen img").attr("src")=="StartScreen0.png")
@@ -115,6 +117,7 @@ Game.prototype = {
 		}
 		else{
 			$(".splashScreen").hide();
+            
 			if(!game.gameover)
 			{
 				game.levels[game.level-1].update();
@@ -287,6 +290,8 @@ Game.prototype = {
 		if(!this.gameStarted && e.keyCode ==13)
 		{
 			this.gameStarted = true;
+            game.levels[game.level-1].Resource.Music.introMusic.pause();
+            game.levels[game.level-1].Resource.Music.level_1_music.play();
 		}
 		
 		if(keys["left"] && !keys["up"] && !keys["right"] && !keys["down"])

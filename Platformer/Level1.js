@@ -16,7 +16,8 @@ var Level1 = (function (){
 		   blueCrystal: new Image()
 		},
 		Music: {
-			level_1_music: new Audio()
+			level_1_music: new Audio(),
+            introMusic: new Audio()
 		},
 		Sfx: {
 			weaponFire: new Audio(),
@@ -71,7 +72,14 @@ var Level1 = (function (){
     Resource.Sfx.barrierDown.src = "Sound Effects/boxopen.mp3";
     
     //Level Music
+    
+    Resource.Music.introMusic.src = "Levelmusic/soundtrack_Intronitiion_ilikescifi_0.mp3";
     Resource.Music.level_1_music.src = "Levelmusic/Soul Star v1_0.mp3";
+    Resource.Music.introMusic.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    
 	Resource.Music.level_1_music.addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
@@ -131,7 +139,7 @@ var Level1 = (function (){
 			  console.log('Tilemap Loaded');
 			}
 		  });
-          Resource.Music.level_1_music.play();
+          
   }
   
   var stopLevelMusic = function() {
