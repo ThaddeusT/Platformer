@@ -56,6 +56,11 @@ Author: FoxSynergy
 Source: http://opengameart.org/content/soul-star
 License: http://creativecommons.org/licenses/by/3.0/
 
+heroism by Edward J. Blakeley under GPL 3.0 and GPL 2.0
+Author: Edward J. Blakeley
+Source: http://opengameart.org/content/heroism
+License: GPL 3.0 and GPL 2.0
+
 Sound Effects:
 
 jump-landing by MentalSanityOff under Public Domain
@@ -147,6 +152,11 @@ yd-Sounds by yd under Public Domain
 Author: yd
 Source: http://opengameart.org/content/platformer-sounds-terminal-interaction-door-shots-bang-and-footsteps
 License: Public Domain
+
+Rocket Thuster-Sound by dobroride under Sampling plus 1.0
+Author: dobroride
+Source: http://soundbible.com/1492-Rocket-Thrusters.html
+License: Sampling plus 1.0
 
 Contributors:
 
