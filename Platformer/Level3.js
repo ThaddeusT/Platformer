@@ -17,7 +17,8 @@ var Level3 = (function (){
 		   blueCrystal: new Image()
 		},
 		Music: {
-			level_3_music: new Audio()
+			level_3_music: new Audio(),
+            creditMusic: new Audio()
 		},
 		Sfx: {
 			weaponFire: new Audio(),
@@ -79,7 +80,12 @@ var Level3 = (function (){
     
     //Level Music
     Resource.Music.level_3_music.src = "Levelmusic/battle1_1.mp3";
+    Resource.Music.creditMusic.src = "Levelmusic/Exodus.mp3";
     Resource.Music.level_3_music.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    Resource.Music.creditMusic.addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
     }, false);

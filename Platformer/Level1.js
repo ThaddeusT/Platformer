@@ -17,7 +17,8 @@ var Level1 = (function (){
 		},
 		Music: {
 			level_1_music: new Audio(),
-            introMusic: new Audio()
+            introMusic: new Audio(),
+            creditMusic: new Audio()
 		},
 		Sfx: {
 			weaponFire: new Audio(),
@@ -74,6 +75,7 @@ var Level1 = (function (){
     //Level Music
     
     Resource.Music.introMusic.src = "Levelmusic/soundtrack_Intronitiion_ilikescifi_0.mp3";
+    Resource.Music.creditMusic.src = "Levelmusic/Exodus.mp3";
     Resource.Music.level_1_music.src = "Levelmusic/Soul Star v1_0.mp3";
     Resource.Music.introMusic.addEventListener('ended', function() {
         this.currentTime = 0;
@@ -81,6 +83,11 @@ var Level1 = (function (){
     }, false);
     
 	Resource.Music.level_1_music.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    
+    Resource.Music.creditMusic.addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
     }, false);
