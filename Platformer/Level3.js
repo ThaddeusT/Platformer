@@ -1,7 +1,7 @@
 var Level3 = (function (){
 	this.game;
 	var Resource = {
-		loading: 11,
+		loading: 12,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
@@ -11,6 +11,7 @@ var Level3 = (function (){
 		   portal: new Image(),
 		   enemyType1: new Image(),
 		   enemyType1Left: new Image(),
+		   level3Boss: new Image(),
 		   greenCrystal: new Image(),
 		   redCrystal: new Image(),
 		   blueCrystal: new Image()
@@ -30,6 +31,7 @@ var Level3 = (function (){
 	Resource.Image.portal.onload = onload;
 	Resource.Image.enemyType1.onload = onload;
 	Resource.Image.enemyType1Left.onload = onload;
+	Resource.Image.level3Boss.onload = onload;
 	Resource.Image.greenCrystal.onload = onload;
 	Resource.Image.blueCrystal.onload = onload;
 	Resource.Image.redCrystal.onload = onload;
@@ -41,6 +43,7 @@ var Level3 = (function (){
 	Resource.Image.portal.src = "portalSpriteSheet.png";
 	Resource.Image.enemyType1.src ="Robot_Blue1_SpriteSheet.png";
 	Resource.Image.enemyType1Left.src ="Robot_Blue1_SpriteSheetLeft.png"
+	Resource.Image.level3Boss.src = "enemy_Teleporter_BOSS_SpriteSheet100.png";
 	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
@@ -83,6 +86,10 @@ var Level3 = (function (){
   var enemyType1Left = {
 	image: Resource.Image.enemyType1Left
   }
+  var level3Boss ={
+	image: Resource.Image.level3Boss
+  }
+  
   var enemies = []
   var treasures = []
   
@@ -108,6 +115,10 @@ var Level3 = (function (){
 			{
 				case "1":
 					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10,250);
+					enemies.push(newEnemy);
+				break;
+				case "boss":
+					var newEnemy = new Level3Boss(this.game, enemy.position.x, enemy.position.y,level3Boss, level3Boss,175,"walking",500,20,25000);
 					enemies.push(newEnemy);
 				break;
 			}
@@ -242,9 +253,10 @@ var Level3 = (function (){
 	jetpackLeft: jetpackLeft,
 	portal : portal,
 	enemyType1 : enemyType1,
+	enemyType1Left : enemyType1Left,
+	level3Boss : level3Boss,
 	enemies : enemies,
 	createEnemies : createEnemies,
 	createTreasures : createTreasures
   }
 })();
-
