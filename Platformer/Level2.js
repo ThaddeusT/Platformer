@@ -99,7 +99,7 @@ var Level2 = (function (){
   var load = function(screenCtx)
   {
 		var self = this;
-	    Tilemap.load(tilemapDataLvl2, {
+	    Tilemap.load(tilemapDataLvl2V4, {
 			onload: function() {
 			  // Tilemap.render(screenCtx);
 			  console.log('Tilemap Loaded');
