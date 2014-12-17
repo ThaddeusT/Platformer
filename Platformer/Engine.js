@@ -264,7 +264,6 @@ function calculateEnemyCharacterCollisions(game, enemies)
 			y = characterY - enemy.y;
 			d = Math.sqrt(x*x + y*y);
 			mindist = characterRadius+enemy.radius;
-			console.log(d, mindist);
 			if(d<=(mindist*.75))
 			{
 				enemy.collidedWithCharacter();
@@ -349,6 +348,7 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 					case 2:
 						if(d <= enemy.radius+bullet.radius && ((bullet.y+bullet.radius+7) >= enemy.y+enemy.enemyHead || (bullet.y+bullet.radius+8) >= (enemy.y+enemy.enemyHead)))
 						{
+							bullet.collided = true;
 							enemy.collideWithCharacterBullet(bullet.radius);
 						}
 					break;
@@ -357,6 +357,7 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 						console.log(d,mindist);
 						if(d <= mindist)
 						{
+							bullet.collided = true;
 							enemy.collideWithCharacterBullet(bullet.radius);
 						}
 					break;
@@ -365,6 +366,7 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 						console.log(d,mindist);
 						if(d <= mindist)
 						{
+							bullet.collided = true;
 							enemy.collideWithCharacterBullet(bullet.radius);
 						}
 					break;

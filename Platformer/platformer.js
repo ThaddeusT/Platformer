@@ -58,8 +58,8 @@ var Game = function (canvasId) {
   this.health = 100;
   this.gui = new GUI(this);
   this.levels = [];
-  this.levels.push(Level1);
-  this.levels.push(Level2);
+  // this.levels.push(Level1);
+  // this.levels.push(Level2);
   this.levels.push(Level3);
   this.levels.push(Level4);
   this.levels.push(Level5);
@@ -100,6 +100,7 @@ Game.prototype = {
 			game.characterBullets.forEach(function(bullet)
 			{
 				bullet.update(elapsedTime);
+				console.log(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0);
 				if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
 				{
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
