@@ -65,6 +65,7 @@ Character.prototype = {
 				this.walkingLeftY=0;
 				this.walkingx = 0;
 				this.walkingy = 0;
+                
 				if(this.facing =="right")
 				{
 					context.drawImage(this.sprite_sheet, 200, 100, 100, 100,this.x, this.y, 100,100);
@@ -377,6 +378,7 @@ Character.prototype = {
 				if(this.jumpcount==0)
 				{
 					this.state="jumping";
+                    this.game.levels[game.level-1].Resource.Sfx.jumpingSound.play();
 				}
 			} 
 			else if(inputState.down) {
