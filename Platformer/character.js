@@ -415,7 +415,7 @@ Character.prototype = {
 				else{
 					console.log(tileFaceLeft.solid);
 				}
-				if(tileLeft === undefined || !tileLeft.solid){
+				if((jtileLeftTop === undefined || !jtileLeftTop.solid) && (jtileLeftBottom === undefined || !jtileLeftBottom.solid)){
 					if((this.x -this.velocity)>100)
 					{
 						this.x -= this.velocity;
@@ -433,22 +433,12 @@ Character.prototype = {
 			else if(inputState.right) {
 				this.facing = "right";
 				this.state="walkingRight";
-				if(tileRight === undefined){
+				if((jtileRightTop === undefined || !jtileRightTop.solid) && (jtileRightBottom === undefined || !jtileRightBottom.solid)){
 					if(this.x +this.velocity <400)
 					{
 						this.x += this.velocity;
 					}
 					this.game.backgroundx -=this.velocity*2;
-				}
-				else{
-					if(!tileRight.solid)
-					{
-						if((this.x +this.velocity) <300)
-						{
-							this.x += this.velocity;
-						}
-						this.game.backgroundx -=this.velocity*2;
-					}
 				}
 				if(tileDown === undefined || !tileDown.solid)
 				{
@@ -475,7 +465,7 @@ Character.prototype = {
 				this.jumpcount++;
 				if(inputState.right) {
 					this.facing = "right";
-					if(tileRight === undefined || !tileRight.solid){
+					if((jtileRightTop === undefined || !jtileRightTop.solid) && (jtileRightBottom === undefined || !jtileRightBottom.solid)){
 						if((this.x +this.velocity * 2) <400)
 						{
 							this.x += this.velocity;
@@ -486,7 +476,7 @@ Character.prototype = {
 				if(inputState.left)
 				{
 					this.facing = "left";
-					if(tileLeft === undefined || !tileLeft.solid && (this.x-this.velocity * 2)>0){
+					if((jtileLeftTop === undefined || !jtileLeftTop.solid) && (jtileLeftBottom === undefined || !jtileLeftBottom.solid) && ((this.x-this.velocity * 2)>0)){
 						if((this.x -this.velocity * 2)>100)
 						{
 							this.x -= this.velocity;

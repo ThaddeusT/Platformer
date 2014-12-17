@@ -100,6 +100,7 @@ Game.prototype = {
 			game.characterBullets.forEach(function(bullet)
 			{
 				bullet.update(elapsedTime);
+				console.log(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0);
 				if(bullet.x+bullet.radius > game.screen.width || bullet.x-bullet.radius < 0)
 				{
 					game.characterBullets.splice($.inArray(bullet, game.characterBullets),1);
