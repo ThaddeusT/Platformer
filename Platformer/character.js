@@ -245,7 +245,7 @@ Character.prototype = {
 				}
 			}
 			else{
-				//console.log("Character: "+this.x+","+this.y);
+				console.log("Character: "+(this.x-this.game.backgroundx*2)+","+this.y);
 			}
 			if(this.shielded)
 			{
@@ -363,9 +363,9 @@ Character.prototype = {
 		var jtileRightBottom = Tilemap.tileAt(x+65, this.y+60,0);
 		var jtileLeftTop = Tilemap.tileAt(x-15, this.y+10,0);
 		var jtileLeftBottom = Tilemap.tileAt(x-15, this.y+60,0);
-		console.log(this.jetPack);
-		console.log(inputState.up,inputState.down,inputState.right,inputState.left);
-		console.log(this.state);
+		// console.log(this.jetPack);
+		// console.log(inputState.up,inputState.down,inputState.right,inputState.left);
+		// console.log(this.state);
 		if(!this.jetPack)
 		{
 			if(this.state!="jumping")
@@ -518,8 +518,8 @@ Character.prototype = {
 		}
 		else{
 			//console.log(inputState.up,inputState.down,inputState.right,inputState.left);
-			console.log("Tile Top Right: "+(jtileRightTop === undefined || !jtileRightTop.solid));
-			console.log("Tile Bottom Right: "+(jtileRightBottom === undefined || !jtileRightBottom.solid));
+			// console.log("Tile Top Right: "+(jtileRightTop === undefined || !jtileRightTop.solid));
+			// console.log("Tile Bottom Right: "+(jtileRightBottom === undefined || !jtileRightBottom.solid));
 			if(inputState.up) {
 				if((tileUp === undefined || !tileUp.solid) && this.y>20)
 				{
