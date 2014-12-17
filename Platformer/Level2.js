@@ -19,7 +19,9 @@ var Level2 = (function (){
 			level_2_music: new Audio()
 		},
 		Sfx: {
-			
+			weaponFire: new Audio(),
+            chargingFire: new Audio(),
+            jumpingSound: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -44,6 +46,13 @@ var Level2 = (function (){
 	Resource.Image.enemyType2.src = "BatSpriteSheet.png";
 	Resource.Image.enemyType5.src = "tilesets/baseTileSet.png";
 	Resource.Image.level2Boss.src = "greyCrystalSpriteSheet.png";
+    
+    //Sound Effects
+    Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
+    Resource.Sfx.chargingFire.src ="Sound Effects/Chargingup.wav";
+    Resource.Sfx.jumpingSound.src ="Sound Effects/Jumping.wav";
+    
+    //Level Music
 	Resource.Music.level_2_music.src = "Levelmusic/acci_n_.mp3";
 	Resource.Music.level_2_music.addEventListener('ended', function() {
         this.currentTime = 0;

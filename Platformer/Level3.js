@@ -19,7 +19,9 @@ var Level3 = (function (){
 			level_3_music: new Audio()
 		},
 		Sfx: {
-			
+			weaponFire: new Audio(),
+            chargingFire: new Audio(),
+            jumpingSound: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -45,6 +47,12 @@ var Level3 = (function (){
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
 	
+    //Sound Effects
+    Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
+    Resource.Sfx.chargingFire.src ="Sound Effects/Chargingup.wav";
+    Resource.Sfx.jumpingSound.src ="Sound Effects/Jumping.wav";
+    
+    //Level Music
     Resource.Music.level_3_music.src = "Levelmusic/battle1_1.mp3";
     Resource.Music.level_3_music.addEventListener('ended', function() {
         this.currentTime = 0;

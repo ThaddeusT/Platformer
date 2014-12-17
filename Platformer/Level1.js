@@ -20,7 +20,7 @@ var Level1 = (function (){
 		},
 		Sfx: {
 			weaponFire: new Audio(),
-            charginFire: new Audio(),
+            chargingFire: new Audio(),
             jumpingSound: new Audio()
 		}
 	}
@@ -49,8 +49,8 @@ var Level1 = (function (){
 	
      //Sound Effects
     Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
-    Resource.Sfx.chargingFire.src = "Sound Effects/Chargingup.wav";
-    Resource.Sfx.jumpingSound.src = "Sound Effects/Jumping.wav";
+    Resource.Sfx.chargingFire.src ="Sound Effects/Chargingup.wav";
+    Resource.Sfx.jumpingSound.src ="Sound Effects/Jumping.wav";
     
     //Level Music
     Resource.Music.level_1_music.src = "Levelmusic/Soul Star v1_0.mp3";
