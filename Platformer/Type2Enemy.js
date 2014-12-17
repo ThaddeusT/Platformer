@@ -175,7 +175,7 @@ Type2Enemy.prototype = {
 	},
 	
 	collidedWithCharacter: function(){
-		if(!this.game.character.takingDamage)
+		if(!this.game.character.takingDamage && !this.game.character.shielded))
 		{
 			this.game.character.updateHealth(-this.damage);
 		}
