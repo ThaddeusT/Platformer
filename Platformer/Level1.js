@@ -131,15 +131,6 @@ var Level1 = (function (){
     Resource.Music.level_1_music.pause();
   }
   
-  //Play sound effects
-  var playFireWeapon = function() {
-    Resource.Sfx.weaponFire.currentTime = 0;
-    Resource.Sfx.weaponFire.play();
-  }
-  
-  var playChargingSound = function() {
-    Resource.Sfx.chargingFire.play();
-  }
   
   var createTreasures = function(ctreasures){
 		treasures = [];
@@ -272,9 +263,7 @@ var Level1 = (function (){
 	enemies : enemies,
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
-    stopLevelMusic : stopLevelMusic,
-    playFireWeapon : playFireWeapon,
-    playChargingSound : playChargingSound
+    stopLevelMusic : stopLevelMusic
   }
 })();
 

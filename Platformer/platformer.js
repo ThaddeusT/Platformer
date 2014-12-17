@@ -220,7 +220,7 @@ Game.prototype = {
 			game.character.chargeBullet();
             if(game.character.chargingRadius > 5)
             {
-                game.levels[game.level-1].playChargingSound();
+                game.levels[game.level-1].Resource.Sfx.chargingFire.play();
             }
 		}
 		if(keys["e"])
@@ -297,7 +297,8 @@ Game.prototype = {
 		{
 			keys["q"] = false;
 			game.character.fireBullet();
-            game.levels[game.level-1].playFireWeapon();
+            game.levels[game.level-1].Resource.Sfx.weaponFire.currentTime = 0;
+            game.levels[game.level-1].Resource.Sfx.weaponFire.play();
             game.levels[game.level-1].Resource.Sfx.chargingFire.pause();
 		}
 		else if(e.keyCode == 69)
