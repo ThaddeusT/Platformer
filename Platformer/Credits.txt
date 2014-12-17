@@ -59,7 +59,7 @@ License: http://creativecommons.org/licenses/by/3.0/
 Sound Effects:
 
 Contributors:
-
+ksu.
 Game Engine design & level 1 design:
 Thaddeus Tuck - thaddeus@ksu.edu
 
@@ -77,3 +77,6 @@ Chris Handyside
 Level 3 design:
 Ondrej Kuzela - kuzela@ksu.edu
 Salva Garccia - salva@ksu.edu
+
+Level 5 design:
+Ladislav Vrbsky - lada@ksu.edu

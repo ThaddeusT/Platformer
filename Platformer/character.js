@@ -521,7 +521,7 @@ Character.prototype = {
 			//console.log("Tile Top Right: "+(jtileRightTop === undefined || !jtileRightTop.solid));
 			//console.log("Tile Bottom Right: "+(jtileRightBottom === undefined || !jtileRightBottom.solid));
 			if(inputState.up) {
-				if((tileUp === undefined || !tileUp.solid) && this.y>0)
+				if((tileUp === undefined || !tileUp.solid) && this.y>-50)
 				{
 					this.y -= this.velocity*2;
 				}
