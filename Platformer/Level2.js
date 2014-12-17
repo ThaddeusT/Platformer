@@ -1,7 +1,7 @@
 var Level2 = (function (){
 	this.game;
 	var Resource = {
-		loading: 8,
+		loading: 9,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
@@ -12,7 +12,8 @@ var Level2 = (function (){
 		   enemyType1: new Image(),
 		   enemyType1Left: new Image(),
 		   enemyType2: new Image(),
-		   enemyType5: new Image()
+		   enemyType5: new Image(),
+		   level2Boss: new Image()
 		},
 		Music: {
 			
@@ -31,6 +32,7 @@ var Level2 = (function (){
 	Resource.Image.enemyType1Left.onload = onload;
 	Resource.Image.enemyType2.onload = onload;
 	Resource.Image.enemyType5.onload = onload;
+	Resource.Image.level2Boss.onload = onload;
 	Resource.Image.background.src = "background.png";
 	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
 	Resource.Image.characterLeft.src = "mainCharacterSpriteSheet100Left.png";
@@ -41,6 +43,7 @@ var Level2 = (function (){
 	Resource.Image.enemyType1Left.src ="Robot_Blue1_SpriteSheetLeft.png";
 	Resource.Image.enemyType2.src = "BatSpriteSheet.png";
 	Resource.Image.enemyType5.src = "tilesets/baseTileSet.png";
+	Resource.Image.level2Boss.src = "greyCrystalSpriteSheet.png";
 	
 	function onload(){
 		Resource.loading -= 1;
@@ -85,6 +88,9 @@ var Level2 = (function (){
   var enemyType5 = {
 	image: Resource.Image.enemyType5
   }
+  var level2Boss = {
+	image: Resource.Image.level2Boss
+  }
   var enemies = []
   
   var setBackground = function(image){
@@ -119,6 +125,10 @@ var Level2 = (function (){
 				break;
 				case "5":
 					var newEnemy = new Type5Enemy(this.game, enemy.position.x, enemy.position.y, enemyType5, 50);
+					enemies.push(newEnemy);
+				break;
+				case "boss":
+					var newEnemy = new Level2Boss(this.game, enemy.position.x, enemy.position.y, level2Boss, 700, 5, 100, "idle", 300, 10);
 					enemies.push(newEnemy);
 				break;
 			}
