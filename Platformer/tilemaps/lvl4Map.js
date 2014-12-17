@@ -1,4 +1,4 @@
-(function(name,data){
+var tilemapDataLvl4 = (function(name,data){
  if(typeof onTileMapLoaded === 'undefined') {
   if(typeof TileMaps === 'undefined') TileMaps = {};
   TileMaps[name] = data;
