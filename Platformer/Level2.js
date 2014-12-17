@@ -135,6 +135,11 @@ var Level2 = (function (){
 	Resource.Image.background = image;
   }
   
+  var jetPackAllowed = function()
+  {
+		return false;
+  }
+  
   var load = function(screenCtx)
   {
 		var self = this;
@@ -307,7 +312,8 @@ var Level2 = (function (){
 	enemies : enemies,
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
-	stopLevelMusic : stopLevelMusic
+	stopLevelMusic : stopLevelMusic,
+	jetPackAllowed : jetPackAllowed
   }
 })();
 

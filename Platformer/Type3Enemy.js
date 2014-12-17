@@ -25,6 +25,7 @@ var Type3Enemy = function(game, x, y, image,imageLeft, xImageMax, xTravelmax, xc
 	this.startingX = this.x;
 	this.xcount = xcount;
 	this.radius = radius;
+	this.maxRadius = radius;
 	this.facing = "right";
 	this.downCheckCounter = 0;
 	this.damage = damage;
@@ -33,6 +34,7 @@ var Type3Enemy = function(game, x, y, image,imageLeft, xImageMax, xTravelmax, xc
 	this.teleportCount = 0;
 	this.originalx = x;
 	this.originaly = y;
+	this.hideHealthBar = false;
 };
 
 Type3Enemy.prototype = {
@@ -56,7 +58,7 @@ Type3Enemy.prototype = {
 				else{
 					this.imagecount++;
 				}
-				context.drawImage(this.sprite_sheet.image, this.imagex, this.imagey, 100, 100,this.x, this.y, 100,100);
+				context.drawImage(this.sprite_sheet.image, this.imagex, this.imagey, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
 			break;
 		case 'explode':
 			context.drawImage(this.sprite_sheet_explosion, this.explodex, this.explodey, 64, 64, this.x, this.y, this.radius*2, this.radius*2);
@@ -95,23 +97,26 @@ Type3Enemy.prototype = {
 			this.damaged = false;
 		}
 		//Draw HP Bar
-		var healthPercent = (this.health/this.maxHealth)*this.healthBarWidth;
-		context.save();
-		context.beginPath();
-		context.rect(this.x+(this.radius/2), this.y+30, this.radius,5);
-		context.fillStyle = 'gray';
-		context.fill();
-		context.lineWidth = 1;
-		context.strokeStyle = 'black';
-		context.stroke();
-		context.beginPath();
-		context.rect(this.x+(this.radius/2),this.y+30,healthPercent,5);
-		context.fillStyle = 'lime';
-		context.fill();
-		context.lineWidth = 1;
-		context.strokeStyle = 'black';
-		context.stroke();
-		context.restore();
+		if(!this.hideHealthBar)
+		{
+			var healthPercent = (this.health/this.maxHealth)*this.healthBarWidth;
+			context.save();
+			context.beginPath();
+			context.rect(this.x+(this.radius/2), this.y+30, this.radius,5);
+			context.fillStyle = 'gray';
+			context.fill();
+			context.lineWidth = 1;
+			context.strokeStyle = 'black';
+			context.stroke();
+			context.beginPath();
+			context.rect(this.x+(this.radius/2),this.y+30,healthPercent,5);
+			context.fillStyle = 'lime';
+			context.fill();
+			context.lineWidth = 1;
+			context.strokeStyle = 'black';
+			context.stroke();
+			context.restore();
+		}
 		if(this.headShot)
 		{
 			context.fillStyle = "purple";
@@ -149,6 +154,8 @@ Type3Enemy.prototype = {
 			case "normal":
 				if(this.teleportCount==100)
 				{
+					this.radius = this.maxRadius;
+					this.hideHealthBar = false;
 					var amount = Math.floor((Math.random() * 100) + 25);
 					var direction = Math.floor((Math.random() * 4) + 1);
 					switch(direction)
@@ -182,6 +189,13 @@ Type3Enemy.prototype = {
 				}
 				else{
 					this.teleportCount++;
+					if(this.teleportCount>50)
+					{
+						this.radius--;
+						this.x++;
+						this.y++;
+						this.hideHealthBar = true;
+					}
 				}
 				dx = this.x - this.originalx;
 				dy = this.y - this.originaly;

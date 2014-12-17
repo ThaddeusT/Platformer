@@ -82,7 +82,14 @@ var GUI = function(game) {
 			}
 		}
 		// TODO: Render Score
-		this.topRight.innerHTML = this.game.score;
+		this.topRight.innerHTML = "";
+		if (typeof(Storage) != "undefined") {
+			this.topRight.innerHTML += "High Score: "+localStorage.getItem("HighScore");
+			this.topRight.innerHTML += "<br/> Current Score: "+this.game.score;
+		}
+		else{
+			this.topRight.innerHTML = "Current Score: "+this.game.score;
+		}
 		
 	}
 }

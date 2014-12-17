@@ -257,6 +257,12 @@ Character.prototype = {
 				}
 				else{
 					this.game.gameover =true;
+					if (typeof(Storage) != "undefined") {
+						// Store
+						localStorage.setItem("HighScore", this.game.score);
+						// Retrieve
+						console.log(localStorage.getItem("HighScore"));
+					} 
 				}
 				keys = {
 					up: false,
@@ -267,7 +273,16 @@ Character.prototype = {
 					e: false,
 					j: false
 				};
-				this.game.jetPackPowerCollected = false;
+				if(this.game.levels[this.game.level-1].jetPackAllowed === undefined || !this.game.levels[this.game.level-1].jetPackAllowed)
+				{
+					this.game.jetPackPowerCollected = false;
+				}
+				else{
+					if(this.game.jetPackPowerCollected)
+					{
+						this.enableJetPack();
+					}
+				}
 			}
 			else{
 				//console.log("Character: "+this.x+","+this.y);

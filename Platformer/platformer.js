@@ -58,11 +58,11 @@ var Game = function (canvasId) {
   this.health = 100;
   this.gui = new GUI(this);
   this.levels = [];
-  //this.levels.push(Level1);
-  this.levels.push(Level2);
-  this.levels.push(Level3);
+  this.levels.push(Level1);
   this.levels.push(Level4);
   this.levels.push(Level5);
+  this.levels.push(Level3);
+  this.levels.push(Level2);
   console.log(this.levels);
   this.level =1;
   this.backgroundx = 0;
@@ -411,6 +411,26 @@ Game.prototype = {
 		game.levels[game.level-1].createTreasures(Tilemap.treasures);
 		this.gui.message(
 		"Welcome to Level "+game.level+" Begin!");
+		//Special Level Conditions
+		switch(game.level)
+		{
+			case 1:
+				
+			break;
+			case 2:
+			break;
+			case 3:
+				game.jetPackPowerCollected = true;
+				game.character.enableJetPack();
+			break;
+			case 4:
+			break;
+			case 5:
+				game.lives = 3;
+				game.jetPackPowerCollected = false;
+				game.character.disableJetPack();
+			break;
+		}
 		setTimeout(function() {
             self.gui.message("")
         }, 3000);
