@@ -58,8 +58,93 @@ License: http://creativecommons.org/licenses/by/3.0/
 
 Sound Effects:
 
+jump-landing by MentalSanityOff under Public Domain
+Author: MentalSanityOff
+Source: http://opengameart.org/content/jump-landing-sound
+License: Public Domain
+
+jumping by dklon under CC-BY 3.0/
+Author: dklon
+Source: http://opengameart.org/content/platformer-jumping-sounds
+License: http://creativecommons.org/licenses/by/3.0/
+
+projectile-launches by Michel Baradari under CC-BY 3.0
+Author: Michel Baradari
+Source: http://opengameart.org/content/4-projectile-launches
+License: http://creativecommons.org/licenses/by/3.0/
+
+Gun-Silencer by Mike Koenig under Attribution 3.0 
+Author: Mike Koenig
+Source: http://soundbible.com/930-Gun-Silencer.html
+License: https://creativecommons.org/licenses/by/3.0/us/
+
+retro-sounds by artisticdude under Public Domain
+Author: artisticdude
+Source: http://opengameart.org/content/retro-sounds-0
+License: Public Domain
+
+Metroid-Door by Brandino480 under Attribution 3.0
+Author: Brandino480
+Source: http://soundbible.com/1858-Metroid-Door.html
+License: https://creativecommons.org/licenses/by/3.0/us/
+
+mutant-death by Gobusto under CC-BY-SA 3.0
+Author: Gobusto
+Source: http://opengameart.org/content/mutant-death
+License: http://creativecommons.org/licenses/by-sa/3.0/
+
+headshot by GamingSoundEffects under Standard YouTube License
+Author: GamingSoundEffects
+Source: https://www.youtube.com/watch?v=Yq3N46ciKJw or http://www.mediafire.com/download/vbjc8i7uum6j1h6/Headshot.wav
+License: https://support.google.com/youtube/answer/2797468?hl=en
+
+collision-nutfall-yo-frankie by Blender Foundation under CC-BY 3.0
+Author: Blender Foundation
+Source: http://opengameart.org/content/collision-nutfall-yo-frankie
+License: http://creativecommons.org/licenses/by/3.0/
+
+replenish-life-force-sound by qubodup under CC-BY 3.0
+Author: qubodup
+Source: http://opengameart.org/content/replenish-life-force-sound
+License: http://creativecommons.org/licenses/by/3.0/
+
+Blue and Red powerup by bart under CC-BY 3.0
+Author: bart
+Source: http://opengameart.org/content/8-bit-platformer-sfx
+License: http://creativecommons.org/licenses/by/3.0/
+
+ui-sounds by StumpyStrust under Public Domain
+Author: StumpyStrust
+Source: http://opengameart.org/content/ui-sounds
+License: Public Domain
+
+wings-flapping by Mike Koenig under Attribution 3.0
+Author: Mike Koenig
+Source: http://soundbible.com/626-Wings-Flapping.html
+License: https://creativecommons.org/licenses/by/3.0/us/
+
+teleport-spell by Ogrebane under Public Domain
+Author: Ogrebane
+Source: http://opengameart.org/content/teleport-spell
+License: Public Domain
+
+Power-up-Rav by Mike Koenig under Attribution 3.0
+Author: Mike Koenig
+Source: http://soundbible.com/1636-Power-Up-Ray.html
+License: https://creativecommons.org/licenses/by/3.0/us/
+
+energy-drain by qubodup under CC-BY-SA 3.0, GPL 3.0, and GPL 2.0
+Author: qubodup
+Source: http://opengameart.org/content/energy-drain
+License:  http://creativecommons.org/licenses/by-sa/3.0/ and http://www.gnu.org/licenses/gpl-3.0.html and http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+howling005 by GRSites under Public Domain
+Author: GRSites
+Source: http://www.grsites.com/archive/sounds/category/19/?offset=0
+License: Public Domain
+
 Contributors:
-ksu.
+
 Game Engine design & level 1 design:
 Thaddeus Tuck - thaddeus@ksu.edu
 
@@ -76,10 +161,11 @@ Chris Handyside
 
 Level 3 design:
 Ondrej Kuzela - kuzela@ksu.edu
+
+Level 4 design:
 Salva Garccia - salva@ksu.edu
 
 Level 5 design:
-Ladislav Vrbsky - lada@ksu.edu
 Matej Uhrin - matej@ksu.edu
 
 Testing:

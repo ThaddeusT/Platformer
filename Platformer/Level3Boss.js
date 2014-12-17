@@ -102,6 +102,7 @@ Level3Boss.prototype = {
 			context.fillStyle = "purple";
 			context.font = "bold 12px Arial";
 			context.fillText("Head Shot!", this.x+(this.radius/2),this.y+((this.enemyHead/2)-5)-(this.headShotCount/6));
+            this.game.levels[game.level-1].Resource.Sfx.headShot.play();
 			this.headShotCount++;
 			if(this.headShotCount==30)
 			{	
@@ -117,7 +118,7 @@ Level3Boss.prototype = {
 		}
 		if(this.state !='explode' && this.state != 'dead'){
 			this.move();
-			console.log(this.x,this.y);
+			//console.log(this.x,this.y);
 		}
 	},
 	
@@ -126,16 +127,19 @@ Level3Boss.prototype = {
 		if(this.moveCount<0){
 			this.onLeft+=this.velocity*this.direction;
 			this.x-=this.velocity*this.direction;
+            this.game.levels[game.level-1].Resource.Sfx.bossScream.play();
 			if(this.onLeft>=this.toLeft){
 				this.direction = -1;
 				this.x+= (this.onLeft-this.toLeft);
-				this.onLeft = this.toLeft
+				this.onLeft = this.toLeft;
+                
 			} 
 			else if (this.onLeft<=0){
 				this.direction = 1;
 				this.moveCount = 100;
 				this.x+=this.onLeft;
 				this.onLeft = 0;
+                this.game.levels[game.level-1].Resource.Sfx.bossScream.play();
 			}
 		}	
 	},
@@ -155,7 +159,7 @@ Level3Boss.prototype = {
 		}
 		else{
 			this.health -= radiusOfBullet;
-			console.log("Boss Health: "+ this.health);
+			//console.log("Boss Health: "+ this.health);
 		}
 		if(this.health <0)
 		{
