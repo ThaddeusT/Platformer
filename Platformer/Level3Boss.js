@@ -139,8 +139,7 @@ Level3Boss.prototype = {
 				this.moveCount = 100;
 				this.x+=this.onLeft;
 				this.onLeft = 0;
-                this.game.levels[game.level-1].Resource.Sfx.bossScream.play();
-			}
+            }
 		}	
 	},
 	

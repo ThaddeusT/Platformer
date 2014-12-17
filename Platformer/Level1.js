@@ -28,7 +28,9 @@ var Level1 = (function (){
             greenCrystalSound: new Audio(),
             blueCrystalSound: new Audio(),
             playerHitSound: new Audio(),
-            headShot: new Audio()
+            headShot: new Audio(),
+            barrierUp: new Audio(),
+            barrierDown: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -65,6 +67,8 @@ var Level1 = (function (){
     Resource.Sfx.blueCrystalSound.src = "Sound Effects/Blue Powerup.wav";
     Resource.Sfx.playerHitSound.src = "Sound Effects/pain1.wav";
     Resource.Sfx.headShot.src = "Sound Effects/Headshot.wav";
+    Resource.Sfx.barrierUp.src ="Sound Effects/cogs.mp3";
+    Resource.Sfx.barrierDown.src = "Sound Effects/boxopen.mp3";
     
     //Level Music
     Resource.Music.level_1_music.src = "Levelmusic/Soul Star v1_0.mp3";

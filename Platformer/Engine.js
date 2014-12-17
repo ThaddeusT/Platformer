@@ -267,8 +267,10 @@ function calculateEnemyCharacterCollisions(game, enemies)
 			if(d<=(mindist*.75))
 			{
 				enemy.collidedWithCharacter();
-                //this.game.levels[game.level-1].Resource.Sfx.playerHitSound.currentTime = 0;
-                this.game.levels[game.level-1].Resource.Sfx.playerHitSound.play();
+                if(enemy.type != 5)
+                {
+                    this.game.levels[game.level-1].Resource.Sfx.playerHitSound.play();
+                }
 			}
 		}
 		

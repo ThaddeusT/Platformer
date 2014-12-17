@@ -143,6 +143,11 @@ Author: GRSites
 Source: http://www.grsites.com/archive/sounds/category/19/?offset=0
 License: Public Domain
 
+yd-Sounds by yd under Public Domain
+Author: yd
+Source: http://opengameart.org/content/platformer-sounds-terminal-interaction-door-shots-bang-and-footsteps
+License: Public Domain
+
 Contributors:
 
 Game Engine design & level 1 design:
@@ -151,6 +156,7 @@ Thaddeus Tuck - thaddeus@ksu.edu
 Graphic Desginer:
 Grant Unruh - gunruh@ksu.edu
 
+Level Music & Sound Effects:
 Matthieu Thibaudeau - matthieu@ksu.edu
 
 Sound Effects:
@@ -166,6 +172,7 @@ Level 4 design:
 Salva Garccia - salva@ksu.edu
 
 Level 5 design:
+Ladislav Vrbsky - lada@ksu.edu
 Matej Uhrin - matej@ksu.edu
 
 Testing:

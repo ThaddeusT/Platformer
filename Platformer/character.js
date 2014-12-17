@@ -360,12 +360,16 @@ Character.prototype = {
 		if(!this.shielded && this.shieldPower==100)
 		{
 			this.shielded = true;
+            this.game.levels[game.level-1].Resource.Sfx.barrierUp.currentTime =0;
+            this.game.levels[game.level-1].Resource.Sfx.barrierUp.play();
 		}
 	},
 	
 	dropShield: function(){
 		this.shieldCooldown = (100-this.shieldPower);
 		this.shielded = false;
+        this.game.levels[game.level-1].Resource.Sfx.barrierUp.pause();
+        this.game.levels[game.level-1].Resource.Sfx.barrierDown.play();
 	},
 	
 	enableJetPack: function(){
