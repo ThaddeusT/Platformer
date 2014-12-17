@@ -21,7 +21,14 @@ var Level2 = (function (){
 		Sfx: {
 			weaponFire: new Audio(),
             chargingFire: new Audio(),
-            jumpingSound: new Audio()
+            jumpingSound: new Audio(),
+            deathSound: new Audio(),
+            enableJetPackSound: new Audio(),
+            disableJetPackSound: new Audio(),
+            greenCrystalSound: new Audio(),
+            blueCrystalSound: new Audio(),
+            playerHitSound: new Audio(),
+            headShot: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -51,6 +58,13 @@ var Level2 = (function (){
     Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
     Resource.Sfx.chargingFire.src ="Sound Effects/Chargingup.wav";
     Resource.Sfx.jumpingSound.src ="Sound Effects/Jumping.wav";
+    Resource.Sfx.deathSound.src = "Sound Effects/deathh.wav";
+    Resource.Sfx.enableJetPackSound.src = "Sound Effects/Power up (jetpack enabled).mp3";
+    Resource.Sfx.disableJetPackSound.src = "Sound Effects/Power_Down_jetpack_disabled_.mp3";
+    Resource.Sfx.greenCrystalSound.src = "Sound Effects/greenCrystalSound.wav";
+    Resource.Sfx.blueCrystalSound.src = "Sound Effects/Blue Powerup.wav";    
+    Resource.Sfx.playerHitSound.src = "Sound Effects/pain1.wav";
+    Resource.Sfx.headShot.src = "Sound Effects/Headshot.wav";
     
     //Level Music
 	Resource.Music.level_2_music.src = "Levelmusic/acci_n_.mp3";
@@ -125,6 +139,7 @@ var Level2 = (function (){
   }
   
   var stopLevelMusic = function() {
+  Resource.Music.level_2_music.currentTime =0;
     Resource.Music.level_2_music.pause();
   }
   

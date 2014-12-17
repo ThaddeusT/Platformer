@@ -267,6 +267,8 @@ function calculateEnemyCharacterCollisions(game, enemies)
 			if(d<=(mindist*.75))
 			{
 				enemy.collidedWithCharacter();
+                //this.game.levels[game.level-1].Resource.Sfx.playerHitSound.currentTime = 0;
+                this.game.levels[game.level-1].Resource.Sfx.playerHitSound.play();
 			}
 		}
 		
@@ -296,6 +298,14 @@ function calculateTreasureCharacterCollisions(game, treasures)
 				mindist = characterRadius+treasure.radius;
 				if(d<=mindist)
 				{
+                    if(treasure.type == 1)
+                    {
+                        this.game.levels[game.level-1].Resource.Sfx.greenCrystalSound.play();
+                    }
+                    else if(treasure.type == 3)
+                    {
+                        this.game.levels[game.level-1].Resource.Sfx.blueCrystalSound.play();
+                    }
 					treasure.collidedWithCharacter();
 				}
 			}
@@ -354,7 +364,7 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 					break;
 					case 3:
 						var mindist = enemy.radius+bullet.radius;
-						console.log(d,mindist);
+						//console.log(d,mindist);
 						if(d <= mindist)
 						{
 							bullet.collided = true;
@@ -363,7 +373,7 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 					break;
 					case 1000:
 						var mindist = enemy.radius*2+bullet.radius;
-						console.log(d,mindist);
+						//console.log(d,mindist);
 						if(d <= mindist)
 						{
 							bullet.collided = true;

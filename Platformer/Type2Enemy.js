@@ -177,6 +177,7 @@ Type2Enemy.prototype = {
 	{	
 		if(this.headShot){
 			this.health -= 2*radiusOfBullet;
+            this.game.levels[game.level-1].Resource.Sfx.headShot.play();
 		}
 		else{
 			this.health -= radiusOfBullet;

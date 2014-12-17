@@ -135,6 +135,7 @@ Game.prototype = {
 			{
 				game.gameresetting = true;
 				game.gui.message("GAME OVER");
+                game.levels[game.level-1].stopLevelMusic();
 				game.gameover = false;
 				game.renderCharacter = false;
 				setTimeout(function(){ 

@@ -230,6 +230,7 @@ Character.prototype = {
 			if(game.health <=0)
 			{
 				this.state = 'dead';
+                this.game.levels[game.level-1].Resource.Sfx.deathSound.play();
 				this.game.lives--;
 				if(this.game.lives > 0){
 					this.takingDamage = false;
@@ -331,12 +332,14 @@ Character.prototype = {
 	
 	enableJetPack: function(){
 		this.jetPack = true;
+        this.game.levels[game.level-1].Resource.Sfx.enableJetPackSound.play();
 		this.state = 'normal';
 		this.jumpcount = 0;
 	},
 	
 	disableJetPack: function(){
 		this.jetPack = false;
+        this.game.levels[game.level-1].Resource.Sfx.disableJetPackSound.play();
 	},
 	
 	setRespawnPoint: function(x,y, scroll){
