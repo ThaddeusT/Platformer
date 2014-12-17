@@ -156,4 +156,9 @@ Chris Handyside
 
 Level 3 design:
 Ondrej Kuzela - kuzela@ksu.edu
+
+Level 4 design:
 Salva Garccia - salva@ksu.edu
+
+Level 5 design:
+Matej Uhrin - matej@ksu.edu

@@ -218,6 +218,10 @@ Game.prototype = {
 		if(keys["q"])
 		{
 			game.character.chargeBullet();
+            if(game.character.chargingRadius > 5)
+            {
+                game.levels[game.level-1].playChargingSound();
+            }
 		}
 		if(keys["e"])
 		{
@@ -293,6 +297,8 @@ Game.prototype = {
 		{
 			keys["q"] = false;
 			game.character.fireBullet();
+            game.levels[game.level-1].playFireWeapon();
+            game.levels[game.level-1].Resource.Sfx.chargingFire.pause();
 		}
 		else if(e.keyCode == 69)
 		{

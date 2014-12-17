@@ -19,7 +19,8 @@ var Level1 = (function (){
 			level_1_music: new Audio()
 		},
 		Sfx: {
-			
+			weaponFire: new Audio(),
+            chargingFire: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -44,13 +45,17 @@ var Level1 = (function (){
 	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
+    
+    //Sound Effects
+    Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
+    Resource.Sfx.chargingFire.src = "Sound Effects/Chargingup.wav";
+    
+    //Level Music
     Resource.Music.level_1_music.src = "Levelmusic/Soul Star v1_0.mp3";
 	Resource.Music.level_1_music.addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
     }, false);
-    
-    
     
 	function onload(){
 		Resource.loading -= 1;
@@ -124,6 +129,16 @@ var Level1 = (function (){
   
   var stopLevelMusic = function() {
     Resource.Music.level_1_music.pause();
+  }
+  
+  //Play sound effects
+  var playFireWeapon = function() {
+    Resource.Sfx.weaponFire.currentTime = 0;
+    Resource.Sfx.weaponFire.play();
+  }
+  
+  var playChargingSound = function() {
+    Resource.Sfx.chargingFire.play();
   }
   
   var createTreasures = function(ctreasures){
@@ -257,7 +272,9 @@ var Level1 = (function (){
 	enemies : enemies,
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
-    stopLevelMusic : stopLevelMusic
+    stopLevelMusic : stopLevelMusic,
+    playFireWeapon : playFireWeapon,
+    playChargingSound : playChargingSound
   }
 })();
 
