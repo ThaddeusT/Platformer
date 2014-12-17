@@ -117,7 +117,8 @@ Game.prototype = {
 			if(Math.abs(game.character.x-(Tilemap.portals[0].postion.x+game.backgroundx*2))<5 && Math.abs(game.character.y-(Tilemap.portals[0].postion.y))<100)
 			{
 				this.gui.message("Congratulations You've Beaten Level "+game.level);
-				game.level += 1;
+				game.levels[game.level-1].stopLevelMusic();
+                game.level += 1;
 				console.log(game.level);
 				//To be overriden by tileFaceLeft.solidtileFaceLeft.solid condition.
 				if(game.level > game.levels.length)
