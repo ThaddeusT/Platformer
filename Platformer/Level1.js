@@ -139,7 +139,11 @@ var Level1 = (function (){
 			  console.log('Tilemap Loaded');
 			}
 		  });
-          
+          Resource.Music.level_1_music.play();
+  }
+  
+  var playLevelMusic = function() {
+    Resource.Music.level_1_music.play();
   }
   
   var stopLevelMusic = function() {

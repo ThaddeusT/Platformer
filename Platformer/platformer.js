@@ -117,7 +117,10 @@ Game.prototype = {
 		}
 		else{
 			$(".splashScreen").hide();
-            
+            if(game.levels[game.level-1].Resource.Music.paused)
+            {
+                game.levels[game.level-1].playLevelMusic();
+            }
 			if(!game.gameover)
 			{
 				game.levels[game.level-1].update();
@@ -188,7 +191,7 @@ Game.prototype = {
 						game.loadLevel();
 						game.gameresetting =false;
 					}, 2000);
-				}
+                }
 			}
 		}
 	},
