@@ -17,10 +17,12 @@ var Level5 = (function (){
 		   blueCrystal: new Image()
 		},
 		Music: {
-			
+			level_5_music: new Audio()
 		},
 		Sfx: {
-			
+			weaponFire: new Audio(),
+            chargingFire: new Audio(),
+            jumpingSound: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -47,6 +49,18 @@ var Level5 = (function (){
 	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
+    
+    //Sound Effects
+    Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
+    Resource.Sfx.chargingFire.src ="Sound Effects/Chargingup.wav";
+    Resource.Sfx.jumpingSound.src ="Sound Effects/Jumping.wav";
+    
+    //Level Music
+    Resource.Music.level_5_music.src = "Levelmusic/battle1_1.mp3";
+	Resource.Music.level_5_music.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
 	
 	function onload(){
 		Resource.loading -= 1;
@@ -107,6 +121,11 @@ var Level5 = (function (){
 			  console.log('Tilemap Loaded');
 			}
 		  });
+          Resource.Music.level_5_music.play();
+  }
+  
+  var stopLevelMusic = function() {
+    Resource.Music.level_5_music.pause();
   }
   
   var createEnemies = function(cenemies){
@@ -257,6 +276,7 @@ var Level5 = (function (){
 	enemyType1 : enemyType1,
 	enemies : enemies,
 	createEnemies : createEnemies,
-	createTreasures : createTreasures
+	createTreasures : createTreasures,
+    stopLevelMusic : stopLevelMusic
   }
 })();

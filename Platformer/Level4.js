@@ -16,10 +16,12 @@ var Level4 = (function (){
 		   blueCrystal: new Image()
 		},
 		Music: {
-			
+			level_4_music: new Audio()
 		},
 		Sfx: {
-			
+			weaponFire: new Audio(),
+            chargingFire: new Audio(),
+            jumpingSound: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -45,6 +47,18 @@ var Level4 = (function (){
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
 	
+    //Sound Effects
+    Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
+    Resource.Sfx.chargingFire.src ="Sound Effects/Chargingup.wav";
+    Resource.Sfx.jumpingSound.src ="Sound Effects/Jumping.wav";
+    
+    //Level Music
+    Resource.Music.level_4_music.src = "Levelmusic/song21_0.mp3";
+	Resource.Music.level_4_music.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    
 	function onload(){
 		Resource.loading -= 1;
 	}
@@ -99,6 +113,11 @@ var Level4 = (function (){
 			  console.log('Tilemap Loaded');
 			}
 		  });
+          Resource.Music.level_4_music.play();
+  }
+  
+  var stopLevelMusic = function() {
+    Resource.Music.level_4_music.pause();
   }
   
   var createEnemies = function(cenemies){
@@ -244,6 +263,7 @@ var Level4 = (function (){
 	enemyType1 : enemyType1,
 	enemies : enemies,
 	createEnemies : createEnemies,
-	createTreasures : createTreasures
+	createTreasures : createTreasures,
+    stopLevelMusic : stopLevelMusic
   }
 })();

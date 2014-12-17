@@ -141,7 +141,7 @@ var Level3 = (function (){
   }
   
   var stopLevelMusic = function() {
-    Resource.Music.level_2_music.pause();
+    Resource.Music.level_3_music.pause();
   }
   
   var createTreasures = function(ctreasures){
