@@ -1,4 +1,4 @@
-var Level2Boss = function(game, x, y, image, xImageMax, xcount, radius, startingState, health, damage,value) {
+var Level2Boss = function(game, x, y, image,imageState2,imageState3, imageState4, xImageMax, xcount, radius, startingState, health, damage,value) {
 	this.game = game;
 	this.type = 2000;
 	this.x = x;
@@ -9,6 +9,10 @@ var Level2Boss = function(game, x, y, image, xImageMax, xcount, radius, starting
 	this.state = startingState;
 	this.damaged = false;
 	this.sprite_sheet = image;
+	this.sprite_sheet2 = imageState2;
+	this.sprite_sheet3 = imageState3;
+	this.sprite_sheet4 = imageState4;
+	this.currentSheet = image;
 	this.sprite_sheet_explosion = new Image();
 	this.sprite_sheet_explosion.src = "explosion.png";
 	this.sprite_sheet_bullet = new Image();
@@ -20,6 +24,7 @@ var Level2Boss = function(game, x, y, image, xImageMax, xcount, radius, starting
 	this.flyingy = 0;
 	this.enemyHead = 0;
 	this.count = 0;
+	this.coolDownCount = 0;
 	this.origin = this.y;
 	this.flyingState = "up";
 	this.walkingLeftY=0;
@@ -43,10 +48,23 @@ Level2Boss.prototype = {
 	
 	render: function(context) {
 		// Render enemy
+		console.log(this.state);
 		switch(this.state)
 		{
 		 case 'idle':
-			if (Math.abs(this.x + this.game.backgroundx * 2) < 400) 
+			if(this.crystalx == this.xImageMax)
+			{
+					this.crystalx = 0;
+			}
+			if(this.count==this.xcount){
+				this.crystalx+=100;
+				this.count=0;
+			}
+			else{
+				this.count++;
+			}
+				
+			if (Math.abs(this.x + this.game.backgroundx * 2) < 700) 
 			{
 				this.vulnerable = true;
 				this.attack = Math.floor(Math.random() * 4);
@@ -64,40 +82,59 @@ Level2Boss.prototype = {
 				}
 				this.count = 0;
 			}
-			context.drawImage(this.sprite_sheet.image, 0, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
+			context.drawImage(this.sprite_sheet.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
 			break;
 		case 'coolDown':
-			if (this.count > 150)
+			console.log("Cooling Down: "+(76-this.coolDownCount));
+			if(this.crystalx == this.xImageMax)
+			{
+					this.crystalx = 0;
+			}
+			if(this.count==this.xcount){
+				this.crystalx+=100;
+				this.count=0;
+			}
+			else{
+				this.count++;
+			}
+			if (this.coolDownCount > 75)
 			{
 				this.attack = Math.floor(Math.random() * 4);
 				if (this.attack === 1)
 				{
+					this.coolDownCount = 0;
 					this.state = "shootingLeft";
 					this.angle = Math.PI*1.5
 				}
 				else if (this.attack === 2)
 				{
+					this.coolDownCount = 0;
 					this.state = "shootingRight";
 					this.angle = Math.PI*1.5
 				}
 				else if (this.attack === 3)
 				{
+					this.count=0;
 					this.state = "lazers";
 					this.angle = Math.PI*1.5;
 				}
-				this.count = 0;
+				this.coolDownCount = 0;
 			}
 			else 
 			{
-				this.count++;
+				this.coolDownCount++;
 			}
-			
-			context.drawImage(this.sprite_sheet.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
+			if (Math.abs(this.x + this.game.backgroundx * 2) > 700) 
+			{
+				this.game.enemyBullets.length = 0;
+				this.vulnerable = false;
+				this.state = 'idle';
+			}
+			context.drawImage(this.currentSheet.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
 		break;
 		 case 'shootingLeft':
-			if(this.angle > Math.PI)
-			{
-				if(this.crystalx == this.xImageMax)
+			this.currentSheet = this.sprite_sheet2;
+			if(this.crystalx == this.xImageMax)
 				{
 					this.crystalx = 0;
 				}
@@ -108,23 +145,24 @@ Level2Boss.prototype = {
 				else{
 					this.count++;
 				}
-				var newBullet = new Bullet(this.game, this.x+this.game.backgroundx*2+50,this.y+50, 25, this.sprite_sheet.image, 0, 0, 50, 100, 700, "right", false, this.angle, 15);
+			if(this.angle > Math.PI)
+			{
+				var newBullet = new Bullet(this.game, this.x+this.game.backgroundx*2+50,this.y+50, 25, this.sprite_sheet2.image, 0, 0, 100, 100,100, 700, "right", false, this.angle, 15);
 				console.log(newBullet);
 				this.game.enemyBullets.push(newBullet);
 				this.angle -= Math.PI/8;
 				//context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
-				context.drawImage(this.sprite_sheet.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
+				context.drawImage(this.sprite_sheet2.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
 			}
 			else{
 				//context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
-				context.drawImage(this.sprite_sheet.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
+				context.drawImage(this.sprite_sheet2.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
 				this.state = "coolDown";
 				this.angle = 1.5*Math.PI
 			}
 			break;
 			case 'shootingRight':
-			if(this.angle < Math.PI * 2)
-			{
+				this.currentSheet = this.sprite_sheet3;
 				if(this.crystalx == this.xImageMax)
 				{
 					this.crystalx = 0;
@@ -136,26 +174,29 @@ Level2Boss.prototype = {
 				else{
 					this.count++;
 				}
-				var newBullet = new Bullet(this.game, this.x+this.game.backgroundx*2+50,this.y+50, 25, this.sprite_sheet.image, 0, 0, 50, 100, 700, "right", false, this.angle, 15);
+			if(this.angle < Math.PI * 2)
+			{
+				var newBullet = new Bullet(this.game, this.x+this.game.backgroundx*2+50,this.y+50, 25, this.sprite_sheet3.image, 0, 0, 100, 100,100, 700, "right", false, this.angle, 15);
 				console.log(newBullet);
 				this.game.enemyBullets.push(newBullet);
 				this.angle += Math.PI/8;
 				//context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
-				context.drawImage(this.sprite_sheet.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
+				context.drawImage(this.sprite_sheet3.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
 			}
 			else{
 				//context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x+this.game.backgroundx*2, this.y, 100,100);
-				context.drawImage(this.sprite_sheet.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
+				context.drawImage(this.sprite_sheet3.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
 				this.state = "coolDown";
 			}
 			break;
 		case 'lazers':
-			if(this.crystalx == this.xImageMax)
+				this.currentSheet = this.sprite_sheet4;
+				if(this.crystalx == this.xImageMax)
 				{
 					this.crystalx = 0;
-					this.state = "coolDown";
-					this.count = 0;
+					this.coolDownCount = 100;
 				}
+				console.log(this.count, this.xcount);
 				if(this.count==this.xcount){
 					this.crystalx+=100;
 					this.count=0;
@@ -163,13 +204,34 @@ Level2Boss.prototype = {
 				else{
 					this.count++;
 				}
-				if (this.crystalx < 200)
+				// if(this.crystalx == this.xImageMax)
+				// {
+					// this.crystalx = 0;
+					// this.state = "coolDown";
+					// this.count = 0;
+				// }
+				// if(this.count==5){
+					// this.crystalx+=100;
+					// this.count=0;
+				// }
+				// else{
+					// this.count++;
+				// }
+				if (this.coolDownCount%10 == 0)
 				{
-					var newBullet = new Bullet(this.game, this.game.character.x, 0, 25, this.sprite_sheet.image, 0, 0, 50, 100, 700, "right", false, this.angle, 15);
-					console.log(newBullet);
-					this.game.enemyBullets.push(newBullet);
+				console.log("Number of Enemy Bullets",+this.game.enemyBullets.length);
+					if(this.game.enemyBullets.length <8)
+					{
+						var newBullet = new Bullet(this.game, this.game.character.x, 0, 25, this.sprite_sheet4.image, 0, 0, 100, 100, 100,700, "right", false, this.angle, 15);
+						console.log(newBullet);
+						this.game.enemyBullets.push(newBullet);
+					}
+					if(this.coolDownCount == 100)
+					{
+						this.state = "coolDown";
+					}
 				}
-				context.drawImage(this.sprite_sheet.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
+				context.drawImage(this.sprite_sheet4.image, this.crystalx, this.flyingy, 100, 100, this.x, this.y, this.radius*2, this.radius*2);
 			break;
 		case 'explode':
 			context.drawImage(this.sprite_sheet_explosion, this.explodex, this.explodey, 64, 64, this.x, this.y, this.radius*2, this.radius*2);

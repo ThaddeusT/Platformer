@@ -237,8 +237,8 @@ Type1Enemy.prototype = {
 	
 	collideWithCharacterBullet: function(damage, pointMultiplier)
 	{	
-		console.log(this.health);
-		console.log(damage);
+		//console.log(this.health);
+		//console.log(damage);
 		if(this.headShot){
 			this.health -= 2*damage;
 		}

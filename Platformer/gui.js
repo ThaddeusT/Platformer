@@ -64,6 +64,7 @@ var GUI = function(game) {
 			this.oldLives = this.game.lives;
 		}
 		this.topLeftBelow.innerHTML ="";
+		this.topLeftCancel.innerHTML = "";
 		if(this.game.jetPackPowerCollected)
 		{
 			var img = $('<img />',
@@ -71,7 +72,6 @@ var GUI = function(game) {
 						   src: 'jetpack.png',
 						   alt:'jetpack'})
 						  .appendTo(this.topLeftBelow);
-			this.topLeftCancel.innerHTML = "";
 			if(!this.game.character.jetPack)
 			{
 				var img = $('<img />',

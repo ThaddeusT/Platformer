@@ -38,6 +38,7 @@ var Character = function(game, x, y, image, imageLeft, jetpackSprite, jetpackLef
 	this.shieldCooldown = 0;
 	this.shieldPower = 100;
 	this.jetPack = false;
+	this.damaged = false;
 };
 
 Character.prototype = {
@@ -196,6 +197,14 @@ Character.prototype = {
 			context.strokeStyle = "rgba(15, 45, 242, 0.6)";
 			context.stroke();
 		}
+		if(this.damaged)
+		{
+			context.save();
+			context.fillStyle = 'rgba(253,8,8,0.1)';
+			context.fillRect(this.x,this.y,this.radius*2,this.radius*2);
+			context.restore();
+			this.damaged = false;
+		}
 		// context.beginPath();
 		// context.rect(this.x,this.y,100,100);
 		// context.stroke();
@@ -232,6 +241,7 @@ Character.prototype = {
 				this.state = 'dead';
 				this.game.lives--;
 				if(this.game.lives > 0){
+					this.game.enemyBullets.length = 0;
 					this.takingDamage = false;
 					this.game.health = 100;
 					this.health = 100;
@@ -302,20 +312,21 @@ Character.prototype = {
 			{
 				if(this.state == 'crouching')
 				{
-					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25, 375, this.facing, true, 0, this.chargingRadius));
+					//game, x, y, radius, image, bulletx, bullety, sourcex, sourcey, increment, xImageMax, facing, characterBullet, angle, damage)
+					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25, 25, 375, this.facing, true, 0, this.chargingRadius));
 				}
 				else{
-					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25, 375, this.facing, true, 0, this.chargingRadius));
+					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25,25, 375, this.facing, true, 0, this.chargingRadius));
 				}
 			}
 		else{
 			if(this.state == 'crouching')
 			{
-				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25, 375, this.facing, true, 0, this.chargingRadius));
+				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25,25, 375, this.facing, true, 0, this.chargingRadius));
 			}
 			else
 			{
-				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25, 375, this.facing, true, 0, this.chargingRadius));
+				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25,25, 375, this.facing, true, 0, this.chargingRadius));
 			}
 		}
 		this.chargingRadius =5;
@@ -616,7 +627,6 @@ Character.prototype = {
 	},
 	
 	updateHealth: function(amount){
-		console.log("update called");
 		this.health += amount;
 		this.game.health += amount;
 		if(this.health<0)
@@ -631,11 +641,11 @@ Character.prototype = {
 		}
 	},
 	collideWithEnemyBullet: function(damage) {
-	console.log("called: " + damage);
 		if (this.shielded)
 		{}
 		else
 		{
+			this.damaged = true;
 			this.updateHealth(-damage);
 		}
 	},

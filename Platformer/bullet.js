@@ -1,6 +1,6 @@
 // Bullet class
 //----------------------------------
-var Bullet = function(game, x, y, radius, image, bulletx, bullety, sourcex, sourcey, xImageMax, facing, characterBullet, angle, damage) {
+var Bullet = function(game, x, y, radius, image, bulletx, bullety, sourcex, sourcey, increment, xImageMax, facing, characterBullet, angle, damage) {
 	this.game = game;
 	this.sprite_sheet = image;
 	this.x = x;
@@ -11,6 +11,7 @@ var Bullet = function(game, x, y, radius, image, bulletx, bullety, sourcex, sour
 	this.angle = angle;
 	this.facing = facing;
 	this.damage = damage;
+	this.increment = increment;
 	if (characterBullet)
 	{
 		if(facing == "right")
@@ -55,7 +56,7 @@ Bullet.prototype = {
 		}
 		if(this.bulletcount==5)
 		{
-			this.bulletx +=25;
+			this.bulletx +=this.increment;
 			this.bulletcount=0;
 		}
 		this.bulletcount++;

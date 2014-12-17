@@ -41,6 +41,10 @@ var Level2 = (function (){
 	Resource.Image.greenCrystal.onload = onload;
 	Resource.Image.blueCrystal.onload = onload;
 	Resource.Image.redCrystal.onload = onload;
+	Resource.Music.level_2_music.onload = onload;
+	Resource.Sfx.weaponFire.onload = onload;
+	Resource.Sfx.chargingFire.onload = onload;
+	Resource.Sfx.jumpingSound.onload = onload;
 	Resource.Image.background.src = "background.png";
 	Resource.Image.character.src = "mainCharacterSpriteSheet100.png";
 	Resource.Image.characterLeft.src = "mainCharacterSpriteSheet100Left.png";
@@ -115,6 +119,15 @@ var Level2 = (function (){
   var level2Boss = {
 	image: Resource.Image.level2Boss
   }
+  var level2BossState2 = {
+	image: Resource.Image.greenCrystal
+  }
+  var level2BossState3 = {
+	image: Resource.Image.blueCrystal
+  }
+  var level2BossState4 = {
+	image: Resource.Image.redCrystal
+  }
   var enemies = []
   var treasures = []
   
@@ -156,7 +169,7 @@ var Level2 = (function (){
 					enemies.push(newEnemy);
 				break;
 				case "boss":
-					var newEnemy = new Level2Boss(this.game, enemy.position.x, enemy.position.y, level2Boss, 700, 5, 50, "idle", 300, 10,25000);
+					var newEnemy = new Level2Boss(this.game, enemy.position.x, enemy.position.y, level2Boss,level2BossState2, level2BossState3, level2BossState4, 700, 5, 50, "idle", 300, 10,25000);
 					enemies.push(newEnemy);
 				break;
 			}

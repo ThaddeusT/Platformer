@@ -131,7 +131,7 @@ var Level5 = (function (){
   var createEnemies = function(cenemies){
 		enemies = [];
 		cenemies.forEach( function(enemy) {
-			console.log(enemy.enemyType);
+			//console.log(enemy.enemyType);
 			switch(enemy.enemyType)
 			{
 				case "1":

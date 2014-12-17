@@ -58,7 +58,7 @@ var Game = function (canvasId) {
   this.health = 100;
   this.gui = new GUI(this);
   this.levels = [];
-  this.levels.push(Level1);
+  //this.levels.push(Level1);
   this.levels.push(Level2);
   this.levels.push(Level3);
   this.levels.push(Level4);

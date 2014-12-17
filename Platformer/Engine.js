@@ -386,7 +386,7 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 		x = bulletx - (game.character.x+game.character.radius);
 		y = bullet.y - (game.character.y+game.character.radius);
 		d = Math.sqrt(x*x + y*y);
-		console.log(x);
+		//console.log(x);
 				
 			if(d <= game.character.radius+bullet.radius && ((bullet.y+bullet.radius+7) >= game.character || (bullet.y+bullet.radius+8) >= (game.character.y)))
 			{
