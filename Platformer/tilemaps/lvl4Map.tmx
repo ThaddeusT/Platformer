@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="10" tilewidth="50" tileheight="50">
  <tileset firstgid="1" name="baseTileSet" tilewidth="50" tileheight="50">
-  <image source="tilesets/baseTileSet.png" width="100" height="100"/>
+  <image source="../../../../Downloads/Platformer-master/Platformer/tilesets/baseTileSet.png" width="100" height="100"/>
   <tile id="0">
    <properties>
     <property name="portal" value="false"/>
@@ -28,7 +28,7 @@
   </tile>
  </tileset>
  <tileset firstgid="5" name="EnemyType1" tilewidth="50" tileheight="50">
-  <image source="tilesets/EnemyType1.png" width="50" height="50"/>
+  <image source="../../../../Downloads/Platformer-master/Platformer/tilesets/EnemyType1.png" width="50" height="50"/>
   <tile id="0">
    <properties>
     <property name="Enemy" value="true"/>
@@ -39,7 +39,7 @@
   </tile>
  </tileset>
  <tileset firstgid="6" name="portal" tilewidth="50" tileheight="50">
-  <image source="tilesets/portal.png" width="50" height="50"/>
+  <image source="../../../../Downloads/Platformer-master/Platformer/tilesets/portal.png" width="50" height="50"/>
   <tile id="0">
    <properties>
     <property name="portal" value="true"/>
@@ -48,17 +48,52 @@
   </tile>
  </tileset>
  <tileset firstgid="7" name="healthCrystal" tilewidth="50" tileheight="50">
-  <image source="../../Platformer-master-3/Platformer/tilesets/healthCrystal.png" width="50" height="50"/>
+  <image source="../../../../Downloads/Platformer-master-3/Platformer/tilesets/healthCrystal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+    <property name="treasure" value="true"/>
+    <property name="treasureType" value="1"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="8" name="jetPackCrystal" tilewidth="50" tileheight="50">
-  <image source="../../Platformer-master-3/Platformer/tilesets/jetPackCrystal.png" width="50" height="50"/>
+  <image source="../../../../Downloads/Platformer-master-3/Platformer/tilesets/jetPackCrystal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+    <property name="treasure" value="true"/>
+    <property name="treasureType" value="2"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="9" name="pinkCrystal" tilewidth="50" tileheight="50">
-  <image source="../../Platformer-master-3/Platformer/tilesets/pinkCrystal.png" width="50" height="50"/>
+  <image source="../../../../Downloads/Platformer-master-3/Platformer/tilesets/pinkCrystal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+    <property name="treasure" value="true"/>
+    <property name="treasureType" value="3"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="10" name="respawnCrystal" tilewidth="50" tileheight="50">
+  <image source="../tilesets/respawnCrystal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+    <property name="treasure" value="true"/>
+    <property name="treasureType" value="4"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="200" height="10">
   <data encoding="base64" compression="zlib">
-   eJztV9kOgjAQBBWP//9hwwMJNrPbmW1LAZlkozZ7X63DEMeY0IU6QLkck+8jyWvxnA1niTGdqdK4auvbA5Sev+bjfPX/Byi1egNZpA/9VueDnZ2Pce7to612Fau399zUtn/E2bf6M83L5Mjn+gzZaTUfrXoqjd/T/8ro2nOfRHxT5n1rMDa9fknPmNoqvbeeA2Zu0FnJjs/xpncfg5xOy6fe90EOpTFFdSM+VpfHz9j0+hLJ3wsJ2V9/5s5ZOes3Arr7UF68u0iVU8Dk8UnKKmD7a3B4GJ3sXojsj9L56A1mPqy8qHfLDLVHIrDemjO8/rBQupOUfcX4w2CtYwJnC6z3CPOOqOUL8mv+f1ojl0fC0eJrORcoZusOUnyrEV9EZpGLvIdVOzm6AXo4pPIjGdXHVF/LHkPx3fhS/GCLmVBjQ7WJ5EOtY7SGnv3SvrqoHrG7ometvs96Bk4=
+   eJztV+0OgzAIVDf38f4vvPjDxJEDDlq/qpeQbQ3QUg7oui6PXsiNOkB32YvvPamr6bSGVmKUNVUaV21/R0CE83d9tJf/KyCSqw+wRf7Q7+UnWpO2bO18lXWrH23Vq1i/e9dN7f3PWPsal+W9jIa9xzO0T3Z+ePWxFqdk/Jb/t+PryDzJnC1S71uD2dPii1xjchvhnpwPXt2gtZIe7+nK2cfA86mdae954KE0pqxvpMf6svSZPS1eIvtHoRwRaPahe7FmUdQuAuYeX6RtBCy/OkOH8cn2hUz/KK2Pq2GLGtXemhMsfmgo7UnRflWDM0sfI1ibob1HmHdErbOgc03/T1vo/RGcLb416wLFrM2gyNlqxJexme0y7+HoPp4MQJ6GRPWRTfSM0t+aHEPxDXwq/rBFTURjQ7nJ3Ec0j9kcWvuX8uqWesL2ij1z9QMwpgY+
   </data>
  </layer>
 </map>
