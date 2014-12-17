@@ -112,7 +112,6 @@ var Tilemap = (function (){
 				{
 					if(mapData.layers[0].data[x+y*mapWidth]==tiles.length)
 					{
-						console.log(tile.EnemyType);
 						enemies.push(new Enemy(x*tileWidth,y*tileHeight, tile.EnemyType));
 					}
 				}
@@ -266,7 +265,7 @@ function calculateEnemyCharacterCollisions(game, enemies)
 			d = Math.sqrt(x*x + y*y);
 			mindist = characterRadius+enemy.radius;
 			console.log(d, mindist);
-			if(d<=mindist)
+			if(d<=(mindist*.75))
 			{
 				enemy.collidedWithCharacter();
 			}
@@ -279,7 +278,7 @@ function calculateTreasureCharacterCollisions(game, treasures)
 {
 	characterX = game.character.x - game.backgroundx*2;
 	characterY = game.character.y;
-	characterRadius = game.character.radius;
+	characterRadius = 50;
 	var treasureCount = 0;
 	treasures.forEach( function(treasure) {
 		// if(treasureCount == 0)
@@ -296,7 +295,6 @@ function calculateTreasureCharacterCollisions(game, treasures)
 				y = characterY - treasure.y;
 				d = Math.sqrt(x*x + y*y);
 				mindist = characterRadius+treasure.radius;
-				// console.log(d,mindist);
 				if(d<=mindist)
 				{
 					treasure.collidedWithCharacter();
@@ -350,6 +348,14 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 					break;
 					case 2:
 						if(d <= enemy.radius+bullet.radius && ((bullet.y+bullet.radius+7) >= enemy.y+enemy.enemyHead || (bullet.y+bullet.radius+8) >= (enemy.y+enemy.enemyHead)))
+						{
+							enemy.collideWithCharacterBullet(bullet.radius);
+						}
+					break;
+					case 3:
+						var mindist = enemy.radius+bullet.radius;
+						console.log(d,mindist);
+						if(d <= mindist)
 						{
 							enemy.collideWithCharacterBullet(bullet.radius);
 						}
