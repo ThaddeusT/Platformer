@@ -11,6 +11,8 @@ var Level6Boss = function(game, x, y, image,imageLeft,xImageMax, radius, xWalkin
 	this.headShot = false;
 	this.sprite_sheet = image;
 	this.sprite_sheet_left = imageLeft;
+	this.sprite_sheet_fire = new Image();
+	this.sprite_sheet_fire.src = "fireballSpriteSheet25.png";
 	this.sprite_sheet_explosion = new Image();
 	this.sprite_sheet_explosion.src = "explosion.png";
 	this.healthBarWidth = radius;
@@ -32,6 +34,9 @@ var Level6Boss = function(game, x, y, image,imageLeft,xImageMax, radius, xWalkin
 	this.startingX = this.x;
 	this.xcount = xcount;
 	this.facing = "left";
+	this.fireState = false;
+	this.fireCount = 100;
+	this.angle = 0;
 };
 
 Level6Boss.prototype = {
@@ -45,12 +50,12 @@ Level6Boss.prototype = {
 		 case 'walking':
 			if(this.facing == 'right')
 			{
-				if(this.walkingx == this.xImageMax)
+				if(this.walkingx == 0)
 				{
-					this.walkingx = 0;
+					this.walkingx = this.xImageMax;
 				}
 				if(this.walkingcount==this.xcount){
-					this.walkingx+=400;
+					this.walkingx-=400;
 					this.walkingcount=0;
 				}
 				else{
@@ -61,12 +66,12 @@ Level6Boss.prototype = {
 				context.drawImage(this.sprite_sheet_left.image, this.walkingx, this.walkingy,400,400,this.x-145,this.y-160,350,350);
 			}
 			else{
-				if(this.walkingLeftX == 0)
+				if(this.walkingLeftX == this.xImageMax)
 				{
-					this.walkingLeftX = this.xImageMax;
+					this.walkingLeftX = 0;
 				}
 				if(this.walkingcount==5){
-					this.walkingLeftX-=400;
+					this.walkingLeftX+=400;
 					this.walkingcount=0;
 				}
 				else{
@@ -102,6 +107,37 @@ Level6Boss.prototype = {
 			}
 			break;
 		}
+		console.log(this.fireState);
+		if (this.fireState)
+		{
+			this.angle = this.angle += Math.PI/4
+			if ((this.angle % (2 * Math.PI)) === 0)
+				{
+					this.angle = 0;
+				}
+			console.log(this.angle);
+			if (this.facing == "right")
+			{
+				var newBullet = new Bullet(this.game, this.x + this.game.backgroundx*2 + 75, this.y, 25, this.sprite_sheet_fire, 0, 0, 25, 25, 25, 50, "right", false, this.angle, 15);
+				console.log(newBullet);
+				this.game.enemyBullets.push(newBullet);
+			}
+			else 
+			{
+				var newBullet = new Bullet(this.game, this.x + this.game.backgroundx*2, this.y, 25, this.sprite_sheet_fire, 0, 0, 25, 25, 25, 50, "right", false, this.angle, 15);
+				console.log(newBullet);
+				this.game.enemyBullets.push(newBullet);
+			}
+			this.fireCount = 0;
+			this.fireState = false;
+		}
+		else
+		{
+			this.fireCount++;
+			if (this.fireCount >= 100);
+			this.fireState = true;
+		}
+			
 		//Draw hit indicator
 		if(this.damaged)
 		{
