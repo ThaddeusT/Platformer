@@ -75,7 +75,7 @@ Level3Boss.prototype = {
 				// }
 				// context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
 			// }
-			context.drawImage(this.sprite_sheet.image, 400*this.spriteIter,0,400,400,this.x-125,this.y-125,250,250);
+			context.drawImage(this.sprite_sheet.image, 400*this.spriteIter,0,400,400,this.x-150,this.y-150,350,350);
 			this.spriteIterCount--;
 			if(this.spriteIterCount==0){
 				this.spriteIterCount=5;
