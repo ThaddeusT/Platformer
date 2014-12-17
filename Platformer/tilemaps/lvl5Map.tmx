@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="10" tilewidth="50" tileheight="50">
+ <tileset firstgid="1" name="baseTileSet" tilewidth="50" tileheight="50">
+  <image source="../tilesets/baseTileSet.png" width="100" height="100"/>
+  <tile id="2">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="5" name="EnemyType1" tilewidth="50" tileheight="50">
+  <image source="../tilesets/EnemyType1.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="Enemy" value="true"/>
+    <property name="EnemyType" value="1"/>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="6" name="EnemyType3" tilewidth="50" tileheight="50">
+  <image source="../tilesets/smallPort.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="Enemy" value="true"/>
+    <property name="EnemyType" value="3"/>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="7" name="portal" tilewidth="50" tileheight="50">
+  <image source="../tilesets/portal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="true"/>
+    <property name="solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="8" name="healthCrystal" tilewidth="50" tileheight="50">
+  <image source="../tilesets/healthCrystal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+    <property name="treasure" value="true"/>
+    <property name="treasureType" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="9" name="jetPackCrystal" tilewidth="50" tileheight="50">
+  <image source="../tilesets/jetPackCrystal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+    <property name="treasure" value="true"/>
+    <property name="treasureType" value="2"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="10" name="respawnCrystal" tilewidth="50" tileheight="50">
+  <image source="../tilesets/respawnCrystal.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="portal" value="false"/>
+    <property name="solid" value="false"/>
+    <property name="treasure" value="true"/>
+    <property name="treasureType" value="3"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="11" name="example" tilewidth="64" tileheight="64">
+  <image source="../../../../../../Volumes/CORSAIR 32/game/tilesets/example.png" width="128" height="130"/>
+  <tile id="2">
+   <properties>
+    <property name="solid" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="200" height="10">
+  <data encoding="base64" compression="zlib">
+   eJztV4sKxSAIDeLubvv/Dx6DBSGZ+WoGOxCLHqauY5rSBw/kp32Yi9vn29tKLIiMfAu2xpjVWSsjI+3GjHuYkf7I+giw8JG3nzk+s/DvCD+OtEac6/Fj1vmtfm/93+CsFSC9P/U+yubWfGusvC8ceXX/R+yLiJoPexrjBzYnsR+eNcoPKY89+AFlSm3CxjXxytJeSQxdLR5BUG/HjLfFix8whs7Q31KmVq43Nzj3JYP5FUC9q5RPuI3So1cfanlarz0E+0dlR8EbOkWoJSx0wHy3d+a46OVaxQZu/NHkGDUHLUHpdj5fTu7pfbdXrAM0oOyN5g/vfA07s6DHEUndr9G/lXtEeY+s84do9nlA4wdY/1P+soz1Gcjr1SbW/5YjC3JFI8/zfkfhh6eOZwA/SX1rKe8C5sYFRw==
+  </data>
+ </layer>
+</map>

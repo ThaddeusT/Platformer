@@ -86,6 +86,7 @@ var Tilemap = (function (){
 		  portal:(tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].portal == "true") ? true : false,
 		  Enemy: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].Enemy == "true") ? true : false,
 		  EnemyType: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].EnemyType != "0") ? tilesetmapData.tileproperties[i].EnemyType : 0,
+		  rotation: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].rotation != "0") ? tilesetmapData.tileproperties[i].rotation : 0,
 		  Treasure: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].treasure == "true") ? true : false,
 		  TreasureType: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].treasureType != "0") ? tilesetmapData.tileproperties[i].treasureType : 0,
         }
@@ -255,14 +256,16 @@ function calculateEnemyCharacterCollisions(game, enemies)
 {
 	characterX = game.character.x - game.backgroundx*2;
 	characterY = game.character.y;
-	characterRadius = 50;
+	characterRadius = game.character.radius;
 	enemies.forEach( function(enemy) {
 		if(Math.abs(characterX-enemy.x) < 500 && enemy.state != 'explode' && enemy.state != 'dead' && game.character.state != 'dead')
 		{
 			x = characterX - enemy.x;
 			y = characterY - enemy.y;
 			d = Math.sqrt(x*x + y*y);
-			if(d<=50)
+			mindist = characterRadius+enemy.radius;
+			console.log(d, mindist);
+			if(d<=(mindist*.75))
 			{
 				enemy.collidedWithCharacter();
 			}
@@ -292,7 +295,6 @@ function calculateTreasureCharacterCollisions(game, treasures)
 				y = characterY - treasure.y;
 				d = Math.sqrt(x*x + y*y);
 				mindist = characterRadius+treasure.radius;
-				// console.log(d,mindist);
 				if(d<=mindist)
 				{
 					treasure.collidedWithCharacter();
@@ -341,6 +343,20 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 							else{
 								enemy.headShot =false;
 							}
+							enemy.collideWithCharacterBullet(bullet.radius);
+						}
+					break;
+					case 2:
+						if(d <= enemy.radius+bullet.radius && ((bullet.y+bullet.radius+7) >= enemy.y+enemy.enemyHead || (bullet.y+bullet.radius+8) >= (enemy.y+enemy.enemyHead)))
+						{
+							enemy.collideWithCharacterBullet(bullet.radius);
+						}
+					break;
+					case 3:
+						var mindist = enemy.radius+bullet.radius;
+						console.log(d,mindist);
+						if(d <= mindist)
+						{
 							enemy.collideWithCharacterBullet(bullet.radius);
 						}
 					break;
