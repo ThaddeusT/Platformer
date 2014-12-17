@@ -281,7 +281,9 @@ Character.prototype = {
 	fireBullet: function() {
 		this.chargingx=300;
 		this.chargingcount=0;
+        this.game.levels[game.level-1].Resource.Sfx.weaponFire.currentTime = 0;
         this.game.levels[game.level-1].Resource.Sfx.weaponFire.play();
+        this.game.levels[game.level-1].Resource.Sfx.chargingFire.pause();
 		this.weaponState = "rest";
 		if(this.facing =="right")
 			{
