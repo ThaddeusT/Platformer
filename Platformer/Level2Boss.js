@@ -107,7 +107,7 @@ Level2Boss.prototype = {
 				else{
 					this.count++;
 				}
-				var newBullet = new Bullet(this.game, this.x+this.game.backgroundx*2+50,this.y+50, 25, this.sprite_sheet.image, 0, 0, 700, "right", false, this.angle);
+				var newBullet = new Bullet(this.game, this.x+this.game.backgroundx*2+50,this.y+50, 25, this.sprite_sheet.image, 0, 0, 50, 100, 700, "right", false, this.angle, 15);
 				console.log(newBullet);
 				this.game.enemyBullets.push(newBullet);
 				this.angle -= Math.PI/8;
@@ -135,7 +135,7 @@ Level2Boss.prototype = {
 				else{
 					this.count++;
 				}
-				var newBullet = new Bullet(this.game, this.x+this.game.backgroundx*2+50,this.y+50, 25, this.sprite_sheet.image, 0, 0, 700, "right", false, this.angle);
+				var newBullet = new Bullet(this.game, this.x+this.game.backgroundx*2+50,this.y+50, 25, this.sprite_sheet.image, 0, 0, 50, 100, 700, "right", false, this.angle, 15);
 				console.log(newBullet);
 				this.game.enemyBullets.push(newBullet);
 				this.angle += Math.PI/8;
@@ -164,7 +164,7 @@ Level2Boss.prototype = {
 				}
 				if (this.crystalx < 200)
 				{
-					var newBullet = new Bullet(this.game, this.game.character.x, 0, 25, this.sprite_sheet.image, 0, 0, 700, "down", false, this.angle);
+					var newBullet = new Bullet(this.game, this.game.character.x, 0, 25, this.sprite_sheet.image, 0, 0, 50, 100, 700, "right", false, this.angle, 15);
 					console.log(newBullet);
 					this.game.enemyBullets.push(newBullet);
 				}

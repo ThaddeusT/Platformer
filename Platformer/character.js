@@ -290,20 +290,20 @@ Character.prototype = {
 			{
 				if(this.state == 'crouching')
 				{
-					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 375, this.facing, true, 0));
+					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25, 375, this.facing, true, 0, this.chargingRadius));
 				}
 				else{
-					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 375, this.facing, true, 0));
+					this.game.characterBullets.push(new Bullet(this.game, this.x+77-(this.chargingRadius/5), this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25, 375, this.facing, true, 0, this.chargingRadius));
 				}
 			}
 		else{
 			if(this.state == 'crouching')
 			{
-				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 375, this.facing, true, 0));
+				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+68-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25, 375, this.facing, true, 0, this.chargingRadius));
 			}
 			else
 			{
-				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 375, this.facing, true, 0));
+				this.game.characterBullets.push(new Bullet(this.game, this.x+17-(this.chargingRadius*1.5),this.y+50-(this.chargingRadius-5), this.chargingRadius, this.sprite_sheet, 300, 125, 25, 25, 375, this.facing, true, 0, this.chargingRadius));
 			}
 		}
 		this.chargingRadius =5;
@@ -604,6 +604,7 @@ Character.prototype = {
 	},
 	
 	updateHealth: function(amount){
+		console.log("update called");
 		this.health += amount;
 		this.game.health += amount;
 		if(this.health<0)
@@ -615,6 +616,15 @@ Character.prototype = {
 		{
 			this.health = 100;
 			this.game.health = 100;
+		}
+	},
+	collideWithEnemyBullet: function(damage) {
+	console.log("called: " + damage);
+		if (this.shielded)
+		{}
+		else
+		{
+			this.updateHealth(-damage);
 		}
 	},
 	

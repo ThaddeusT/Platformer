@@ -235,13 +235,15 @@ Type1Enemy.prototype = {
 		this.game.character.takingDamage = true;
 	},
 	
-	collideWithCharacterBullet: function(radiusOfBullet, pointMultiplier)
+	collideWithCharacterBullet: function(damage, pointMultiplier)
 	{	
+		console.log(this.health);
+		console.log(damage);
 		if(this.headShot){
-			this.health -= 2*radiusOfBullet;
+			this.health -= 2*damage;
 		}
 		else{
-			this.health -= radiusOfBullet;
+			this.health -= damage;
 		}
 		if(this.health <0)
 		{

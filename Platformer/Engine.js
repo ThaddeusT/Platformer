@@ -342,7 +342,7 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 							else{
 								enemy.headShot =false;
 							}
-							enemy.collideWithCharacterBullet(bullet.radius);
+							enemy.collideWithCharacterBullet(bullet.damage);
 						}
 					break;
 					case 2:
@@ -380,6 +380,20 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 				}
 			}
 		});
+	});
+	game.enemyBullets.forEach(function(bullet)
+	{
+		bulletx = bullet.x;	
+		x = bulletx - (game.character.x+game.character.radius);
+		y = bullet.y - (game.character.y+game.character.radius);
+		d = Math.sqrt(x*x + y*y);
+		console.log(x);
+				
+			if(d <= game.character.radius+bullet.radius && ((bullet.y+bullet.radius+7) >= game.character || (bullet.y+bullet.radius+8) >= (game.character.y)))
+			{
+				bullet.collided = true;
+				game.character.collideWithEnemyBullet(bullet.damage);
+			}
 	});
 }
 	
