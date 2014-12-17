@@ -272,11 +272,16 @@ Character.prototype = {
 	
 	chargeBullet: function(){
 		this.weaponState = "charging"; 
+        if(this.chargingRadius > 5)
+        {
+            this.game.levels[game.level-1].Resource.Sfx.chargingFire.play();
+        }
 	},
 	
 	fireBullet: function() {
 		this.chargingx=300;
 		this.chargingcount=0;
+        this.game.levels[game.level-1].Resource.Sfx.weaponFire.play();
 		this.weaponState = "rest";
 		if(this.facing =="right")
 			{
