@@ -133,6 +133,7 @@ Game.prototype = {
 		else{
 			if(!game.gameresetting)
 			{
+				game.levels[game.level-1].stopLevelMusic();
 				game.gameresetting = true;
 				game.gui.message("GAME OVER");
 				game.gameover = false;
