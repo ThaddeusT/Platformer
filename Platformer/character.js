@@ -259,9 +259,12 @@ Character.prototype = {
 					this.game.gameover =true;
 					if (typeof(Storage) != "undefined") {
 						// Store
-						localStorage.setItem("HighScore", this.game.score);
-						// Retrieve
-						console.log(localStorage.getItem("HighScore"));
+						if(localStorage.getItem("HighScore") < this.game.score)
+						{
+							localStorage.setItem("HighScore", this.game.score);
+							// Retrieve
+							console.log(localStorage.getItem("HighScore"));
+						}
 					} 
 				}
 				keys = {

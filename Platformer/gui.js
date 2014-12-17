@@ -84,7 +84,12 @@ var GUI = function(game) {
 		// TODO: Render Score
 		this.topRight.innerHTML = "";
 		if (typeof(Storage) != "undefined") {
-			this.topRight.innerHTML += "High Score: "+localStorage.getItem("HighScore");
+			var highScore = localStorage.getItem("HighScore");
+			if(highScore == null)
+			{
+				highScore = 0;
+			}
+			this.topRight.innerHTML += "High Score: "+highScore;
 			this.topRight.innerHTML += "<br/> Current Score: "+this.game.score;
 		}
 		else{
