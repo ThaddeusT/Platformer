@@ -263,7 +263,9 @@ function calculateEnemyCharacterCollisions(game, enemies)
 			x = characterX - enemy.x;
 			y = characterY - enemy.y;
 			d = Math.sqrt(x*x + y*y);
-			if(d<=50)
+			mindist = characterRadius+enemy.radius;
+			console.log(d, mindist);
+			if(d<=mindist)
 			{
 				enemy.collidedWithCharacter();
 			}
@@ -276,7 +278,7 @@ function calculateTreasureCharacterCollisions(game, treasures)
 {
 	characterX = game.character.x - game.backgroundx*2;
 	characterY = game.character.y;
-	characterRadius = 50;
+	characterRadius = game.character.radius;
 	var treasureCount = 0;
 	treasures.forEach( function(treasure) {
 		// if(treasureCount == 0)

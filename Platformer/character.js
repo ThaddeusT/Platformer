@@ -246,7 +246,7 @@ Character.prototype = {
 				}
 			}
 			else{
-				console.log("Character: "+(this.x-this.game.backgroundx*2)+","+this.y);
+				// console.log("Character: "+(this.x-this.game.backgroundx*2)+","+this.y);
 			}
 			if(this.shielded)
 			{

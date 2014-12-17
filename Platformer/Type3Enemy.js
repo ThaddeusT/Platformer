@@ -1,4 +1,4 @@
-var Level3Boss = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, xcount, radius, startingState, health, damage, value) {
+var Type3Enemy = function(game, x, y, image,imageLeft, xImageMax, xTravelmax, xcount, radius, startingState, health, damage, value) {
 	this.game = game;
 	this.type =1;
 	this.x = x;
@@ -17,13 +17,11 @@ var Level3Boss = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, x
 	this.headShotCount=0;
 	this.explodex = 0;
 	this.explodey = 0;
-	this.walkingx = 0;
-	this.walkingy = 0;
-	this.walkingcount = 0;
-	this.walkingLeftX = 700;
-	this.walkingLeftY=0;
+	this.imagex = 0;
+	this.imagey = 0;
+	this.imagecount = 0;
 	this.xImageMax = xImageMax;
-	this.xWalkingmax = xWalkingmax+this.x;
+	this.xtravelmax = xTravelmax+this.x;
 	this.startingX = this.x;
 	this.xcount = xcount;
 	this.radius = radius;
@@ -32,11 +30,12 @@ var Level3Boss = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, x
 	this.damage = damage;
 	this.pointsCount=0;
 	this.value = value;
-	this.spriteIter = 0;
-	this.spriteIterCount = 5;
+	this.teleportCount = 0;
+	this.originalx = x;
+	this.originaly = y;
 };
 
-Level3Boss.prototype = {
+Type3Enemy.prototype = {
 	x: 0,
 	y: 0,
 	velocity: 0,
@@ -45,42 +44,19 @@ Level3Boss.prototype = {
 		// Render enemy
 		switch(this.state)
 		{
-		 case 'walking':
-			// if(this.facing == 'right')
-			// {
-				// if(this.walkingx == this.xImageMax)
-				// {
-					// this.walkingx = 0;
-				// }
-				// if(this.walkingcount==this.xcount){
-					// this.walkingx+=100;
-					// this.walkingcount=0;
-				// }
-				// else{
-					// this.walkingcount++;
-				// }
-				// context.drawImage(this.sprite_sheet.image, this.walkingx, this.walkingy, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
-			// }
-			// else{
-				// if(this.walkingLeftX == 0)
-				// {
-					// this.walkingLeftX = this.xImageMax;
-				// }
-				// if(this.walkingcount==5){
-					// this.walkingLeftX-=100;
-					// this.walkingcount=0;
-				// }
-				// else{
-					// this.walkingcount++;
-				// }
-				// context.drawImage(this.sprite_sheet_left.image, this.walkingLeftX, this.walkingLeftY, 100, 100,this.x, this.y, this.radius*2,this.radius*2);
-			// }
-			context.drawImage(this.sprite_sheet.image, 400*this.spriteIter,0,400,400,this.x-125,this.y-125,250,250);
-			this.spriteIterCount--;
-			if(this.spriteIterCount==0){
-				this.spriteIterCount=5;
-				this.spriteIter=(this.spriteIter+1)%8;
-			}
+		 case 'normal':
+				if(this.imagex == this.xImageMax)
+				{
+					this.imagex = 0;
+				}
+				if(this.imagecount==this.xcount){
+					this.imagex+=100;
+					this.imagecount=0;
+				}
+				else{
+					this.imagecount++;
+				}
+				context.drawImage(this.sprite_sheet.image, this.imagex, this.imagey, 100, 100,this.x, this.y, 100,100);
 			break;
 		case 'explode':
 			context.drawImage(this.sprite_sheet_explosion, this.explodex, this.explodey, 64, 64, this.x, this.y, this.radius*2, this.radius*2);
@@ -107,6 +83,7 @@ Level3Boss.prototype = {
 			}
 			break;
 		}
+		
 		//Draw hit indicator
 		if(this.damaged)
 		{
@@ -168,62 +145,55 @@ Level3Boss.prototype = {
 		var tileRight = Tilemap.tileAt(x+65, this.y+50,0);
 		switch(this.state)
 		{
-			// case "walking":
-				// if(this.facing=='right'){
-					// if(tileRight === undefined || !tileRight.solid){
-						// if(this.x < this.xWalkingmax)
-						// {
-							// this.x += this.velocity;
-						// }
-						// else{
-							// this.facing = 'left';
-							// this.walkingcount = 0;
-							// this.walkingLeftX = 700;
-							// this.walkingLeftY=0;
-						// }
-					// }
-					// else{
-						// this.facing = 'left';
-						// this.walkingcount = 0;
-						// this.walkingLeftX = 700;
-						// this.walkingLeftY=0;
-					// }
-				// }
-				// if(this.facing=='left'){
-					// if(tileLeft === undefined || !tileLeft.solid){
-						// if(this.x >= this.startingX-this.xWalkingmax)
-						// {
-							// this.x -= this.velocity;
-						// }
-						// else{
-							// this.facing ='right';
-							// this.walkingx = 0;
-							// this.walkingy = 0;
-							// this.walkingcount = 0;
-						// }
-					// }
-					// else{
-						// this.facing ='right';
-						// this.walkingx = 0;
-						// this.walkingy = 0;
-						// this.walkingcount = 0;
-					// }
-				// }
-				// if(tileDownLeft === undefined || !tileDownLeft.solid )
-				// {
-					// this.facing = 'right';
-					// this.walkingx = 0;
-					// this.walkingy = 0;
-					// this.walkingcount = 0;
-				// }
-				// if(tileDownRight === undefined || !tileDownRight.solid)
-				// {
-					// this.facing = 'left';
-					// this.walkingcount = 0;
-					// this.walkingLeftX = 700;
-					// this.walkingLeftY=0;
-				// }
-			// break;
+			case "normal":
+				console.log("TeleCount: "+this.teleportCount);
+				if(this.teleportCount==100)
+				{
+					var amount = Math.floor((Math.random() * 100) + 25);
+					var direction = Math.floor((Math.random() * 4) + 1);
+					console.log("Direction: "+direction);
+					switch(direction)
+					{
+						case 1:
+							var tile = Tilemap.tileAt(this.x+this.radius+amount, this.y+this.radius);
+							if(tile === undefined || !tile.solid){
+								this.x += amount;
+							}
+						break;
+						case 2:
+							var tile = Tilemap.tileAt(this.x+this.radius-amount, this.y+this.radius);
+							if(tile === undefined || !tile.solid){
+								this.x -= amount;
+							}
+						break;
+						case 3:
+							var tile = Tilemap.tileAt(this.x+this.radius, this.y+this.radius+amount);
+							if((tile === undefined || !tile.solid) && ((this.y+amount)<450)){
+								this.y += amount;
+							}
+						break;
+						case 4:
+							var tile = Tilemap.tileAt(this.x+this.radius, this.y+this.radius-amount);
+							if((tile === undefined || !tile.solid) && ((this.y-amount)>0)){
+								this.y -= amount;
+							}
+						break;
+					}
+					this.teleportCount=0;
+				}
+				else{
+					this.teleportCount++;
+				}
+				dx = this.x - this.originalx;
+				dy = this.y - this.originaly;
+				var distance = Math.sqrt(dx*dx + dy*dy);
+				if(distance > 300)
+				{
+					this.x = this.originalx;
+					this.y = this.originaly;
+				}
+				
+			break;
 		}		
 	},
 	
