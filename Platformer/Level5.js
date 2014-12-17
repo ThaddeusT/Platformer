@@ -1,7 +1,7 @@
 var Level5 = (function (){
 	this.game;
 	var Resource = {
-		loading: 11,
+		loading: 12,
 		Image: {
 		   background: new Image(),
 		   character: new Image(),
@@ -11,6 +11,7 @@ var Level5 = (function (){
 		   portal: new Image(),
 		   enemyType1: new Image(),
 		   enemyType1Left: new Image(),
+		   enemyType3: new Image(),
 		   greenCrystal: new Image(),
 		   redCrystal: new Image(),
 		   blueCrystal: new Image()
@@ -30,6 +31,7 @@ var Level5 = (function (){
 	Resource.Image.portal.onload = onload;
 	Resource.Image.enemyType1.onload = onload;
 	Resource.Image.enemyType1Left.onload = onload;
+	Resource.Image.enemyType3.onload = onload;
 	Resource.Image.greenCrystal.onload = onload;
 	Resource.Image.blueCrystal.onload = onload;
 	Resource.Image.redCrystal.onload = onload;
@@ -41,6 +43,7 @@ var Level5 = (function (){
 	Resource.Image.portal.src = "portalSpriteSheet.png";
 	Resource.Image.enemyType1.src ="Robot_Blue1_SpriteSheet.png";
 	Resource.Image.enemyType1Left.src ="Robot_Blue1_SpriteSheetLeft.png"
+	Resource.Image.enemyType3.src ="enemy_TeleporterSpriteSheet100.png"
 	Resource.Image.greenCrystal.src = "greenCrystalSpriteSheet.png";
 	Resource.Image.blueCrystal.src = "blueCrystalSpriteSheet.png";
 	Resource.Image.redCrystal.src = "redCrystalSpriteSheet.png";
@@ -83,6 +86,11 @@ var Level5 = (function (){
   var enemyType1Left = {
 	image: Resource.Image.enemyType1Left
   }
+  
+  var enemyType3 ={
+	image: Resource.Image.enemyType3
+  }
+  
   var enemies = []
   var treasures = []
   
@@ -93,7 +101,7 @@ var Level5 = (function (){
   var load = function(screenCtx)
   {
 		var self = this;
-	    Tilemap.load(tilemapDataLvl5, {
+	    Tilemap.load(tilemapDataLvl5V2, {
 			onload: function() {
 			  // Tilemap.render(screenCtx);
 			  console.log('Tilemap Loaded');
@@ -104,10 +112,15 @@ var Level5 = (function (){
   var createEnemies = function(cenemies){
 		enemies = [];
 		cenemies.forEach( function(enemy) {
+			console.log(enemy.enemyType);
 			switch(enemy.enemyType)
 			{
 				case "1":
 					var newEnemy = new Type1Enemy(this.game, enemy.position.x, enemy.position.y,enemyType1, enemyType1Left,30,700,400,5,50,"walking",50,10,250);
+					enemies.push(newEnemy);
+				break;
+				case "3":
+					var newEnemy = new Type3Enemy(this.game, enemy.position.x, enemy.position.y,enemyType3, enemyType3,700,400,5,50,"normal",50,10,200);
 					enemies.push(newEnemy);
 				break;
 			}

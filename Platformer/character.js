@@ -5,6 +5,7 @@ var Character = function(game, x, y, image, imageLeft, jetpackSprite, jetpackLef
 	this.game = game;
 	this.x = x;
 	this.y = y;
+	this.radius = 50;
 	this.velocity = 1;
 	this.health = 100;
 	this.state = "normal";
@@ -363,9 +364,9 @@ Character.prototype = {
 		var jtileRightBottom = Tilemap.tileAt(x+65, this.y+60,0);
 		var jtileLeftTop = Tilemap.tileAt(x-15, this.y+10,0);
 		var jtileLeftBottom = Tilemap.tileAt(x-15, this.y+60,0);
-		console.log(this.jetPack);
-		console.log(inputState.up,inputState.down,inputState.right,inputState.left);
-		console.log(this.state);
+		// console.log(this.jetPack);
+		// console.log(inputState.up,inputState.down,inputState.right,inputState.left);
+		// console.log(this.state);
 		if(!this.jetPack)
 		{
 			if(this.state!="jumping")
