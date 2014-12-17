@@ -382,9 +382,19 @@ Character.prototype = {
 				}
 			} 
 			else if(inputState.down) {
-				if(this.state != 'jumping')
+				if(this.state != 'jumping' && !(tileDown === undefined || !tileDown.solid))
 				{
 					this.state = "crouching";
+				}
+				else{
+					this.state = "normal";
+					if(tileDown === undefined || !tileDown.solid)
+					{
+						this.y += this.velocity * 9;
+					}
+					else{
+						this.y = Math.floor(this.y/50)*50;
+					}
 				}
 			}
 			else if(inputState.left) {
