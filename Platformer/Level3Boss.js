@@ -1,6 +1,6 @@
 var Level3Boss = function(game, x, y, image,imageLeft, xImageMax, xWalkingmax, xcount, radius, startingState, health, damage, value) {
 	this.game = game;
-	this.type =1;
+	this.type = 1000;
 	this.x = x;
 	this.y = y;
     this.velocity = 1;

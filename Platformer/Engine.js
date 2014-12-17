@@ -360,6 +360,14 @@ function calculateEnemyCharacterBulletCollisions(game,enemies)
 							enemy.collideWithCharacterBullet(bullet.radius);
 						}
 					break;
+					case 1000:
+						var mindist = enemy.radius+bullet.radius;
+						console.log(d,mindist);
+						if(d <= mindist)
+						{
+							enemy.collideWithCharacterBullet(bullet.radius);
+						}
+					break;
 				}
 			}
 		});
