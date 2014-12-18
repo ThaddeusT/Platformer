@@ -302,7 +302,8 @@ var Level1 = (function (){
 	enemies : enemies,
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
-    stopLevelMusic : stopLevelMusic
+    stopLevelMusic : stopLevelMusic,
+    playLevelMusic : playLevelMusic
   }
 })();
 

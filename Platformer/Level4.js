@@ -142,6 +142,10 @@ var Level4 = (function (){
           Resource.Music.level_4_music.play();
   }
   
+   var playLevelMusic = function() {
+    Resource.Music.level_4_music.play();
+  }
+  
   var stopLevelMusic = function() {
     Resource.Music.level_4_music.currentTime =0;
     Resource.Music.level_4_music.pause();
@@ -291,6 +295,7 @@ var Level4 = (function (){
 	enemies : enemies,
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
-    stopLevelMusic : stopLevelMusic
+    stopLevelMusic : stopLevelMusic,
+    playLevelMusic : playLevelMusic
   }
 })();

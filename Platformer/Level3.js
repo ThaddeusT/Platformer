@@ -169,6 +169,10 @@ var Level3 = (function (){
 		});
   }
   
+   var playLevelMusic = function() {
+    Resource.Music.level_3_music.play();
+  }
+  
   var stopLevelMusic = function() {
     Resource.Music.level_3_music.currentTime =0;
     Resource.Music.level_3_music.pause();
@@ -307,6 +311,7 @@ var Level3 = (function (){
 	enemies : enemies,
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
-    stopLevelMusic : stopLevelMusic
+    stopLevelMusic : stopLevelMusic,
+    playLevelMusic : playLevelMusic
   }
 })();

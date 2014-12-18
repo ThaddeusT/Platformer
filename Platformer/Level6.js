@@ -25,12 +25,26 @@ var Level6 = (function (){
 		   lava: new Image()
 		},
 		Music: {
-			level_6_music: new Audio()
+			level_6_music: new Audio(),
+            creditMusic: new Audio(),
+            introMusic: new Audio()
+            
 		},
 		Sfx: {
 			weaponFire: new Audio(),
             chargingFire: new Audio(),
-            jumpingSound: new Audio()
+            jumpingSound: new Audio(),
+            deathSound: new Audio(),
+            enableJetPackSound: new Audio(),
+            disableJetPackSound: new Audio(),
+            greenCrystalSound: new Audio(),
+            blueCrystalSound: new Audio(),
+            playerHitSound: new Audio(),
+            headShot: new Audio(),
+            wingsFlapping: new Audio(),
+            barrierUp: new Audio(),
+            barrierDown: new Audio(),
+            bossScream: new Audio()
 		}
 	}
 	Resource.Image.background.onload = onload;
@@ -53,7 +67,7 @@ var Level6 = (function (){
 	Resource.Image.redCrystal.onload = onload;
 	Resource.Image.goldCrystal.onload = onload;
 	Resource.Image.lava.onload = onload;
-	Resource.Music.level_6_music.onload = onload;
+	//Resource.Music.level_6_music.onload = onload;
 	Resource.Sfx.weaponFire.onload = onload;
 	Resource.Sfx.chargingFire.onload = onload;
 	Resource.Sfx.jumpingSound.onload = onload;
@@ -82,10 +96,31 @@ var Level6 = (function (){
     Resource.Sfx.weaponFire.src = "Sound Effects/Weapon Fire.wav";
     Resource.Sfx.chargingFire.src ="Sound Effects/Chargingup.wav";
     Resource.Sfx.jumpingSound.src ="Sound Effects/Jumping.wav";
+    Resource.Sfx.deathSound.src = "Sound Effects/deathh.wav";
+    Resource.Sfx.enableJetPackSound.src = "Sound Effects/Power up (jetpack enabled).mp3";
+    Resource.Sfx.disableJetPackSound.src = "Sound Effects/Power_Down_jetpack_disabled_.mp3";
+    Resource.Sfx.greenCrystalSound.src = "Sound Effects/greenCrystalSound.wav";
+    Resource.Sfx.blueCrystalSound.src = "Sound Effects/Blue Powerup.wav";
+    Resource.Sfx.playerHitSound.src = "Sound Effects/pain1.wav";
+    Resource.Sfx.headShot.src = "Sound Effects/Headshot.wav";
+    Resource.Sfx.wingsFlapping.src = "Sound Effects/Wings Fapping.mp3";
+    Resource.Sfx.barrierUp.src ="Sound Effects/cogs.mp3";
+    Resource.Sfx.barrierDown.src = "Sound Effects/boxopen.mp3";
+    Resource.Sfx.bossScream.src = "Sound Effects/horror005.wav";
     
     //Level Music
 	Resource.Music.level_6_music.src = "Levelmusic/heroism.mp3";
-	Resource.Music.level_6_music.addEventListener('ended', function() {
+    Resource.Music.introMusic.src = "Levelmusic/soundtrack_Intronitiion_ilikescifi_0.mp3";
+	Resource.Music.creditMusic.src = "Levelmusic/Exodus.mp3";
+    Resource.Music.introMusic.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    Resource.Music.creditMusic.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    Resource.Music.level_6_music.addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
     }, false);
@@ -187,7 +222,12 @@ var Level6 = (function (){
 		  Resource.Music.level_6_music.play();
   }
   
+   var playLevelMusic = function() {
+    Resource.Music.level_6_music.play();
+  }
+  
   var stopLevelMusic = function() {
+    Resource.Music.level_6_music.currentTime =0;
     Resource.Music.level_6_music.pause();
   }
   
@@ -392,6 +432,7 @@ var Level6 = (function (){
 	createTreasures : createTreasures,
 	createLavaTiles : createLavaTiles,
 	stopLevelMusic : stopLevelMusic,
-	jetPackAllowed : jetPackAllowed
+	jetPackAllowed : jetPackAllowed,
+    playLevelMusic : playLevelMusic
   }
 })();

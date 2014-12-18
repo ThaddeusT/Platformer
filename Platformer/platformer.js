@@ -345,7 +345,7 @@ Game.prototype = {
 					{
 						this.gameInfo = true;
 						game.levels[game.level-1].Resource.Music.introMusic.pause();
-						game.levels[game.level-1].Resource.Music.level_1_music.play();
+						game.levels[game.level-1].playLevelMusic();
 					}
 				}
 			}

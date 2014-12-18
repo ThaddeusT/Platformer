@@ -150,6 +150,10 @@ var Level5 = (function (){
           Resource.Music.level_5_music.play();
   }
   
+   var playLevelMusic = function() {
+    Resource.Music.level_5_music.play();
+  }
+  
   var stopLevelMusic = function() {
     Resource.Music.level_5_music.currentTime =0;
     Resource.Music.level_5_music.pause();
@@ -310,6 +314,7 @@ var Level5 = (function (){
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
     stopLevelMusic : stopLevelMusic,
-	jetPackAllowed : jetPackAllowed
+	jetPackAllowed : jetPackAllowed,
+    playLevelMusic : playLevelMusic
   }
 })();

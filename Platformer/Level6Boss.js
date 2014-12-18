@@ -107,7 +107,7 @@ Level6Boss.prototype = {
 			}
 			break;
 		}
-		console.log(this.fireState);
+		//console.log(this.fireState);
 		if (this.fireState)
 		{
 			this.angle = this.angle += Math.PI/4
@@ -115,17 +115,17 @@ Level6Boss.prototype = {
 				{
 					this.angle = 0;
 				}
-			console.log(this.angle);
+			//console.log(this.angle);
 			if (this.facing == "right")
 			{
 				var newBullet = new Bullet(this.game, this.x + this.game.backgroundx*2 + 75, this.y, 25, this.sprite_sheet_fire, 0, 0, 25, 25, 25, 50, "right", false, this.angle, 15);
-				console.log(newBullet);
+				//console.log(newBullet);
 				this.game.enemyBullets.push(newBullet);
 			}
 			else 
 			{
 				var newBullet = new Bullet(this.game, this.x + this.game.backgroundx*2, this.y, 25, this.sprite_sheet_fire, 0, 0, 25, 25, 25, 50, "right", false, this.angle, 15);
-				console.log(newBullet);
+				//console.log(newBullet);
 				this.game.enemyBullets.push(newBullet);
 			}
 			this.fireCount = 0;
@@ -193,7 +193,7 @@ Level6Boss.prototype = {
 		switch(this.state)
 		{
 			case "walking":
-			console.log(this.facing);
+			//console.log(this.facing);
 				if(this.facing=='right'){
 						if(this.stepCount < this.xWalkingmax)
 						{
@@ -241,7 +241,7 @@ Level6Boss.prototype = {
 		}
 		else{
 			this.health -= radiusOfBullet;
-			console.log("Boss Health: "+ this.health);
+			//console.log("Boss Health: "+ this.health);
 		}
 		if(this.health <0)
 		{

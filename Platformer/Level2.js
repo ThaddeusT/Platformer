@@ -179,6 +179,10 @@ var Level2 = (function (){
 		  });
   }
   
+   var playLevelMusic = function() {
+    Resource.Music.level_2_music.play();
+  }
+  
   var stopLevelMusic = function() {
   Resource.Music.level_2_music.currentTime =0;
     Resource.Music.level_2_music.pause();
@@ -341,7 +345,8 @@ var Level2 = (function (){
 	createEnemies : createEnemies,
 	createTreasures : createTreasures,
 	stopLevelMusic : stopLevelMusic,
-	jetPackAllowed : jetPackAllowed
+	jetPackAllowed : jetPackAllowed,
+    playLevelMusic : playLevelMusic
   }
 })();
 
