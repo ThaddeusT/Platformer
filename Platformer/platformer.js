@@ -519,6 +519,10 @@ Game.prototype = {
 				game.jetPackPowerCollected = false;
 				game.character.disableJetPack();
 			break;
+			case 6:
+				game.jetPackPowerCollected = true;
+				game.character.enableJetPack();
+			break;
 		}
 		setTimeout(function() {
             self.gui.message("")
