@@ -12,11 +12,16 @@ var keys = {
 	w: false
 };
 
+var userClicked = false;
+var musicOn = true;
+
 // Fixed time step of 1/60th a second
 var TIME_STEP = 1000/60;
 
 // Resources
 //----------------------------------
+
+
 
 // Game class
 //----------------------------------
@@ -105,7 +110,10 @@ Game.prototype = {
 				if(!this.gameStarted)
 				{
 					game.levels[game.level-1].stopLevelMusic();
-					game.levels[game.level-1].Resource.Music.introMusic.play();
+					if(userClicked && musicOn)
+					{
+						game.levels[game.level-1].Resource.Music.introMusic.play();
+					}
 					if(this.splashScreenCount == 10)
 					{
 						if($(".splashScreen img").attr("src")=="StartScreen0.png")
@@ -132,7 +140,7 @@ Game.prototype = {
 		}
 		else{
 			$(".splashScreen").hide();
-            if(game.levels[game.level-1].Resource.Music.paused)
+            if(game.levels[game.level-1].Resource.Music.paused && musicOn)
             {
                 game.levels[game.level-1].playLevelMusic();
             }
@@ -345,7 +353,10 @@ Game.prototype = {
 					{
 						this.gameInfo = true;
 						game.levels[game.level-1].Resource.Music.introMusic.pause();
-						game.levels[game.level-1].playLevelMusic();
+						if(musicOn)
+						{
+							game.levels[game.level-1].playLevelMusic();
+						}
 					}
 				}
 			}
@@ -616,3 +627,39 @@ function waitForLoad() {
     }
 };
 waitForLoad();
+
+$(document).click(function(){
+	userClicked = true;
+});
+
+$( "#musicControl" ).click(function() {
+	if($("#musicVolumeOnOff").attr("src")=="volume-icon-on.jpg")
+	{
+		if(!game.gameStarted)
+		{
+			game.levels[game.level-1].Resource.Music.introMusic.currentTime =0;
+			game.levels[game.level-1].Resource.Music.introMusic.pause();
+			game.levels[game.level-1].stopLevelMusic();
+			musicOn = false;
+		}
+		else{
+			game.levels[game.level-1].stopLevelMusic();
+			musicOn = false;
+		}		
+		$("#musicVolumeOnOff").attr("src","volume-icon-off.png").load(function(){ this.width;});
+	}
+	else{
+		if(!game.gameStarted)
+		{
+			game.levels[game.level-1].stopLevelMusic();
+			game.levels[game.level-1].Resource.Music.introMusic.play();
+			musicOn = true;
+		}
+		else{
+			game.levels[game.level-1].Resource.Music.introMusic.pause();
+			game.levels[game.level-1].playLevelMusic();
+			musicOn = true;
+		}		
+		$("#musicVolumeOnOff").attr("src","volume-icon-on.jpg");
+	}
+});

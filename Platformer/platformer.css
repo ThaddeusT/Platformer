@@ -165,3 +165,23 @@ span.missile-icon {
 	background-position: -105px -80px;
 	background-size: 200px 200px;
 }
+
+.volumeControls{
+	float:right;
+}
+
+#musicControl{
+	height: 30px;
+    width: 80px;
+    font-size: 20px;
+    vertical-align: middle;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#musicControl:hover { 
+    border: solid 1px black;
+	border-right: solid 1px black;
+	cursor:pointer;
+}
